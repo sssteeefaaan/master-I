@@ -1,1 +1,1 @@
-"# Master I semestar" 
+Master I semestar
