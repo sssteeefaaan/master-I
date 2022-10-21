@@ -4,33 +4,34 @@ import (
 	"fmt"
 )
 
+func isPrime(n int) bool {
+	if n < 4 {
+		return true
+	}
+
+	if n%2 == 0 || n%3 == 0 {
+		return false
+	}
+
+	for i := 5; i*i <= n; i += 6 {
+		if n%i == 0 || n%(i+2) == 0 {
+			return false
+		}
+	}
+	return true
+}
+
 func main() {
 
-	var numb, i, n = 0, 2, 25
-	var j = 0
-	var flag = true
+	const n int = 25
+	var i int = 2
 
-	for numb < n {
-		j = 2
-		if i == 2 || i == 3{
+	for numb := 0; numb < n; i++ {
+		if isPrime((i)) {
 			fmt.Printf("%d ", i)
-			numb += 1
-		}else{
-			flag = i % 2 != 0 && i % 3 != 0
-			if flag {
-				var t = 6 * j
-				for flag && (t + 1) * (t + 1) <= i {
-					flag = i % (t + 1) != 0
-					flag = i % (t - 1) != 0
-					j += 1
-				}
-			}
-			if flag{
-				fmt.Printf("%d ", i)
-				numb += 1
-			}
+			numb++
 		}
-		i += 1
 	}
+
 	fmt.Println()
 }

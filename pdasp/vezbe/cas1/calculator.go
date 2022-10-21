@@ -6,8 +6,8 @@ import (
 )
 
 func main() {
-	var s = ""
-	var a, b = 0, 0
+	var s string = ""
+	var a, b int = 0, 0
 
 	fmt.Printf("Input the first operand: ")
 	fmt.Scanf("%d", &a)
@@ -18,7 +18,7 @@ func main() {
 
 	s = strings.ToUpper(s)
 
-	switch os := s; os {
+	switch s {
 	case "PLUS":
 		fmt.Printf("%d + %d = %d\n", a, b, a+b)
 	case "MINUS":
