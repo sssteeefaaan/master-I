@@ -3,10 +3,10 @@
 #include <omp.h>
 
 #ifndef N
-#define N 5
+#define N 16
 #endif
 #ifndef FS
-#define FS 38
+#define FS 30
 #endif
 
 struct node {
@@ -75,11 +75,11 @@ int main(int argc, char *argv[]) {
     head = p;
     start = omp_get_wtime();
 
-    {  // TODO paralelizujete izvrsavanje ove petlje
-        while (p != NULL) {
-            processwork(p);
-            p = p->next;
-        }
+    // TODO paralelizujete izvrsavanje ove petlje
+    while (p != NULL) {
+        #pragma omp task
+        processwork(p);
+        p = p->next;
     }
     end = omp_get_wtime();
 

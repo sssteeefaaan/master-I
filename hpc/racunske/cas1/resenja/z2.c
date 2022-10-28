@@ -21,24 +21,30 @@
 #define MXITR 1000
 
 struct d_complex {
-    double r;
-    double i;
+    double r; double i;
 };
-
-void testpoint(struct d_complex);
-struct d_complex c;
-int numoutside = 0;
+void testpoint(struct d_complex, int*);
 
 int main(){
     int i, j;
-    double area, error, eps = 1.0e-5;
-    #pragma omp parallel for private(eps, i, j) reduction(+ : numoutside)
-    for (i = 0; i < NPOINTS; i++) {
-        struct d_complex z;
-        for (j = 0; j < NPOINTS; j++) {
-            z.r = -2.0 + 2.5 * (double)(i) / (double)(NPOINTS) + eps;
-            z.i = 1.125 * (double)(j) / (double)(NPOINTS) + eps;
-            testpoint(z);
+    double area, error, eps = 1.0e-10;
+    struct d_complex c;
+    int numoutside = 0;
+
+    //int num_procs = omp_get_num_procs();
+    #pragma omp parallel default(shared) private(i, j, c, eps)
+    //num_threads(num_procs)
+    {
+        #pragma omp master
+            printf("Threads in a parallel region is %d.\n", omp_get_num_threads());
+
+        #pragma omp for reduction(+ : numoutside)
+        for (i = 0; i < NPOINTS; i++) {
+            for (j = 0; j < NPOINTS; j++) {
+                c.r = -2.0 + 2.5 * (double)(i) / (double)(NPOINTS) + eps;
+                c.i = 1.125 * (double)(j) / (double)(NPOINTS) + eps;
+                testpoint(c, &numoutside);
+            }
         }
     }
     area = 2.0 * 2.5 * 1.125 * (double)(NPOINTS*NPOINTS-numoutside) / (double)(NPOINTS*NPOINTS);
@@ -49,15 +55,17 @@ int main(){
     return 0;
 }
 
-void testpoint(struct d_complex z){
+void testpoint(struct d_complex c, int* numoutside){
+    struct d_complex z;
     int iter;
     double temp;
+    z = c;
     for (iter = 0; iter < MXITR; iter++){
         temp = (z.r * z.r) - (z.i * z.i) + c.r;
         z.i = z.r * z.i * 2 + c.i;
         z.r = temp;
         if ((z.r * z.r + z.i * z.i) > 4.0) {
-            numoutside++;
+            (*numoutside)++;
             break;
         }
     }
