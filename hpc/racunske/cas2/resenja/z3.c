@@ -1,4 +1,4 @@
-#include "utils.h"
+#include "binary_tree_utils.h"
 
 int main(int argc, char** argv){
     LL N = 1 << 4;
@@ -13,7 +13,8 @@ int main(int argc, char** argv){
     float par, seq;
     double dt;
     
-    initial_tree_random(&t, N);
+    initialize_tree_random(&t, N);
+    printf("Initialization done!\n");
 
     dt = omp_get_wtime();
     #pragma omp parallel
@@ -32,6 +33,8 @@ int main(int argc, char** argv){
     printf("Correct!\n")
     :
     printf("False!\n");
+
+    free_tree(&t);
 
     return 0;
 }

@@ -1,4 +1,4 @@
-#include "utils.h"
+#include "matrix_utils.h"
 
 int main(int argc, char** argv){
     LL N = 1 << 3,

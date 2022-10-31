@@ -85,13 +85,13 @@ void print_matrix_label(char* label, float** m, LL N, LL M){
 void copy_vector(float** result, const float* original, LL N){
     *result = (float*) malloc(sizeof(float) * N);
     for(LL i = 0; i < N; i++)
-        *result[i] = original[i];
+        (*result)[i] = original[i];
 }
 
 void copy_matrix(float*** result, const float** original, LL N, LL M){
     *result = (float**) malloc(sizeof(float*) * N);
     for(LL i = 0; i < N; i++)
-        copy_vector(&*result[i], original[i], M);
+        copy_vector(&((*result)[i]), original[i], M);
 }
 
 short compare_vectors(const float *v1, const float* v2, LL N)
@@ -124,72 +124,15 @@ void multiply_matrices(const float** mat1, const float** mat2, float** result, L
     }
 }
 
-struct node{
-    float value;
-    struct node* left;
-    struct node* right;
-};
-
-struct tree{
-    struct node* head;
-};
-
-void initialize_tree_node_random(struct node* n, LL size){
-    if(size < 1)
-        return;
-    n->left = (struct node*) malloc(sizeof(struct node));
-    #pragma omp task
-    initial_tree_random(n->left, size >> 1);
-    n->right = (struct node*) malloc(sizeof(struct node));
-    #pragma omp task
-    initial_tree_random(n->left, size >> 1);
-    n->value = size;
-}
-
-void initial_tree_random(struct tree** t, LL N){
-    #pragma omp single
-    {
-        *t = (struct tree*) malloc(sizeof(struct tree));
-        size_t s = sizeof(struct node);
-        (*t)->head = (struct node*) malloc(s);
-        initialize_tree_node_random((*t)->head, N);
-    }
-}
-
-void free_tree(struct tree **t){
-    #pragma omp single
-    {
-        free_tree_node(&(*t)->head);
-        free(*t);
-        *t = NULL;
-    }
-}
-
-void free_tree_node(struct node ** n){
-    #pragma omp task
-    free_tree_node(&(*n)->left);
-    #pragma omp task
-    free_tree_node(&(*n)->right);
-    free(*n);
-    *n = NULL;
-}
-
-float add_tree_node_value(struct node* n){
-    if(n == NULL)
-        return 0;
-    float sum = (*n).value;
-
-    #pragma omp task
-    sum += add_tree_node_value(n->left);
-    #pragma omp task
-    sum += add_tree_node_value(n->right);
-
-    return sum;
-}
-
-
-float sum_tree_node(struct tree *t){
-    if(t == NULL)
-        return 0;
-    return add_tree_node_value(t->head);
+void
+transpose_matrix
+(float** matrix_like_vector, LL N, LL M)
+{
+    float* v = *matrix_like_vector;
+    *matrix_like_vector = (float*) malloc(sizeof(float) * N * M);
+    #pragma omp parallel for
+    for(LL i = 0; i < N; i++)
+        for(LL j = 0; j < M; j++)
+            (*matrix_like_vector)[j * N + i] = v[i * M + j];
+    free(v);
 }
