@@ -36,36 +36,48 @@ fn display_vector(vec : &Vec<i64>){
     println!("]");
 }
 
-fn get_vector_from_user(v : &mut Vec<i64>){
-    use std::io::{stdin,stdout,Write};
+fn get_vector_from_user() -> Vec<i64> {
+    use std::io::{ stdin, stdout, Write };
+
+    let mut v = Vec::new();
+    let mut s = String::new();
+    let mut trimmed : &str;
+
+    println!("Input vector elements!");
+
     loop {
-        let mut s = String::new();
         print!("Enter a whole number or break: ");
         let _ = stdout().flush();
+
+        s.clear();
         stdin()
             .read_line(&mut s)
             .expect("Did not enter a correct string");
-        let trimmed = s.trim();
+
+        trimmed = s.trim();
+
         if trimmed.eq("break"){
             break; 
         }
+
         match trimmed.parse::<i64>() {
             Ok(i) => v.push(i),
-            Err(..) => println!("This was not an integer: {}", trimmed),
+            Err(..) => println!("Input '{}' was not an integer!", trimmed),
         };
     }
+
+    return v;
 }
 
 fn main() {
-    let mut v = Vec::new();
+    let mut v = get_vector_from_user();
+    let size = v.len();
 
-    get_vector_from_user(&mut v);
-    
-    let size = v.len() as i64;
-
+    print!("Unsorted vector: ");
     display_vector(&v);
 
-    quick_sort(&mut v, 0, size - 1);
+    quick_sort(&mut v, 0, size as i64 - 1);
 
+    print!("Sorted vector: ");
     display_vector(&v);
 }
