@@ -1,93 +1,58 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"math/rand"
+)
 
-type node struct {
-	next *node
-	data int
+type Node struct {
+	next *Node
+	data interface{}
 }
 
-type stackChained struct {
-	head *node
+type Stack struct {
+	head *Node
 }
 
-type stackSeq struct {
-	elements []int
-	head     int
-}
-
-func topC(s stackChained) (int, bool) {
-	if !isEmptyC(s) {
+func top(s *Stack) (interface{}, bool) {
+	if !isEmpty(s) {
 		return s.head.data, true
 	}
 	return -1, false
 }
 
-func popC(s stackChained) (int, bool) {
+func pop(s *Stack) (interface{}, bool) {
 	ret := -1
-	if !isEmptyC(s) {
-		ret = s.head.data
+	if !isEmpty(s) {
+		ret := s.head.data
 		s.head = s.head.next
 		return ret, true
 	}
 	return ret, false
 }
 
-func pushC(s stackChained, data int) {
-	s.head = &node{s.head, data}
+func push(s *Stack, data int) {
+	s.head = &Node{next: s.head, data: data}
 }
 
-func isEmptyC(s stackChained) bool {
+func isEmpty(s *Stack) bool {
 	return s.head == nil
 }
 
-func topS(s stackSeq) (int, bool) {
-	if !isEmptyS(s) {
-		return s.elements[s.head], true
-	}
-	return -1, false
-}
-
-func popS(s stackSeq) (int, bool) {
-	ret := -1
-	if !isEmptyS(s) {
-		ret = s.elements[s.head]
-		s.head--
-		return ret, true
-	}
-	return ret, false
-}
-
-func pushS(s stackSeq, data int) {
-	s.head++
-	s.elements[s.head] = data
-}
-
-func isEmptyS(s stackSeq) bool {
-	return s.head < 0
-}
-
 func main() {
-	c := stackChained{nil}
-	s := stackSeq{make([]int, 100), -1}
+	c := &Stack{head: nil}
 
 	for i := 0; i < 5; i++ {
-		fmt.Printf("%d ", i)
-		pushC(c, i)
-		pushS(s, i)
+		val := rand.Int()%100 + 2
+		fmt.Printf("%d ", val)
+		push(c, val)
 	}
 
 	fmt.Println("\nChained stack pop: ")
 	for i := 0; i < 5; i++ {
-		fmt.Println(popC(c))
+		fmt.Println(pop(c))
 	}
-	fmt.Println("Is empty chained:", isEmptyC(c))
-
-	fmt.Println("Sequenced stack pop: ")
-	for i := 0; i < 5; i++ {
-		fmt.Println(popS(s))
-	}
-	fmt.Println("Is empty sequenced:", isEmptyS(s))
+	fmt.Println("Is empty chained:", isEmpty(c))
 
 	return
 }
