@@ -1,0 +1,2521 @@
+{
+	"Name": "Go",
+	"Teams": {
+		"Team1": {
+			"Name": "Team1",
+			"ShortName": "Team1",
+			"YearCreated": 2019,
+			"Goals": 117,
+			"Points": 42
+		},
+		"Team10": {
+			"Name": "Team10",
+			"ShortName": "Team10",
+			"YearCreated": 2019,
+			"Goals": 87,
+			"Points": 34
+		},
+		"Team11": {
+			"Name": "Team11",
+			"ShortName": "Team11",
+			"YearCreated": 2019,
+			"Goals": 87,
+			"Points": 30
+		},
+		"Team2": {
+			"Name": "Team2",
+			"ShortName": "Team2",
+			"YearCreated": 2019,
+			"Goals": 107,
+			"Points": 36
+		},
+		"Team3": {
+			"Name": "Team3",
+			"ShortName": "Team3",
+			"YearCreated": 2019,
+			"Goals": 100,
+			"Points": 28
+		},
+		"Team4": {
+			"Name": "Team4",
+			"ShortName": "Team4",
+			"YearCreated": 2019,
+			"Goals": 82,
+			"Points": 30
+		},
+		"Team5": {
+			"Name": "Team5",
+			"ShortName": "Team5",
+			"YearCreated": 2019,
+			"Goals": 71,
+			"Points": 24
+		},
+		"Team6": {
+			"Name": "Team6",
+			"ShortName": "Team6",
+			"YearCreated": 2019,
+			"Goals": 123,
+			"Points": 45
+		},
+		"Team7": {
+			"Name": "Team7",
+			"ShortName": "Team7",
+			"YearCreated": 2019,
+			"Goals": 78,
+			"Points": 24
+		},
+		"Team8": {
+			"Name": "Team8",
+			"ShortName": "Team8",
+			"YearCreated": 2019,
+			"Goals": 74,
+			"Points": 18
+		},
+		"Team9": {
+			"Name": "Team9",
+			"ShortName": "Team9",
+			"YearCreated": 2019,
+			"Goals": 74,
+			"Points": 18
+		}
+	},
+	"Matches": [
+		{
+			"Id": 0,
+			"HomeTeam": {
+				"Name": "Team8",
+				"ShortName": "Team8",
+				"YearCreated": 2019,
+				"Goals": 74,
+				"Points": 18
+			},
+			"GuestTeam": {
+				"Name": "Team9",
+				"ShortName": "Team9",
+				"YearCreated": 2019,
+				"Goals": 74,
+				"Points": 18
+			},
+			"Time": "2022-11-09T11:50:45.040240756+01:00",
+			"HalfTime": {
+				"HomeTeam": 9,
+				"GuestTeam": 0
+			}
+		},
+		{
+			"Id": 1,
+			"HomeTeam": {
+				"Name": "Team9",
+				"ShortName": "Team9",
+				"YearCreated": 2019,
+				"Goals": 74,
+				"Points": 18
+			},
+			"GuestTeam": {
+				"Name": "Team8",
+				"ShortName": "Team8",
+				"YearCreated": 2019,
+				"Goals": 74,
+				"Points": 18
+			},
+			"Time": "2022-11-09T11:50:45.040244597+01:00",
+			"HalfTime": {
+				"HomeTeam": 5,
+				"GuestTeam": 4
+			}
+		},
+		{
+			"Id": 2,
+			"HomeTeam": {
+				"Name": "Team8",
+				"ShortName": "Team8",
+				"YearCreated": 2019,
+				"Goals": 74,
+				"Points": 18
+			},
+			"GuestTeam": {
+				"Name": "Team11",
+				"ShortName": "Team11",
+				"YearCreated": 2019,
+				"Goals": 87,
+				"Points": 30
+			},
+			"Time": "2022-11-09T11:50:45.040249276+01:00",
+			"HalfTime": {
+				"HomeTeam": 1,
+				"GuestTeam": 8
+			}
+		},
+		{
+			"Id": 3,
+			"HomeTeam": {
+				"Name": "Team11",
+				"ShortName": "Team11",
+				"YearCreated": 2019,
+				"Goals": 87,
+				"Points": 30
+			},
+			"GuestTeam": {
+				"Name": "Team8",
+				"ShortName": "Team8",
+				"YearCreated": 2019,
+				"Goals": 74,
+				"Points": 18
+			},
+			"Time": "2022-11-09T11:50:45.04025221+01:00",
+			"HalfTime": {
+				"HomeTeam": 3,
+				"GuestTeam": 6
+			}
+		},
+		{
+			"Id": 4,
+			"HomeTeam": {
+				"Name": "Team8",
+				"ShortName": "Team8",
+				"YearCreated": 2019,
+				"Goals": 74,
+				"Points": 18
+			},
+			"GuestTeam": {
+				"Name": "Team1",
+				"ShortName": "Team1",
+				"YearCreated": 2019,
+				"Goals": 117,
+				"Points": 42
+			},
+			"Time": "2022-11-09T11:50:45.040256051+01:00",
+			"HalfTime": {
+				"HomeTeam": 1,
+				"GuestTeam": 8
+			}
+		},
+		{
+			"Id": 5,
+			"HomeTeam": {
+				"Name": "Team1",
+				"ShortName": "Team1",
+				"YearCreated": 2019,
+				"Goals": 117,
+				"Points": 42
+			},
+			"GuestTeam": {
+				"Name": "Team8",
+				"ShortName": "Team8",
+				"YearCreated": 2019,
+				"Goals": 74,
+				"Points": 18
+			},
+			"Time": "2022-11-09T11:50:45.040259473+01:00",
+			"HalfTime": {
+				"HomeTeam": 9,
+				"GuestTeam": 0
+			}
+		},
+		{
+			"Id": 6,
+			"HomeTeam": {
+				"Name": "Team8",
+				"ShortName": "Team8",
+				"YearCreated": 2019,
+				"Goals": 74,
+				"Points": 18
+			},
+			"GuestTeam": {
+				"Name": "Team7",
+				"ShortName": "Team7",
+				"YearCreated": 2019,
+				"Goals": 78,
+				"Points": 24
+			},
+			"Time": "2022-11-09T11:50:45.040262337+01:00",
+			"HalfTime": {
+				"HomeTeam": 0,
+				"GuestTeam": 9
+			}
+		},
+		{
+			"Id": 7,
+			"HomeTeam": {
+				"Name": "Team7",
+				"ShortName": "Team7",
+				"YearCreated": 2019,
+				"Goals": 78,
+				"Points": 24
+			},
+			"GuestTeam": {
+				"Name": "Team8",
+				"ShortName": "Team8",
+				"YearCreated": 2019,
+				"Goals": 74,
+				"Points": 18
+			},
+			"Time": "2022-11-09T11:50:45.040265619+01:00",
+			"HalfTime": {
+				"HomeTeam": 0,
+				"GuestTeam": 9
+			}
+		},
+		{
+			"Id": 8,
+			"HomeTeam": {
+				"Name": "Team8",
+				"ShortName": "Team8",
+				"YearCreated": 2019,
+				"Goals": 74,
+				"Points": 18
+			},
+			"GuestTeam": {
+				"Name": "Team4",
+				"ShortName": "Team4",
+				"YearCreated": 2019,
+				"Goals": 82,
+				"Points": 30
+			},
+			"Time": "2022-11-09T11:50:45.040269461+01:00",
+			"HalfTime": {
+				"HomeTeam": 4,
+				"GuestTeam": 5
+			}
+		},
+		{
+			"Id": 9,
+			"HomeTeam": {
+				"Name": "Team4",
+				"ShortName": "Team4",
+				"YearCreated": 2019,
+				"Goals": 82,
+				"Points": 30
+			},
+			"GuestTeam": {
+				"Name": "Team8",
+				"ShortName": "Team8",
+				"YearCreated": 2019,
+				"Goals": 74,
+				"Points": 18
+			},
+			"Time": "2022-11-09T11:50:45.040273232+01:00",
+			"HalfTime": {
+				"HomeTeam": 8,
+				"GuestTeam": 1
+			}
+		},
+		{
+			"Id": 10,
+			"HomeTeam": {
+				"Name": "Team8",
+				"ShortName": "Team8",
+				"YearCreated": 2019,
+				"Goals": 74,
+				"Points": 18
+			},
+			"GuestTeam": {
+				"Name": "Team5",
+				"ShortName": "Team5",
+				"YearCreated": 2019,
+				"Goals": 71,
+				"Points": 24
+			},
+			"Time": "2022-11-09T11:50:45.040277004+01:00",
+			"HalfTime": {
+				"HomeTeam": 4,
+				"GuestTeam": 5
+			}
+		},
+		{
+			"Id": 11,
+			"HomeTeam": {
+				"Name": "Team5",
+				"ShortName": "Team5",
+				"YearCreated": 2019,
+				"Goals": 71,
+				"Points": 24
+			},
+			"GuestTeam": {
+				"Name": "Team8",
+				"ShortName": "Team8",
+				"YearCreated": 2019,
+				"Goals": 74,
+				"Points": 18
+			},
+			"Time": "2022-11-09T11:50:45.040279797+01:00",
+			"HalfTime": {
+				"HomeTeam": 4,
+				"GuestTeam": 5
+			}
+		},
+		{
+			"Id": 12,
+			"HomeTeam": {
+				"Name": "Team8",
+				"ShortName": "Team8",
+				"YearCreated": 2019,
+				"Goals": 74,
+				"Points": 18
+			},
+			"GuestTeam": {
+				"Name": "Team6",
+				"ShortName": "Team6",
+				"YearCreated": 2019,
+				"Goals": 123,
+				"Points": 45
+			},
+			"Time": "2022-11-09T11:50:45.040283708+01:00",
+			"HalfTime": {
+				"HomeTeam": 2,
+				"GuestTeam": 7
+			}
+		},
+		{
+			"Id": 13,
+			"HomeTeam": {
+				"Name": "Team6",
+				"ShortName": "Team6",
+				"YearCreated": 2019,
+				"Goals": 123,
+				"Points": 45
+			},
+			"GuestTeam": {
+				"Name": "Team8",
+				"ShortName": "Team8",
+				"YearCreated": 2019,
+				"Goals": 74,
+				"Points": 18
+			},
+			"Time": "2022-11-09T11:50:45.040286572+01:00",
+			"HalfTime": {
+				"HomeTeam": 2,
+				"GuestTeam": 7
+			}
+		},
+		{
+			"Id": 14,
+			"HomeTeam": {
+				"Name": "Team8",
+				"ShortName": "Team8",
+				"YearCreated": 2019,
+				"Goals": 74,
+				"Points": 18
+			},
+			"GuestTeam": {
+				"Name": "Team10",
+				"ShortName": "Team10",
+				"YearCreated": 2019,
+				"Goals": 87,
+				"Points": 34
+			},
+			"Time": "2022-11-09T11:50:45.040289505+01:00",
+			"HalfTime": {
+				"HomeTeam": 4,
+				"GuestTeam": 5
+			}
+		},
+		{
+			"Id": 15,
+			"HomeTeam": {
+				"Name": "Team10",
+				"ShortName": "Team10",
+				"YearCreated": 2019,
+				"Goals": 87,
+				"Points": 34
+			},
+			"GuestTeam": {
+				"Name": "Team8",
+				"ShortName": "Team8",
+				"YearCreated": 2019,
+				"Goals": 74,
+				"Points": 18
+			},
+			"Time": "2022-11-09T11:50:45.040293766+01:00",
+			"HalfTime": {
+				"HomeTeam": 6,
+				"GuestTeam": 3
+			}
+		},
+		{
+			"Id": 16,
+			"HomeTeam": {
+				"Name": "Team8",
+				"ShortName": "Team8",
+				"YearCreated": 2019,
+				"Goals": 74,
+				"Points": 18
+			},
+			"GuestTeam": {
+				"Name": "Team2",
+				"ShortName": "Team2",
+				"YearCreated": 2019,
+				"Goals": 107,
+				"Points": 36
+			},
+			"Time": "2022-11-09T11:50:45.040297118+01:00",
+			"HalfTime": {
+				"HomeTeam": 2,
+				"GuestTeam": 7
+			}
+		},
+		{
+			"Id": 17,
+			"HomeTeam": {
+				"Name": "Team2",
+				"ShortName": "Team2",
+				"YearCreated": 2019,
+				"Goals": 107,
+				"Points": 36
+			},
+			"GuestTeam": {
+				"Name": "Team8",
+				"ShortName": "Team8",
+				"YearCreated": 2019,
+				"Goals": 74,
+				"Points": 18
+			},
+			"Time": "2022-11-09T11:50:45.040300889+01:00",
+			"HalfTime": {
+				"HomeTeam": 9,
+				"GuestTeam": 0
+			}
+		},
+		{
+			"Id": 18,
+			"HomeTeam": {
+				"Name": "Team8",
+				"ShortName": "Team8",
+				"YearCreated": 2019,
+				"Goals": 74,
+				"Points": 18
+			},
+			"GuestTeam": {
+				"Name": "Team3",
+				"ShortName": "Team3",
+				"YearCreated": 2019,
+				"Goals": 100,
+				"Points": 28
+			},
+			"Time": "2022-11-09T11:50:45.040304731+01:00",
+			"HalfTime": {
+				"HomeTeam": 3,
+				"GuestTeam": 6
+			}
+		},
+		{
+			"Id": 19,
+			"HomeTeam": {
+				"Name": "Team3",
+				"ShortName": "Team3",
+				"YearCreated": 2019,
+				"Goals": 100,
+				"Points": 28
+			},
+			"GuestTeam": {
+				"Name": "Team8",
+				"ShortName": "Team8",
+				"YearCreated": 2019,
+				"Goals": 74,
+				"Points": 18
+			},
+			"Time": "2022-11-09T11:50:45.040308502+01:00",
+			"HalfTime": {
+				"HomeTeam": 0,
+				"GuestTeam": 9
+			}
+		},
+		{
+			"Id": 20,
+			"HomeTeam": {
+				"Name": "Team9",
+				"ShortName": "Team9",
+				"YearCreated": 2019,
+				"Goals": 74,
+				"Points": 18
+			},
+			"GuestTeam": {
+				"Name": "Team11",
+				"ShortName": "Team11",
+				"YearCreated": 2019,
+				"Goals": 87,
+				"Points": 30
+			},
+			"Time": "2022-11-09T11:50:45.040311785+01:00",
+			"HalfTime": {
+				"HomeTeam": 6,
+				"GuestTeam": 3
+			}
+		},
+		{
+			"Id": 21,
+			"HomeTeam": {
+				"Name": "Team11",
+				"ShortName": "Team11",
+				"YearCreated": 2019,
+				"Goals": 87,
+				"Points": 30
+			},
+			"GuestTeam": {
+				"Name": "Team9",
+				"ShortName": "Team9",
+				"YearCreated": 2019,
+				"Goals": 74,
+				"Points": 18
+			},
+			"Time": "2022-11-09T11:50:45.040315626+01:00",
+			"HalfTime": {
+				"HomeTeam": 4,
+				"GuestTeam": 5
+			}
+		},
+		{
+			"Id": 22,
+			"HomeTeam": {
+				"Name": "Team9",
+				"ShortName": "Team9",
+				"YearCreated": 2019,
+				"Goals": 74,
+				"Points": 18
+			},
+			"GuestTeam": {
+				"Name": "Team1",
+				"ShortName": "Team1",
+				"YearCreated": 2019,
+				"Goals": 117,
+				"Points": 42
+			},
+			"Time": "2022-11-09T11:50:45.040319048+01:00",
+			"HalfTime": {
+				"HomeTeam": 3,
+				"GuestTeam": 6
+			}
+		},
+		{
+			"Id": 23,
+			"HomeTeam": {
+				"Name": "Team1",
+				"ShortName": "Team1",
+				"YearCreated": 2019,
+				"Goals": 117,
+				"Points": 42
+			},
+			"GuestTeam": {
+				"Name": "Team9",
+				"ShortName": "Team9",
+				"YearCreated": 2019,
+				"Goals": 74,
+				"Points": 18
+			},
+			"Time": "2022-11-09T11:50:45.04032289+01:00",
+			"HalfTime": {
+				"HomeTeam": 6,
+				"GuestTeam": 3
+			}
+		},
+		{
+			"Id": 24,
+			"HomeTeam": {
+				"Name": "Team9",
+				"ShortName": "Team9",
+				"YearCreated": 2019,
+				"Goals": 74,
+				"Points": 18
+			},
+			"GuestTeam": {
+				"Name": "Team7",
+				"ShortName": "Team7",
+				"YearCreated": 2019,
+				"Goals": 78,
+				"Points": 24
+			},
+			"Time": "2022-11-09T11:50:45.040326661+01:00",
+			"HalfTime": {
+				"HomeTeam": 3,
+				"GuestTeam": 6
+			}
+		},
+		{
+			"Id": 25,
+			"HomeTeam": {
+				"Name": "Team7",
+				"ShortName": "Team7",
+				"YearCreated": 2019,
+				"Goals": 78,
+				"Points": 24
+			},
+			"GuestTeam": {
+				"Name": "Team9",
+				"ShortName": "Team9",
+				"YearCreated": 2019,
+				"Goals": 74,
+				"Points": 18
+			},
+			"Time": "2022-11-09T11:50:45.040329525+01:00",
+			"HalfTime": {
+				"HomeTeam": 2,
+				"GuestTeam": 7
+			}
+		},
+		{
+			"Id": 26,
+			"HomeTeam": {
+				"Name": "Team9",
+				"ShortName": "Team9",
+				"YearCreated": 2019,
+				"Goals": 74,
+				"Points": 18
+			},
+			"GuestTeam": {
+				"Name": "Team4",
+				"ShortName": "Team4",
+				"YearCreated": 2019,
+				"Goals": 82,
+				"Points": 30
+			},
+			"Time": "2022-11-09T11:50:45.040332318+01:00",
+			"HalfTime": {
+				"HomeTeam": 4,
+				"GuestTeam": 5
+			}
+		},
+		{
+			"Id": 27,
+			"HomeTeam": {
+				"Name": "Team4",
+				"ShortName": "Team4",
+				"YearCreated": 2019,
+				"Goals": 82,
+				"Points": 30
+			},
+			"GuestTeam": {
+				"Name": "Team9",
+				"ShortName": "Team9",
+				"YearCreated": 2019,
+				"Goals": 74,
+				"Points": 18
+			},
+			"Time": "2022-11-09T11:50:45.040335252+01:00",
+			"HalfTime": {
+				"HomeTeam": 6,
+				"GuestTeam": 3
+			}
+		},
+		{
+			"Id": 28,
+			"HomeTeam": {
+				"Name": "Team9",
+				"ShortName": "Team9",
+				"YearCreated": 2019,
+				"Goals": 74,
+				"Points": 18
+			},
+			"GuestTeam": {
+				"Name": "Team5",
+				"ShortName": "Team5",
+				"YearCreated": 2019,
+				"Goals": 71,
+				"Points": 24
+			},
+			"Time": "2022-11-09T11:50:45.040338045+01:00",
+			"HalfTime": {
+				"HomeTeam": 4,
+				"GuestTeam": 5
+			}
+		},
+		{
+			"Id": 29,
+			"HomeTeam": {
+				"Name": "Team5",
+				"ShortName": "Team5",
+				"YearCreated": 2019,
+				"Goals": 71,
+				"Points": 24
+			},
+			"GuestTeam": {
+				"Name": "Team9",
+				"ShortName": "Team9",
+				"YearCreated": 2019,
+				"Goals": 74,
+				"Points": 18
+			},
+			"Time": "2022-11-09T11:50:45.040340909+01:00",
+			"HalfTime": {
+				"HomeTeam": 6,
+				"GuestTeam": 3
+			}
+		},
+		{
+			"Id": 30,
+			"HomeTeam": {
+				"Name": "Team9",
+				"ShortName": "Team9",
+				"YearCreated": 2019,
+				"Goals": 74,
+				"Points": 18
+			},
+			"GuestTeam": {
+				"Name": "Team6",
+				"ShortName": "Team6",
+				"YearCreated": 2019,
+				"Goals": 123,
+				"Points": 45
+			},
+			"Time": "2022-11-09T11:50:45.040344261+01:00",
+			"HalfTime": {
+				"HomeTeam": 1,
+				"GuestTeam": 8
+			}
+		},
+		{
+			"Id": 31,
+			"HomeTeam": {
+				"Name": "Team6",
+				"ShortName": "Team6",
+				"YearCreated": 2019,
+				"Goals": 123,
+				"Points": 45
+			},
+			"GuestTeam": {
+				"Name": "Team9",
+				"ShortName": "Team9",
+				"YearCreated": 2019,
+				"Goals": 74,
+				"Points": 18
+			},
+			"Time": "2022-11-09T11:50:45.040347125+01:00",
+			"HalfTime": {
+				"HomeTeam": 7,
+				"GuestTeam": 2
+			}
+		},
+		{
+			"Id": 32,
+			"HomeTeam": {
+				"Name": "Team9",
+				"ShortName": "Team9",
+				"YearCreated": 2019,
+				"Goals": 74,
+				"Points": 18
+			},
+			"GuestTeam": {
+				"Name": "Team10",
+				"ShortName": "Team10",
+				"YearCreated": 2019,
+				"Goals": 87,
+				"Points": 34
+			},
+			"Time": "2022-11-09T11:50:45.040350058+01:00",
+			"HalfTime": {
+				"HomeTeam": 1,
+				"GuestTeam": 8
+			}
+		},
+		{
+			"Id": 33,
+			"HomeTeam": {
+				"Name": "Team10",
+				"ShortName": "Team10",
+				"YearCreated": 2019,
+				"Goals": 87,
+				"Points": 34
+			},
+			"GuestTeam": {
+				"Name": "Team9",
+				"ShortName": "Team9",
+				"YearCreated": 2019,
+				"Goals": 74,
+				"Points": 18
+			},
+			"Time": "2022-11-09T11:50:45.040352922+01:00",
+			"HalfTime": {
+				"HomeTeam": 6,
+				"GuestTeam": 3
+			}
+		},
+		{
+			"Id": 34,
+			"HomeTeam": {
+				"Name": "Team9",
+				"ShortName": "Team9",
+				"YearCreated": 2019,
+				"Goals": 74,
+				"Points": 18
+			},
+			"GuestTeam": {
+				"Name": "Team2",
+				"ShortName": "Team2",
+				"YearCreated": 2019,
+				"Goals": 107,
+				"Points": 36
+			},
+			"Time": "2022-11-09T11:50:45.040355785+01:00",
+			"HalfTime": {
+				"HomeTeam": 7,
+				"GuestTeam": 2
+			}
+		},
+		{
+			"Id": 35,
+			"HomeTeam": {
+				"Name": "Team2",
+				"ShortName": "Team2",
+				"YearCreated": 2019,
+				"Goals": 107,
+				"Points": 36
+			},
+			"GuestTeam": {
+				"Name": "Team9",
+				"ShortName": "Team9",
+				"YearCreated": 2019,
+				"Goals": 74,
+				"Points": 18
+			},
+			"Time": "2022-11-09T11:50:45.040358649+01:00",
+			"HalfTime": {
+				"HomeTeam": 7,
+				"GuestTeam": 2
+			}
+		},
+		{
+			"Id": 36,
+			"HomeTeam": {
+				"Name": "Team9",
+				"ShortName": "Team9",
+				"YearCreated": 2019,
+				"Goals": 74,
+				"Points": 18
+			},
+			"GuestTeam": {
+				"Name": "Team3",
+				"ShortName": "Team3",
+				"YearCreated": 2019,
+				"Goals": 100,
+				"Points": 28
+			},
+			"Time": "2022-11-09T11:50:45.040361931+01:00",
+			"HalfTime": {
+				"HomeTeam": 3,
+				"GuestTeam": 6
+			}
+		},
+		{
+			"Id": 37,
+			"HomeTeam": {
+				"Name": "Team3",
+				"ShortName": "Team3",
+				"YearCreated": 2019,
+				"Goals": 100,
+				"Points": 28
+			},
+			"GuestTeam": {
+				"Name": "Team9",
+				"ShortName": "Team9",
+				"YearCreated": 2019,
+				"Goals": 74,
+				"Points": 18
+			},
+			"Time": "2022-11-09T11:50:45.040364306+01:00",
+			"HalfTime": {
+				"HomeTeam": 0,
+				"GuestTeam": 9
+			}
+		},
+		{
+			"Id": 38,
+			"HomeTeam": {
+				"Name": "Team11",
+				"ShortName": "Team11",
+				"YearCreated": 2019,
+				"Goals": 87,
+				"Points": 30
+			},
+			"GuestTeam": {
+				"Name": "Team1",
+				"ShortName": "Team1",
+				"YearCreated": 2019,
+				"Goals": 117,
+				"Points": 42
+			},
+			"Time": "2022-11-09T11:50:45.040367589+01:00",
+			"HalfTime": {
+				"HomeTeam": 9,
+				"GuestTeam": 0
+			}
+		},
+		{
+			"Id": 39,
+			"HomeTeam": {
+				"Name": "Team1",
+				"ShortName": "Team1",
+				"YearCreated": 2019,
+				"Goals": 117,
+				"Points": 42
+			},
+			"GuestTeam": {
+				"Name": "Team11",
+				"ShortName": "Team11",
+				"YearCreated": 2019,
+				"Goals": 87,
+				"Points": 30
+			},
+			"Time": "2022-11-09T11:50:45.040370522+01:00",
+			"HalfTime": {
+				"HomeTeam": 4,
+				"GuestTeam": 5
+			}
+		},
+		{
+			"Id": 40,
+			"HomeTeam": {
+				"Name": "Team11",
+				"ShortName": "Team11",
+				"YearCreated": 2019,
+				"Goals": 87,
+				"Points": 30
+			},
+			"GuestTeam": {
+				"Name": "Team7",
+				"ShortName": "Team7",
+				"YearCreated": 2019,
+				"Goals": 78,
+				"Points": 24
+			},
+			"Time": "2022-11-09T11:50:45.040374293+01:00",
+			"HalfTime": {
+				"HomeTeam": 5,
+				"GuestTeam": 4
+			}
+		},
+		{
+			"Id": 41,
+			"HomeTeam": {
+				"Name": "Team7",
+				"ShortName": "Team7",
+				"YearCreated": 2019,
+				"Goals": 78,
+				"Points": 24
+			},
+			"GuestTeam": {
+				"Name": "Team11",
+				"ShortName": "Team11",
+				"YearCreated": 2019,
+				"Goals": 87,
+				"Points": 30
+			},
+			"Time": "2022-11-09T11:50:45.040377157+01:00",
+			"HalfTime": {
+				"HomeTeam": 4,
+				"GuestTeam": 5
+			}
+		},
+		{
+			"Id": 42,
+			"HomeTeam": {
+				"Name": "Team11",
+				"ShortName": "Team11",
+				"YearCreated": 2019,
+				"Goals": 87,
+				"Points": 30
+			},
+			"GuestTeam": {
+				"Name": "Team4",
+				"ShortName": "Team4",
+				"YearCreated": 2019,
+				"Goals": 82,
+				"Points": 30
+			},
+			"Time": "2022-11-09T11:50:45.04038002+01:00",
+			"HalfTime": {
+				"HomeTeam": 1,
+				"GuestTeam": 8
+			}
+		},
+		{
+			"Id": 43,
+			"HomeTeam": {
+				"Name": "Team4",
+				"ShortName": "Team4",
+				"YearCreated": 2019,
+				"Goals": 82,
+				"Points": 30
+			},
+			"GuestTeam": {
+				"Name": "Team11",
+				"ShortName": "Team11",
+				"YearCreated": 2019,
+				"Goals": 87,
+				"Points": 30
+			},
+			"Time": "2022-11-09T11:50:45.040383932+01:00",
+			"HalfTime": {
+				"HomeTeam": 2,
+				"GuestTeam": 7
+			}
+		},
+		{
+			"Id": 44,
+			"HomeTeam": {
+				"Name": "Team11",
+				"ShortName": "Team11",
+				"YearCreated": 2019,
+				"Goals": 87,
+				"Points": 30
+			},
+			"GuestTeam": {
+				"Name": "Team5",
+				"ShortName": "Team5",
+				"YearCreated": 2019,
+				"Goals": 71,
+				"Points": 24
+			},
+			"Time": "2022-11-09T11:50:45.040386376+01:00",
+			"HalfTime": {
+				"HomeTeam": 6,
+				"GuestTeam": 3
+			}
+		},
+		{
+			"Id": 45,
+			"HomeTeam": {
+				"Name": "Team5",
+				"ShortName": "Team5",
+				"YearCreated": 2019,
+				"Goals": 71,
+				"Points": 24
+			},
+			"GuestTeam": {
+				"Name": "Team11",
+				"ShortName": "Team11",
+				"YearCreated": 2019,
+				"Goals": 87,
+				"Points": 30
+			},
+			"Time": "2022-11-09T11:50:45.040390147+01:00",
+			"HalfTime": {
+				"HomeTeam": 5,
+				"GuestTeam": 4
+			}
+		},
+		{
+			"Id": 46,
+			"HomeTeam": {
+				"Name": "Team11",
+				"ShortName": "Team11",
+				"YearCreated": 2019,
+				"Goals": 87,
+				"Points": 30
+			},
+			"GuestTeam": {
+				"Name": "Team6",
+				"ShortName": "Team6",
+				"YearCreated": 2019,
+				"Goals": 123,
+				"Points": 45
+			},
+			"Time": "2022-11-09T11:50:45.04039343+01:00",
+			"HalfTime": {
+				"HomeTeam": 3,
+				"GuestTeam": 6
+			}
+		},
+		{
+			"Id": 47,
+			"HomeTeam": {
+				"Name": "Team6",
+				"ShortName": "Team6",
+				"YearCreated": 2019,
+				"Goals": 123,
+				"Points": 45
+			},
+			"GuestTeam": {
+				"Name": "Team11",
+				"ShortName": "Team11",
+				"YearCreated": 2019,
+				"Goals": 87,
+				"Points": 30
+			},
+			"Time": "2022-11-09T11:50:45.040396224+01:00",
+			"HalfTime": {
+				"HomeTeam": 9,
+				"GuestTeam": 0
+			}
+		},
+		{
+			"Id": 48,
+			"HomeTeam": {
+				"Name": "Team11",
+				"ShortName": "Team11",
+				"YearCreated": 2019,
+				"Goals": 87,
+				"Points": 30
+			},
+			"GuestTeam": {
+				"Name": "Team10",
+				"ShortName": "Team10",
+				"YearCreated": 2019,
+				"Goals": 87,
+				"Points": 34
+			},
+			"Time": "2022-11-09T11:50:45.040400065+01:00",
+			"HalfTime": {
+				"HomeTeam": 7,
+				"GuestTeam": 2
+			}
+		},
+		{
+			"Id": 49,
+			"HomeTeam": {
+				"Name": "Team10",
+				"ShortName": "Team10",
+				"YearCreated": 2019,
+				"Goals": 87,
+				"Points": 34
+			},
+			"GuestTeam": {
+				"Name": "Team11",
+				"ShortName": "Team11",
+				"YearCreated": 2019,
+				"Goals": 87,
+				"Points": 30
+			},
+			"Time": "2022-11-09T11:50:45.040404814+01:00",
+			"HalfTime": {
+				"HomeTeam": 7,
+				"GuestTeam": 2
+			}
+		},
+		{
+			"Id": 50,
+			"HomeTeam": {
+				"Name": "Team11",
+				"ShortName": "Team11",
+				"YearCreated": 2019,
+				"Goals": 87,
+				"Points": 30
+			},
+			"GuestTeam": {
+				"Name": "Team2",
+				"ShortName": "Team2",
+				"YearCreated": 2019,
+				"Goals": 107,
+				"Points": 36
+			},
+			"Time": "2022-11-09T11:50:45.040409144+01:00",
+			"HalfTime": {
+				"HomeTeam": 2,
+				"GuestTeam": 7
+			}
+		},
+		{
+			"Id": 51,
+			"HomeTeam": {
+				"Name": "Team2",
+				"ShortName": "Team2",
+				"YearCreated": 2019,
+				"Goals": 107,
+				"Points": 36
+			},
+			"GuestTeam": {
+				"Name": "Team11",
+				"ShortName": "Team11",
+				"YearCreated": 2019,
+				"Goals": 87,
+				"Points": 30
+			},
+			"Time": "2022-11-09T11:50:45.040412497+01:00",
+			"HalfTime": {
+				"HomeTeam": 4,
+				"GuestTeam": 5
+			}
+		},
+		{
+			"Id": 52,
+			"HomeTeam": {
+				"Name": "Team11",
+				"ShortName": "Team11",
+				"YearCreated": 2019,
+				"Goals": 87,
+				"Points": 30
+			},
+			"GuestTeam": {
+				"Name": "Team3",
+				"ShortName": "Team3",
+				"YearCreated": 2019,
+				"Goals": 100,
+				"Points": 28
+			},
+			"Time": "2022-11-09T11:50:45.040415919+01:00",
+			"HalfTime": {
+				"HomeTeam": 7,
+				"GuestTeam": 2
+			}
+		},
+		{
+			"Id": 53,
+			"HomeTeam": {
+				"Name": "Team3",
+				"ShortName": "Team3",
+				"YearCreated": 2019,
+				"Goals": 100,
+				"Points": 28
+			},
+			"GuestTeam": {
+				"Name": "Team11",
+				"ShortName": "Team11",
+				"YearCreated": 2019,
+				"Goals": 87,
+				"Points": 30
+			},
+			"Time": "2022-11-09T11:50:45.040418783+01:00",
+			"HalfTime": {
+				"HomeTeam": 8,
+				"GuestTeam": 1
+			}
+		},
+		{
+			"Id": 54,
+			"HomeTeam": {
+				"Name": "Team1",
+				"ShortName": "Team1",
+				"YearCreated": 2019,
+				"Goals": 117,
+				"Points": 42
+			},
+			"GuestTeam": {
+				"Name": "Team7",
+				"ShortName": "Team7",
+				"YearCreated": 2019,
+				"Goals": 78,
+				"Points": 24
+			},
+			"Time": "2022-11-09T11:50:45.040422065+01:00",
+			"HalfTime": {
+				"HomeTeam": 8,
+				"GuestTeam": 1
+			}
+		},
+		{
+			"Id": 55,
+			"HomeTeam": {
+				"Name": "Team7",
+				"ShortName": "Team7",
+				"YearCreated": 2019,
+				"Goals": 78,
+				"Points": 24
+			},
+			"GuestTeam": {
+				"Name": "Team1",
+				"ShortName": "Team1",
+				"YearCreated": 2019,
+				"Goals": 117,
+				"Points": 42
+			},
+			"Time": "2022-11-09T11:50:45.040424929+01:00",
+			"HalfTime": {
+				"HomeTeam": 5,
+				"GuestTeam": 4
+			}
+		},
+		{
+			"Id": 56,
+			"HomeTeam": {
+				"Name": "Team1",
+				"ShortName": "Team1",
+				"YearCreated": 2019,
+				"Goals": 117,
+				"Points": 42
+			},
+			"GuestTeam": {
+				"Name": "Team4",
+				"ShortName": "Team4",
+				"YearCreated": 2019,
+				"Goals": 82,
+				"Points": 30
+			},
+			"Time": "2022-11-09T11:50:45.040428141+01:00",
+			"HalfTime": {
+				"HomeTeam": 9,
+				"GuestTeam": 0
+			}
+		},
+		{
+			"Id": 57,
+			"HomeTeam": {
+				"Name": "Team4",
+				"ShortName": "Team4",
+				"YearCreated": 2019,
+				"Goals": 82,
+				"Points": 30
+			},
+			"GuestTeam": {
+				"Name": "Team1",
+				"ShortName": "Team1",
+				"YearCreated": 2019,
+				"Goals": 117,
+				"Points": 42
+			},
+			"Time": "2022-11-09T11:50:45.040431005+01:00",
+			"HalfTime": {
+				"HomeTeam": 1,
+				"GuestTeam": 8
+			}
+		},
+		{
+			"Id": 58,
+			"HomeTeam": {
+				"Name": "Team1",
+				"ShortName": "Team1",
+				"YearCreated": 2019,
+				"Goals": 117,
+				"Points": 42
+			},
+			"GuestTeam": {
+				"Name": "Team5",
+				"ShortName": "Team5",
+				"YearCreated": 2019,
+				"Goals": 71,
+				"Points": 24
+			},
+			"Time": "2022-11-09T11:50:45.040434288+01:00",
+			"HalfTime": {
+				"HomeTeam": 3,
+				"GuestTeam": 6
+			}
+		},
+		{
+			"Id": 59,
+			"HomeTeam": {
+				"Name": "Team5",
+				"ShortName": "Team5",
+				"YearCreated": 2019,
+				"Goals": 71,
+				"Points": 24
+			},
+			"GuestTeam": {
+				"Name": "Team1",
+				"ShortName": "Team1",
+				"YearCreated": 2019,
+				"Goals": 117,
+				"Points": 42
+			},
+			"Time": "2022-11-09T11:50:45.040437221+01:00",
+			"HalfTime": {
+				"HomeTeam": 1,
+				"GuestTeam": 8
+			}
+		},
+		{
+			"Id": 60,
+			"HomeTeam": {
+				"Name": "Team1",
+				"ShortName": "Team1",
+				"YearCreated": 2019,
+				"Goals": 117,
+				"Points": 42
+			},
+			"GuestTeam": {
+				"Name": "Team6",
+				"ShortName": "Team6",
+				"YearCreated": 2019,
+				"Goals": 123,
+				"Points": 45
+			},
+			"Time": "2022-11-09T11:50:45.040440084+01:00",
+			"HalfTime": {
+				"HomeTeam": 9,
+				"GuestTeam": 0
+			}
+		},
+		{
+			"Id": 61,
+			"HomeTeam": {
+				"Name": "Team6",
+				"ShortName": "Team6",
+				"YearCreated": 2019,
+				"Goals": 123,
+				"Points": 45
+			},
+			"GuestTeam": {
+				"Name": "Team1",
+				"ShortName": "Team1",
+				"YearCreated": 2019,
+				"Goals": 117,
+				"Points": 42
+			},
+			"Time": "2022-11-09T11:50:45.040442529+01:00",
+			"HalfTime": {
+				"HomeTeam": 4,
+				"GuestTeam": 5
+			}
+		},
+		{
+			"Id": 62,
+			"HomeTeam": {
+				"Name": "Team1",
+				"ShortName": "Team1",
+				"YearCreated": 2019,
+				"Goals": 117,
+				"Points": 42
+			},
+			"GuestTeam": {
+				"Name": "Team10",
+				"ShortName": "Team10",
+				"YearCreated": 2019,
+				"Goals": 87,
+				"Points": 34
+			},
+			"Time": "2022-11-09T11:50:45.040445462+01:00",
+			"HalfTime": {
+				"HomeTeam": 8,
+				"GuestTeam": 1
+			}
+		},
+		{
+			"Id": 63,
+			"HomeTeam": {
+				"Name": "Team10",
+				"ShortName": "Team10",
+				"YearCreated": 2019,
+				"Goals": 87,
+				"Points": 34
+			},
+			"GuestTeam": {
+				"Name": "Team1",
+				"ShortName": "Team1",
+				"YearCreated": 2019,
+				"Goals": 117,
+				"Points": 42
+			},
+			"Time": "2022-11-09T11:50:45.040448326+01:00",
+			"HalfTime": {
+				"HomeTeam": 4,
+				"GuestTeam": 5
+			}
+		},
+		{
+			"Id": 64,
+			"HomeTeam": {
+				"Name": "Team1",
+				"ShortName": "Team1",
+				"YearCreated": 2019,
+				"Goals": 117,
+				"Points": 42
+			},
+			"GuestTeam": {
+				"Name": "Team2",
+				"ShortName": "Team2",
+				"YearCreated": 2019,
+				"Goals": 107,
+				"Points": 36
+			},
+			"Time": "2022-11-09T11:50:45.040451189+01:00",
+			"HalfTime": {
+				"HomeTeam": 9,
+				"GuestTeam": 0
+			}
+		},
+		{
+			"Id": 65,
+			"HomeTeam": {
+				"Name": "Team2",
+				"ShortName": "Team2",
+				"YearCreated": 2019,
+				"Goals": 107,
+				"Points": 36
+			},
+			"GuestTeam": {
+				"Name": "Team1",
+				"ShortName": "Team1",
+				"YearCreated": 2019,
+				"Goals": 117,
+				"Points": 42
+			},
+			"Time": "2022-11-09T11:50:45.040454542+01:00",
+			"HalfTime": {
+				"HomeTeam": 8,
+				"GuestTeam": 1
+			}
+		},
+		{
+			"Id": 66,
+			"HomeTeam": {
+				"Name": "Team1",
+				"ShortName": "Team1",
+				"YearCreated": 2019,
+				"Goals": 117,
+				"Points": 42
+			},
+			"GuestTeam": {
+				"Name": "Team3",
+				"ShortName": "Team3",
+				"YearCreated": 2019,
+				"Goals": 100,
+				"Points": 28
+			},
+			"Time": "2022-11-09T11:50:45.040457754+01:00",
+			"HalfTime": {
+				"HomeTeam": 0,
+				"GuestTeam": 9
+			}
+		},
+		{
+			"Id": 67,
+			"HomeTeam": {
+				"Name": "Team3",
+				"ShortName": "Team3",
+				"YearCreated": 2019,
+				"Goals": 100,
+				"Points": 28
+			},
+			"GuestTeam": {
+				"Name": "Team1",
+				"ShortName": "Team1",
+				"YearCreated": 2019,
+				"Goals": 117,
+				"Points": 42
+			},
+			"Time": "2022-11-09T11:50:45.040460548+01:00",
+			"HalfTime": {
+				"HomeTeam": 2,
+				"GuestTeam": 7
+			}
+		},
+		{
+			"Id": 68,
+			"HomeTeam": {
+				"Name": "Team7",
+				"ShortName": "Team7",
+				"YearCreated": 2019,
+				"Goals": 78,
+				"Points": 24
+			},
+			"GuestTeam": {
+				"Name": "Team4",
+				"ShortName": "Team4",
+				"YearCreated": 2019,
+				"Goals": 82,
+				"Points": 30
+			},
+			"Time": "2022-11-09T11:50:45.040463412+01:00",
+			"HalfTime": {
+				"HomeTeam": 6,
+				"GuestTeam": 3
+			}
+		},
+		{
+			"Id": 69,
+			"HomeTeam": {
+				"Name": "Team4",
+				"ShortName": "Team4",
+				"YearCreated": 2019,
+				"Goals": 82,
+				"Points": 30
+			},
+			"GuestTeam": {
+				"Name": "Team7",
+				"ShortName": "Team7",
+				"YearCreated": 2019,
+				"Goals": 78,
+				"Points": 24
+			},
+			"Time": "2022-11-09T11:50:45.040466275+01:00",
+			"HalfTime": {
+				"HomeTeam": 9,
+				"GuestTeam": 0
+			}
+		},
+		{
+			"Id": 70,
+			"HomeTeam": {
+				"Name": "Team7",
+				"ShortName": "Team7",
+				"YearCreated": 2019,
+				"Goals": 78,
+				"Points": 24
+			},
+			"GuestTeam": {
+				"Name": "Team5",
+				"ShortName": "Team5",
+				"YearCreated": 2019,
+				"Goals": 71,
+				"Points": 24
+			},
+			"Time": "2022-11-09T11:50:45.040469558+01:00",
+			"HalfTime": {
+				"HomeTeam": 5,
+				"GuestTeam": 4
+			}
+		},
+		{
+			"Id": 71,
+			"HomeTeam": {
+				"Name": "Team5",
+				"ShortName": "Team5",
+				"YearCreated": 2019,
+				"Goals": 71,
+				"Points": 24
+			},
+			"GuestTeam": {
+				"Name": "Team7",
+				"ShortName": "Team7",
+				"YearCreated": 2019,
+				"Goals": 78,
+				"Points": 24
+			},
+			"Time": "2022-11-09T11:50:45.040472421+01:00",
+			"HalfTime": {
+				"HomeTeam": 0,
+				"GuestTeam": 9
+			}
+		},
+		{
+			"Id": 72,
+			"HomeTeam": {
+				"Name": "Team7",
+				"ShortName": "Team7",
+				"YearCreated": 2019,
+				"Goals": 78,
+				"Points": 24
+			},
+			"GuestTeam": {
+				"Name": "Team6",
+				"ShortName": "Team6",
+				"YearCreated": 2019,
+				"Goals": 123,
+				"Points": 45
+			},
+			"Time": "2022-11-09T11:50:45.040475215+01:00",
+			"HalfTime": {
+				"HomeTeam": 8,
+				"GuestTeam": 1
+			}
+		},
+		{
+			"Id": 73,
+			"HomeTeam": {
+				"Name": "Team6",
+				"ShortName": "Team6",
+				"YearCreated": 2019,
+				"Goals": 123,
+				"Points": 45
+			},
+			"GuestTeam": {
+				"Name": "Team7",
+				"ShortName": "Team7",
+				"YearCreated": 2019,
+				"Goals": 78,
+				"Points": 24
+			},
+			"Time": "2022-11-09T11:50:45.040477659+01:00",
+			"HalfTime": {
+				"HomeTeam": 7,
+				"GuestTeam": 2
+			}
+		},
+		{
+			"Id": 74,
+			"HomeTeam": {
+				"Name": "Team7",
+				"ShortName": "Team7",
+				"YearCreated": 2019,
+				"Goals": 78,
+				"Points": 24
+			},
+			"GuestTeam": {
+				"Name": "Team10",
+				"ShortName": "Team10",
+				"YearCreated": 2019,
+				"Goals": 87,
+				"Points": 34
+			},
+			"Time": "2022-11-09T11:50:45.040481012+01:00",
+			"HalfTime": {
+				"HomeTeam": 4,
+				"GuestTeam": 5
+			}
+		},
+		{
+			"Id": 75,
+			"HomeTeam": {
+				"Name": "Team10",
+				"ShortName": "Team10",
+				"YearCreated": 2019,
+				"Goals": 87,
+				"Points": 34
+			},
+			"GuestTeam": {
+				"Name": "Team7",
+				"ShortName": "Team7",
+				"YearCreated": 2019,
+				"Goals": 78,
+				"Points": 24
+			},
+			"Time": "2022-11-09T11:50:45.040483875+01:00",
+			"HalfTime": {
+				"HomeTeam": 7,
+				"GuestTeam": 2
+			}
+		},
+		{
+			"Id": 76,
+			"HomeTeam": {
+				"Name": "Team7",
+				"ShortName": "Team7",
+				"YearCreated": 2019,
+				"Goals": 78,
+				"Points": 24
+			},
+			"GuestTeam": {
+				"Name": "Team2",
+				"ShortName": "Team2",
+				"YearCreated": 2019,
+				"Goals": 107,
+				"Points": 36
+			},
+			"Time": "2022-11-09T11:50:45.040486739+01:00",
+			"HalfTime": {
+				"HomeTeam": 2,
+				"GuestTeam": 7
+			}
+		},
+		{
+			"Id": 77,
+			"HomeTeam": {
+				"Name": "Team2",
+				"ShortName": "Team2",
+				"YearCreated": 2019,
+				"Goals": 107,
+				"Points": 36
+			},
+			"GuestTeam": {
+				"Name": "Team7",
+				"ShortName": "Team7",
+				"YearCreated": 2019,
+				"Goals": 78,
+				"Points": 24
+			},
+			"Time": "2022-11-09T11:50:45.040489533+01:00",
+			"HalfTime": {
+				"HomeTeam": 5,
+				"GuestTeam": 4
+			}
+		},
+		{
+			"Id": 78,
+			"HomeTeam": {
+				"Name": "Team7",
+				"ShortName": "Team7",
+				"YearCreated": 2019,
+				"Goals": 78,
+				"Points": 24
+			},
+			"GuestTeam": {
+				"Name": "Team3",
+				"ShortName": "Team3",
+				"YearCreated": 2019,
+				"Goals": 100,
+				"Points": 28
+			},
+			"Time": "2022-11-09T11:50:45.040492326+01:00",
+			"HalfTime": {
+				"HomeTeam": 5,
+				"GuestTeam": 4
+			}
+		},
+		{
+			"Id": 79,
+			"HomeTeam": {
+				"Name": "Team3",
+				"ShortName": "Team3",
+				"YearCreated": 2019,
+				"Goals": 100,
+				"Points": 28
+			},
+			"GuestTeam": {
+				"Name": "Team7",
+				"ShortName": "Team7",
+				"YearCreated": 2019,
+				"Goals": 78,
+				"Points": 24
+			},
+			"Time": "2022-11-09T11:50:45.04049512+01:00",
+			"HalfTime": {
+				"HomeTeam": 9,
+				"GuestTeam": 0
+			}
+		},
+		{
+			"Id": 80,
+			"HomeTeam": {
+				"Name": "Team4",
+				"ShortName": "Team4",
+				"YearCreated": 2019,
+				"Goals": 82,
+				"Points": 30
+			},
+			"GuestTeam": {
+				"Name": "Team5",
+				"ShortName": "Team5",
+				"YearCreated": 2019,
+				"Goals": 71,
+				"Points": 24
+			},
+			"Time": "2022-11-09T11:50:45.040497914+01:00",
+			"HalfTime": {
+				"HomeTeam": 5,
+				"GuestTeam": 4
+			}
+		},
+		{
+			"Id": 81,
+			"HomeTeam": {
+				"Name": "Team5",
+				"ShortName": "Team5",
+				"YearCreated": 2019,
+				"Goals": 71,
+				"Points": 24
+			},
+			"GuestTeam": {
+				"Name": "Team4",
+				"ShortName": "Team4",
+				"YearCreated": 2019,
+				"Goals": 82,
+				"Points": 30
+			},
+			"Time": "2022-11-09T11:50:45.040501266+01:00",
+			"HalfTime": {
+				"HomeTeam": 6,
+				"GuestTeam": 3
+			}
+		},
+		{
+			"Id": 82,
+			"HomeTeam": {
+				"Name": "Team4",
+				"ShortName": "Team4",
+				"YearCreated": 2019,
+				"Goals": 82,
+				"Points": 30
+			},
+			"GuestTeam": {
+				"Name": "Team6",
+				"ShortName": "Team6",
+				"YearCreated": 2019,
+				"Goals": 123,
+				"Points": 45
+			},
+			"Time": "2022-11-09T11:50:45.040504549+01:00",
+			"HalfTime": {
+				"HomeTeam": 0,
+				"GuestTeam": 9
+			}
+		},
+		{
+			"Id": 83,
+			"HomeTeam": {
+				"Name": "Team6",
+				"ShortName": "Team6",
+				"YearCreated": 2019,
+				"Goals": 123,
+				"Points": 45
+			},
+			"GuestTeam": {
+				"Name": "Team4",
+				"ShortName": "Team4",
+				"YearCreated": 2019,
+				"Goals": 82,
+				"Points": 30
+			},
+			"Time": "2022-11-09T11:50:45.040507901+01:00",
+			"HalfTime": {
+				"HomeTeam": 9,
+				"GuestTeam": 0
+			}
+		},
+		{
+			"Id": 84,
+			"HomeTeam": {
+				"Name": "Team4",
+				"ShortName": "Team4",
+				"YearCreated": 2019,
+				"Goals": 82,
+				"Points": 30
+			},
+			"GuestTeam": {
+				"Name": "Team10",
+				"ShortName": "Team10",
+				"YearCreated": 2019,
+				"Goals": 87,
+				"Points": 34
+			},
+			"Time": "2022-11-09T11:50:45.040510834+01:00",
+			"HalfTime": {
+				"HomeTeam": 5,
+				"GuestTeam": 4
+			}
+		},
+		{
+			"Id": 85,
+			"HomeTeam": {
+				"Name": "Team10",
+				"ShortName": "Team10",
+				"YearCreated": 2019,
+				"Goals": 87,
+				"Points": 34
+			},
+			"GuestTeam": {
+				"Name": "Team4",
+				"ShortName": "Team4",
+				"YearCreated": 2019,
+				"Goals": 82,
+				"Points": 30
+			},
+			"Time": "2022-11-09T11:50:45.040514187+01:00",
+			"HalfTime": {
+				"HomeTeam": 5,
+				"GuestTeam": 4
+			}
+		},
+		{
+			"Id": 86,
+			"HomeTeam": {
+				"Name": "Team4",
+				"ShortName": "Team4",
+				"YearCreated": 2019,
+				"Goals": 82,
+				"Points": 30
+			},
+			"GuestTeam": {
+				"Name": "Team2",
+				"ShortName": "Team2",
+				"YearCreated": 2019,
+				"Goals": 107,
+				"Points": 36
+			},
+			"Time": "2022-11-09T11:50:45.040516631+01:00",
+			"HalfTime": {
+				"HomeTeam": 2,
+				"GuestTeam": 7
+			}
+		},
+		{
+			"Id": 87,
+			"HomeTeam": {
+				"Name": "Team2",
+				"ShortName": "Team2",
+				"YearCreated": 2019,
+				"Goals": 107,
+				"Points": 36
+			},
+			"GuestTeam": {
+				"Name": "Team4",
+				"ShortName": "Team4",
+				"YearCreated": 2019,
+				"Goals": 82,
+				"Points": 30
+			},
+			"Time": "2022-11-09T11:50:45.040519425+01:00",
+			"HalfTime": {
+				"HomeTeam": 2,
+				"GuestTeam": 7
+			}
+		},
+		{
+			"Id": 88,
+			"HomeTeam": {
+				"Name": "Team4",
+				"ShortName": "Team4",
+				"YearCreated": 2019,
+				"Goals": 82,
+				"Points": 30
+			},
+			"GuestTeam": {
+				"Name": "Team3",
+				"ShortName": "Team3",
+				"YearCreated": 2019,
+				"Goals": 100,
+				"Points": 28
+			},
+			"Time": "2022-11-09T11:50:45.040523755+01:00",
+			"HalfTime": {
+				"HomeTeam": 2,
+				"GuestTeam": 7
+			}
+		},
+		{
+			"Id": 89,
+			"HomeTeam": {
+				"Name": "Team3",
+				"ShortName": "Team3",
+				"YearCreated": 2019,
+				"Goals": 100,
+				"Points": 28
+			},
+			"GuestTeam": {
+				"Name": "Team4",
+				"ShortName": "Team4",
+				"YearCreated": 2019,
+				"Goals": 82,
+				"Points": 30
+			},
+			"Time": "2022-11-09T11:50:45.040527038+01:00",
+			"HalfTime": {
+				"HomeTeam": 2,
+				"GuestTeam": 7
+			}
+		},
+		{
+			"Id": 90,
+			"HomeTeam": {
+				"Name": "Team5",
+				"ShortName": "Team5",
+				"YearCreated": 2019,
+				"Goals": 71,
+				"Points": 24
+			},
+			"GuestTeam": {
+				"Name": "Team6",
+				"ShortName": "Team6",
+				"YearCreated": 2019,
+				"Goals": 123,
+				"Points": 45
+			},
+			"Time": "2022-11-09T11:50:45.040529901+01:00",
+			"HalfTime": {
+				"HomeTeam": 2,
+				"GuestTeam": 7
+			}
+		},
+		{
+			"Id": 91,
+			"HomeTeam": {
+				"Name": "Team6",
+				"ShortName": "Team6",
+				"YearCreated": 2019,
+				"Goals": 123,
+				"Points": 45
+			},
+			"GuestTeam": {
+				"Name": "Team5",
+				"ShortName": "Team5",
+				"YearCreated": 2019,
+				"Goals": 71,
+				"Points": 24
+			},
+			"Time": "2022-11-09T11:50:45.040533184+01:00",
+			"HalfTime": {
+				"HomeTeam": 9,
+				"GuestTeam": 0
+			}
+		},
+		{
+			"Id": 92,
+			"HomeTeam": {
+				"Name": "Team5",
+				"ShortName": "Team5",
+				"YearCreated": 2019,
+				"Goals": 71,
+				"Points": 24
+			},
+			"GuestTeam": {
+				"Name": "Team10",
+				"ShortName": "Team10",
+				"YearCreated": 2019,
+				"Goals": 87,
+				"Points": 34
+			},
+			"Time": "2022-11-09T11:50:45.040536047+01:00",
+			"HalfTime": {
+				"HomeTeam": 9,
+				"GuestTeam": 0
+			}
+		},
+		{
+			"Id": 93,
+			"HomeTeam": {
+				"Name": "Team10",
+				"ShortName": "Team10",
+				"YearCreated": 2019,
+				"Goals": 87,
+				"Points": 34
+			},
+			"GuestTeam": {
+				"Name": "Team5",
+				"ShortName": "Team5",
+				"YearCreated": 2019,
+				"Goals": 71,
+				"Points": 24
+			},
+			"Time": "2022-11-09T11:50:45.040538911+01:00",
+			"HalfTime": {
+				"HomeTeam": 7,
+				"GuestTeam": 2
+			}
+		},
+		{
+			"Id": 94,
+			"HomeTeam": {
+				"Name": "Team5",
+				"ShortName": "Team5",
+				"YearCreated": 2019,
+				"Goals": 71,
+				"Points": 24
+			},
+			"GuestTeam": {
+				"Name": "Team2",
+				"ShortName": "Team2",
+				"YearCreated": 2019,
+				"Goals": 107,
+				"Points": 36
+			},
+			"Time": "2022-11-09T11:50:45.040541844+01:00",
+			"HalfTime": {
+				"HomeTeam": 3,
+				"GuestTeam": 6
+			}
+		},
+		{
+			"Id": 95,
+			"HomeTeam": {
+				"Name": "Team2",
+				"ShortName": "Team2",
+				"YearCreated": 2019,
+				"Goals": 107,
+				"Points": 36
+			},
+			"GuestTeam": {
+				"Name": "Team5",
+				"ShortName": "Team5",
+				"YearCreated": 2019,
+				"Goals": 71,
+				"Points": 24
+			},
+			"Time": "2022-11-09T11:50:45.040544708+01:00",
+			"HalfTime": {
+				"HomeTeam": 9,
+				"GuestTeam": 0
+			}
+		},
+		{
+			"Id": 96,
+			"HomeTeam": {
+				"Name": "Team5",
+				"ShortName": "Team5",
+				"YearCreated": 2019,
+				"Goals": 71,
+				"Points": 24
+			},
+			"GuestTeam": {
+				"Name": "Team3",
+				"ShortName": "Team3",
+				"YearCreated": 2019,
+				"Goals": 100,
+				"Points": 28
+			},
+			"Time": "2022-11-09T11:50:45.040547641+01:00",
+			"HalfTime": {
+				"HomeTeam": 5,
+				"GuestTeam": 4
+			}
+		},
+		{
+			"Id": 97,
+			"HomeTeam": {
+				"Name": "Team3",
+				"ShortName": "Team3",
+				"YearCreated": 2019,
+				"Goals": 100,
+				"Points": 28
+			},
+			"GuestTeam": {
+				"Name": "Team5",
+				"ShortName": "Team5",
+				"YearCreated": 2019,
+				"Goals": 71,
+				"Points": 24
+			},
+			"Time": "2022-11-09T11:50:45.040569432+01:00",
+			"HalfTime": {
+				"HomeTeam": 8,
+				"GuestTeam": 1
+			}
+		},
+		{
+			"Id": 98,
+			"HomeTeam": {
+				"Name": "Team6",
+				"ShortName": "Team6",
+				"YearCreated": 2019,
+				"Goals": 123,
+				"Points": 45
+			},
+			"GuestTeam": {
+				"Name": "Team10",
+				"ShortName": "Team10",
+				"YearCreated": 2019,
+				"Goals": 87,
+				"Points": 34
+			},
+			"Time": "2022-11-09T11:50:45.040573273+01:00",
+			"HalfTime": {
+				"HomeTeam": 9,
+				"GuestTeam": 0
+			}
+		},
+		{
+			"Id": 99,
+			"HomeTeam": {
+				"Name": "Team10",
+				"ShortName": "Team10",
+				"YearCreated": 2019,
+				"Goals": 87,
+				"Points": 34
+			},
+			"GuestTeam": {
+				"Name": "Team6",
+				"ShortName": "Team6",
+				"YearCreated": 2019,
+				"Goals": 123,
+				"Points": 45
+			},
+			"Time": "2022-11-09T11:50:45.040577673+01:00",
+			"HalfTime": {
+				"HomeTeam": 1,
+				"GuestTeam": 8
+			}
+		},
+		{
+			"Id": 100,
+			"HomeTeam": {
+				"Name": "Team6",
+				"ShortName": "Team6",
+				"YearCreated": 2019,
+				"Goals": 123,
+				"Points": 45
+			},
+			"GuestTeam": {
+				"Name": "Team2",
+				"ShortName": "Team2",
+				"YearCreated": 2019,
+				"Goals": 107,
+				"Points": 36
+			},
+			"Time": "2022-11-09T11:50:45.040581445+01:00",
+			"HalfTime": {
+				"HomeTeam": 7,
+				"GuestTeam": 3
+			}
+		},
+		{
+			"Id": 101,
+			"HomeTeam": {
+				"Name": "Team2",
+				"ShortName": "Team2",
+				"YearCreated": 2019,
+				"Goals": 107,
+				"Points": 36
+			},
+			"GuestTeam": {
+				"Name": "Team6",
+				"ShortName": "Team6",
+				"YearCreated": 2019,
+				"Goals": 123,
+				"Points": 45
+			},
+			"Time": "2022-11-09T11:50:45.040585216+01:00",
+			"HalfTime": {
+				"HomeTeam": 2,
+				"GuestTeam": 8
+			}
+		},
+		{
+			"Id": 102,
+			"HomeTeam": {
+				"Name": "Team6",
+				"ShortName": "Team6",
+				"YearCreated": 2019,
+				"Goals": 123,
+				"Points": 45
+			},
+			"GuestTeam": {
+				"Name": "Team3",
+				"ShortName": "Team3",
+				"YearCreated": 2019,
+				"Goals": 100,
+				"Points": 28
+			},
+			"Time": "2022-11-09T11:50:45.040588568+01:00",
+			"HalfTime": {
+				"HomeTeam": 0,
+				"GuestTeam": 10
+			}
+		},
+		{
+			"Id": 103,
+			"HomeTeam": {
+				"Name": "Team3",
+				"ShortName": "Team3",
+				"YearCreated": 2019,
+				"Goals": 100,
+				"Points": 28
+			},
+			"GuestTeam": {
+				"Name": "Team6",
+				"ShortName": "Team6",
+				"YearCreated": 2019,
+				"Goals": 123,
+				"Points": 45
+			},
+			"Time": "2022-11-09T11:50:45.040591921+01:00",
+			"HalfTime": {
+				"HomeTeam": 4,
+				"GuestTeam": 6
+			}
+		},
+		{
+			"Id": 104,
+			"HomeTeam": {
+				"Name": "Team10",
+				"ShortName": "Team10",
+				"YearCreated": 2019,
+				"Goals": 87,
+				"Points": 34
+			},
+			"GuestTeam": {
+				"Name": "Team2",
+				"ShortName": "Team2",
+				"YearCreated": 2019,
+				"Goals": 107,
+				"Points": 36
+			},
+			"Time": "2022-11-09T11:50:45.040594714+01:00",
+			"HalfTime": {
+				"HomeTeam": 6,
+				"GuestTeam": 4
+			}
+		},
+		{
+			"Id": 105,
+			"HomeTeam": {
+				"Name": "Team2",
+				"ShortName": "Team2",
+				"YearCreated": 2019,
+				"Goals": 107,
+				"Points": 36
+			},
+			"GuestTeam": {
+				"Name": "Team10",
+				"ShortName": "Team10",
+				"YearCreated": 2019,
+				"Goals": 87,
+				"Points": 34
+			},
+			"Time": "2022-11-09T11:50:45.040598067+01:00",
+			"HalfTime": {
+				"HomeTeam": 10,
+				"GuestTeam": 0
+			}
+		},
+		{
+			"Id": 106,
+			"HomeTeam": {
+				"Name": "Team10",
+				"ShortName": "Team10",
+				"YearCreated": 2019,
+				"Goals": 87,
+				"Points": 34
+			},
+			"GuestTeam": {
+				"Name": "Team3",
+				"ShortName": "Team3",
+				"YearCreated": 2019,
+				"Goals": 100,
+				"Points": 28
+			},
+			"Time": "2022-11-09T11:50:45.04060093+01:00",
+			"HalfTime": {
+				"HomeTeam": 8,
+				"GuestTeam": 2
+			}
+		},
+		{
+			"Id": 107,
+			"HomeTeam": {
+				"Name": "Team3",
+				"ShortName": "Team3",
+				"YearCreated": 2019,
+				"Goals": 100,
+				"Points": 28
+			},
+			"GuestTeam": {
+				"Name": "Team10",
+				"ShortName": "Team10",
+				"YearCreated": 2019,
+				"Goals": 87,
+				"Points": 34
+			},
+			"Time": "2022-11-09T11:50:45.040603794+01:00",
+			"HalfTime": {
+				"HomeTeam": 5,
+				"GuestTeam": 5
+			}
+		},
+		{
+			"Id": 108,
+			"HomeTeam": {
+				"Name": "Team2",
+				"ShortName": "Team2",
+				"YearCreated": 2019,
+				"Goals": 107,
+				"Points": 36
+			},
+			"GuestTeam": {
+				"Name": "Team3",
+				"ShortName": "Team3",
+				"YearCreated": 2019,
+				"Goals": 100,
+				"Points": 28
+			},
+			"Time": "2022-11-09T11:50:45.040606727+01:00",
+			"HalfTime": {
+				"HomeTeam": 0,
+				"GuestTeam": 10
+			}
+		},
+		{
+			"Id": 109,
+			"HomeTeam": {
+				"Name": "Team3",
+				"ShortName": "Team3",
+				"YearCreated": 2019,
+				"Goals": 100,
+				"Points": 28
+			},
+			"GuestTeam": {
+				"Name": "Team2",
+				"ShortName": "Team2",
+				"YearCreated": 2019,
+				"Goals": 107,
+				"Points": 36
+			},
+			"Time": "2022-11-09T11:50:45.040609591+01:00",
+			"HalfTime": {
+				"HomeTeam": 2,
+				"GuestTeam": 8
+			}
+		}
+	],
+	"GoalNumber": 1000,
+	"DrawPoints": 1,
+	"WinningPoints": 3,
+	"Restrictions": {
+		"ExactNumberOfGoals": 1000,
+		"MaxNumberOfGoalsPerPlay": 10,
+		"MinNumberOfGoalsPerPlay": 4,
+		"MinNumberOfTeams": 0,
+		"MaxNumberOfTeams": 0,
+		"MaxNumbersOfPlays": 110
+	}
+}0,
+		"MaxNumberOfTeams": 0,
+		"MaxNumbersOfPlays": 110
+	}
+}s": 110
+	}
+}

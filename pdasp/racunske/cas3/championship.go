@@ -151,11 +151,9 @@ func sumOfN[T constraints.Integer](n T) T {
 	return (n * (n + 1)) >> 1
 }
 
-func (c *Championship) generateRandomScore(ch chan *Score, gnChanel, pmChanel chan int) {
+func (c *Championship) getRandomGoals() (int, int) {
 	var goals1, goals2 int
-	goalNumber := <-gnChanel
-	playedMatches := <-pmChanel
-	minGoals := max(c.Restrictions.MinNumberOfGoalsPerPlay, (c.Restrictions.ExactNumberOfGoals-goalNumber)/(c.Restrictions.MaxNumbersOfPlays-playedMatches))
+	minGoals := max(c.Restrictions.MinNumberOfGoalsPerPlay, (c.Restrictions.ExactNumberOfGoals-c.GoalNumber)/(c.Restrictions.MaxNumbersOfPlays-len(c.Matches)))
 	maxGoals := min(minGoals, c.Restrictions.MaxNumberOfGoalsPerPlay) + 1
 	goals1 = rand.Int() % maxGoals
 	maxGoals -= goals1 + 1
@@ -164,25 +162,24 @@ func (c *Championship) generateRandomScore(ch chan *Score, gnChanel, pmChanel ch
 	} else {
 		goals2 = maxGoals
 	}
-	ch <- &Score{goals1, goals2}
-	gnChanel <- goalNumber + goals1 + goals2
-	pmChanel <- playedMatches + 1
+	c.GoalNumber += goals1 + goals2
+	return goals1, goals2
 }
 
-func (c *Championship) playRandom(t1, t2 *Team, randomScore *Score) {
-	c.GoalNumber += randomScore.GuestTeam + randomScore.HomeTeam
-	t1.Goals += randomScore.HomeTeam
-	t2.Goals += randomScore.GuestTeam
-	if randomScore.HomeTeam < randomScore.GuestTeam {
+func (c *Championship) playRandom(t1 *Team, t2 *Team) {
+	g1, g2 := c.getRandomGoals()
+	t1.Goals += g1
+	t2.Goals += g2
+	if g1 < g2 {
 		t2.Points += int(c.WinningPoints)
-	} else if randomScore.HomeTeam > randomScore.GuestTeam {
+	} else if g1 > g2 {
 		t1.Points += int(c.WinningPoints)
 	} else {
 		t1.Points += int(c.DrawPoints)
 		t2.Points += int(c.DrawPoints)
 	}
 	id := len(c.Matches)
-	c.Matches = append(c.Matches, &Match{uint64(id), t1, t2, time.Now(), randomScore})
+	c.Matches = append(c.Matches, &Match{uint64(id), t1, t2, time.Now(), &Score{g1, g2}})
 }
 
 func keys[K comparable, J interface{}](m map[K]J) []K {
@@ -197,17 +194,10 @@ func keys[K comparable, J interface{}](m map[K]J) []K {
 
 func (c *Championship) createMatches() {
 	keys := keys(c.Teams)
-	ch := make(chan *Score, c.Restrictions.MaxNumbersOfPlays)
-	gnChanel, pmChanel := make(chan int, 1), make(chan int, 1)
-	gnChanel <- 0
-	pmChanel <- 0
-	for i := 0; i < c.Restrictions.MaxNumbersOfPlays; i++ {
-		go c.generateRandomScore(ch, gnChanel, pmChanel)
-	}
 	for ind, key := range keys {
 		for j := ind + 1; j < len(keys); j++ {
-			c.playRandom(c.Teams[key], c.Teams[keys[j]], <-ch)
-			c.playRandom(c.Teams[keys[j]], c.Teams[key], <-ch)
+			c.playRandom(c.Teams[key], c.Teams[keys[j]])
+			c.playRandom(c.Teams[keys[j]], c.Teams[key])
 		}
 	}
 }

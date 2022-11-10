@@ -19,11 +19,11 @@ void initialize_tree_random(struct tree** t, LL N){
     {
         *t = (struct tree*) malloc(sizeof(struct tree));
         (*t)->head = (struct node*) malloc(sizeof(struct node));
-        initialize_tree_node_random((*t)->head, N);
+        initialize_tree_node_random((*t)->head, N, 1, 100);
     }
 }
 
-void initialize_tree_node_random(struct node* n, LL size, LL lower = 1, LL upper = 100)
+void initialize_tree_node_random(struct node* n, LL size, LL lower, LL upper)
 {
     n->value = (random() % upper + lower) * 3.14;
     if(size == 1){
@@ -33,10 +33,10 @@ void initialize_tree_node_random(struct node* n, LL size, LL lower = 1, LL upper
     }
     n->left = (struct node*) malloc(sizeof(struct node));
     #pragma omp task
-    initialize_tree_node_random(n->left, size >> 1);
+    initialize_tree_node_random(n->left, size >> 1, lower, upper);
     n->right = (struct node*) malloc(sizeof(struct node));
     #pragma omp task
-    initialize_tree_node_random(n->right, size >> 1);
+    initialize_tree_node_random(n->right, size >> 1, lower, upper);
 }
 
 void free_tree(struct tree **t){
