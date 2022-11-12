@@ -1,0 +1,17 @@
+<div *ngIf="messageService.messages.length" class="w-50 mx-auto my-3">
+  <div class="text-center">
+    <h2>Log poruka</h2>
+  </div>
+  <div>
+    <div class="clearfix">
+      <button class="float-right btn btn-outline-danger" (click)="obrisiPoruke()">Obriši poruke</button>
+    </div>
+    <div>
+      <ul>
+        <li *ngFor='let message of messageService.messages'> {{message}} </li>
+      </ul>
+    </div>
+
+  </div>
+
+</div>

@@ -1,0 +1,19 @@
+.content {
+    margin-left: 20%;
+    margin-right: 20%;
+}
+
+.search-bar {
+    position: relative;
+    float: right;
+    
+}
+
+.search-input {
+    min-width: 30%;
+}
+
+.section-break {
+    border-top: 1px solid lightgray;
+}
+    

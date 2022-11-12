@@ -1,0 +1,68 @@
+# version is now using "compose spec"
+# v2 and v3 are now combined!
+# docker-compose v1.27+ required
+
+
+# NAPOMENA: Posto su dodati profili, iskoristiti sledecu naredbu za podizanje klaster:
+#docker compose --profile local_db up
+
+services:
+  vote:
+    build: ./vote
+    # use python rather than gunicorn for local dev
+    command: python app.py
+    volumes:
+     - ./vote:/app
+    ports:
+      - "5000:80"
+    networks:
+      - front-tier
+      - back-tier
+
+  result:
+    build: 
+      context: ./result
+      args:
+        - VERSION=10-slim
+    # use nodemon rather than node for local dev
+    command: nodemon server.js
+    volumes:
+      - ./result:/app
+    ports:
+      - "5001:80"
+      - "5858:5858"
+    networks:
+      - front-tier
+      - back-tier
+
+  worker:
+    build:
+      context: ./worker
+    networks:
+      - back-tier
+
+  redis:
+    image: redis:5.0-alpine3.10
+    ports: ["6379"]
+    networks:
+      - back-tier
+    profiles: &local
+      - local_db
+
+  db:
+    image: postgres:9.4
+    environment:
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "postgres"
+    volumes:
+      - "db-data:/var/lib/postgresql/data"
+    networks:
+      - back-tier
+    profiles: *local
+
+volumes:
+  db-data:
+
+networks:
+  front-tier:
+  back-tier:

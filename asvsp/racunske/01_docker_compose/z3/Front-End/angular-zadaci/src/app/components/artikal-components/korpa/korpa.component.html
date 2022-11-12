@@ -1,0 +1,15 @@
+<div class="container mt-3">
+  <h2 class="text-center mb-2">Moja korpa</h2>
+  <div class="clearfix mb-2">
+    <div class="form-row float-left">
+      <div>
+        <button class="btn btn-info" routerLink="/artikli">
+          <i class="fa fa-add"></i>Nazad
+        </button>
+      </div>
+    </div>
+  </div>
+  <div>
+    <app-artikal-item *ngFor="let artikal of artikli" [artikal]="artikal"></app-artikal-item>
+  </div>
+</div>

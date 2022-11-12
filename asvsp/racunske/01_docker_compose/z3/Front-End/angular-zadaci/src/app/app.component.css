@@ -1,0 +1,10 @@
+.img-banner {
+    width: 30%;
+    border:1px solid #021a40;
+    margin-top: 1%;
+}
+
+.div-header {
+    padding-bottom: 2%;
+    border-bottom: 1px solid darkgray;
+}

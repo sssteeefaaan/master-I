@@ -1,0 +1,41 @@
+<div>
+    <div class="text-center mt-3">
+        <h3>Dodavanje novog artikla</h3>
+    </div>
+    <div class="mt-4 p-3">
+        <form class="form-add clearfix w-50 mx-auto p-4" ngNativeValidate (submit)="addArtikal(sifra.value, naziv.value, cena.value, opis.value, tipArtikla.value)">
+
+            <div class="form-group">
+                <label for="sifra">Šifra artikla</label>
+                <input class="form-control" type="text" id="sifra" #sifra tabindex="1" required/>
+            </div>
+            <div class="form-group">
+                <label for="naziv">Naziv artikla</label>
+                <input class="form-control" type="text" id="naziv" #naziv tabindex="2" required />
+            </div>
+
+            <div class="form-group">
+                <label for="cena">Cena artikla</label>
+                <input class="form-control" type="number" step="0.01" min="0" id="cena" #cena tabindex="3" required />
+            </div>
+
+            <div class="form-group">
+                <label for="opis">Opis</label>
+                <textarea class="form-control" rows="3" id="opis" #opis tabindex="4"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="tipArtikla">Tip artikla</label>
+                <select class="form-control" name="tipArtikla" [(ngModel)]="artikal.tipArtikla" #tipArtikla tabindex="5" required>
+                    <option *ngFor="let t of tipovi" [ngValue]="t.naziv">{{t.naziv}}</option>
+                </select>
+            </div>
+
+            <div class="float-right">
+                <button class="btn btn-outline-primary mr-1" type="submit" tabindex="6">Dodaj artikal</button>
+                <button class="btn btn-outline-warning" type="button" (click)="goBack()" tabindex="7">Odustani</button>
+            </div>
+
+        </form>
+    </div>
+</div>

@@ -1,0 +1,33 @@
+<div class="container mt-3">
+  <h2 class="text-center mb-2">Lista dostupnih artikala</h2>
+  <div class="clearfix mb-2">
+    <div class="form-row float-right">
+      <div class="mr-1">
+        <input type="search" class="form-control" id="searchBox" #searchBox (keyup)="search(searchBox.value)" placeholder="Pretraga" />
+      </div>
+      <div>
+        <button class="btn">
+          <i class="fa fa-search"></i>
+        </button>
+      </div>
+    </div>
+    <div class="form-row float-left" *ngIf="authService.role == 'ROLE_ADMIN'">
+      <div>
+        <button class="btn btn-info" routerLink="/add">
+          <i class="fa fa-add"></i>Dodaj artikal
+        </button>
+      </div>
+    </div>
+    <div class="form-row float-left" *ngIf="authService.role == 'ROLE_KUPAC'">
+      <div>
+        <button class="btn btn-info" routerLink="/korpa">
+          <i class="fa fa-shopping-cart"></i> Moja korpa
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <app-artikal-item *ngFor="let artikal of artikli$ | async" [artikal]="artikal"></app-artikal-item>
+  </div>
+</div>

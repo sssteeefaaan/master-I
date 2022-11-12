@@ -1,0 +1,43 @@
+version: "3.5"
+
+services:
+  webapp: 
+    build: .
+    
+    # dodatni zadatak 4: zakomentarisati sekcije ports i environments
+    # te prilikom pokretanja specificirati i ovaj i prod/dev fajl
+    ports:
+      - "8085:80"
+    environment:
+      - PERSON=Covece
+    networks: 
+      - webnet
+    container_name: webapp
+
+    # dodatni zadatak 1: otkomentarisati ovu sekciju, zakomentarisati environment iznad
+    # env_file:
+    #   - webapp.env
+
+    depends_on:
+      - redis
+
+  redis:
+    image: redis:5.0-alpine3.10
+    ports: ["6379"]
+    networks:
+      - webnet
+    volumes:
+      - "redis-data:/data"
+    container_name: redis
+
+networks:
+  webnet:
+
+
+# dodatni zadatak 2: treba najpre rucno kreirati webnet mrezu, pa otkomentarisati ovu sekciju
+# networks:
+#   webnet:
+#     name: webnet
+
+volumes:
+  redis-data:
