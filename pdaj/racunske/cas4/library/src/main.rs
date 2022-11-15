@@ -1,6 +1,6 @@
 use std::collections::HashMap;
 
-#[derive(Debug)]
+#[derive(Debug, PartialEq)]
 enum BookCategory{
     ROMANCE,
     DRAMA,
@@ -22,6 +22,42 @@ impl BookCategory{
             BookCategory::COMEDY => BookCategory::COMEDY,
             BookCategory::UNKNOWN => BookCategory::UNKNOWN,
         }
+    }
+
+    fn get_category(s: String) -> Self{
+        match s.trim().to_uppercase().as_str(){
+            "ROMANCE" => BookCategory::ROMANCE,
+            "DRAMA" => BookCategory::DRAMA ,
+            "HORROR" => BookCategory::HORROR,
+            "ACTION" => BookCategory::ACTION,
+            "CRIME" => BookCategory::CRIME,
+            "COMEDY" => BookCategory::COMEDY,
+            _ => BookCategory::UNKNOWN,
+        }
+    }
+
+    fn to_string(&self) ->String{
+        match self {
+            BookCategory::ROMANCE => "ROMANCE".to_string(),
+            BookCategory::DRAMA => "DRAMA".to_string(),
+            BookCategory::HORROR => "HORROR".to_string(),
+            BookCategory::ACTION => "ACTION".to_string(),
+            BookCategory::CRIME => "CRIME".to_string(),
+            BookCategory::COMEDY => "COMEDY".to_string(),
+            BookCategory::UNKNOWN => "UNKNOWN".to_string()
+        }
+    }
+
+    fn list_all() -> String{
+        vec![
+            BookCategory::ROMANCE,
+            BookCategory::DRAMA,
+            BookCategory::HORROR,
+            BookCategory::ACTION,
+            BookCategory::CRIME,
+            BookCategory::COMEDY,
+            BookCategory::UNKNOWN
+        ].iter().map(|f| f.to_string()).collect::<Vec<String>>().join(", ")
     }
 }
 #[derive(Debug)]
@@ -58,6 +94,41 @@ impl Book{
             isbn: String::new(),
             amount: 0
         }
+    }
+
+    fn input_book() -> Book {
+
+        let mut b = Book::new();
+        // Title
+        b.title = user_input("Input book title: ");
+        b.author = user_input("Input book author: ");
+        b.isbn = user_input("Input book isbn: ");
+
+        let categories = BookCategory::list_all();
+        let filtred_categories = &categories[0..categories.len()-String::from(", UNKNOWN").len()];
+        // Category
+        loop {
+            b.category = BookCategory::get_category(user_input(format!("Input book category ({filtred_categories}): ").as_str()));
+            if b.category != BookCategory::UNKNOWN{
+                break
+            }else{
+                println!("Wrong input! Available categories are: {}", filtred_categories);
+            }
+        }
+
+        // Amount
+        loop {
+            let trimmed = user_input("Input book amount: ");
+            let val = trimmed.parse::<u16>();
+            if val.is_ok(){
+                b.amount = val.unwrap();
+                break;
+            }else{
+                println!("Wrong input '{}' cannot be read as a Natural number!", trimmed);
+            }
+        }
+
+        return b;
     }
 
     fn create(author:String, title:String, category:BookCategory, isbn:String, amount: u16) -> Book{
@@ -145,6 +216,26 @@ impl Library{
     }
 }
 
+
+fn user_input(message : &str) -> String{
+    use std::io::{stdin, stdout, Write};
+
+    let mut ret = String::new();
+    loop{
+        print!("{message}");
+        _ = stdout().flush();
+
+        stdin().read_line(&mut ret).expect("Wrong input!");
+
+        ret = String::from(ret.trim());
+        if !ret.is_empty(){
+            return ret;
+        }else{
+            println!("Inputed text is empty!");
+        }
+    }
+}
+
 fn main(){
 
     let mut l = Library{
@@ -206,5 +297,8 @@ fn main(){
     println!("{:#?}", l);
     println!();
     println!();
+
+    let b = Book::input_book();
+    println!("Book: {:#?}", b);
 
 }
