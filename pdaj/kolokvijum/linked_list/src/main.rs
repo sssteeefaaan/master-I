@@ -155,9 +155,9 @@ fn main(){
 
     println!("Size of the list is {}!", l.size_of());
 
-    println!("Popped front {:#?}", l.pop_front());
-    println!("Popped back {:#?}", l.pop_back());
-    println!("Popped back {:#?}", l.pop_back());
+    println!("Popped front {:?}", l.pop_front());
+    println!("Popped back {:?}", l.pop_back());
+    println!("Popped back {:?}", l.pop_back());
 
     l.print();
 }
