@@ -3,7 +3,7 @@ use std::collections::HashMap;
 
 #[derive(Debug)]
 struct Trie<T>{
-    value: Option<T>,
+    value: Vec<T>,
     key: char,
     children: HashMap<char, Box<Trie<T>>>
 }
@@ -11,7 +11,7 @@ struct Trie<T>{
 impl<T> Trie<T>{
     fn new() -> Self{
         Trie{
-            value: None,
+            value: Vec::new(),
             key: '\0',
             children: HashMap::new()
         }
@@ -24,7 +24,7 @@ impl<T> Trie<T>{
 
         let first = key.chars().nth(0).unwrap();
         if self.key == first && key.len() == 1{
-            self.value = Some(value);
+            self.value.push(value);
             return true;
         }
 
@@ -43,7 +43,7 @@ impl<T> Trie<T>{
             None=>{
                 let mut new_child = Trie{
                     key: new_first.clone(),
-                    value:None,
+                    value: Vec::new(),
                     children:HashMap::new()
                 };
                 let ret = new_child.insert(rest, value);
@@ -58,11 +58,13 @@ fn main(){
 
     let mut t = Trie::new();
 
-    t.insert("Proba".to_string(), 15);
-    t.insert("Probam".to_string(), 10);
-    t.insert("Probali".to_string(), 11);
-    t.insert("Probacu".to_string(), 12);
-    t.insert("Probno".to_string(), 13);
+    t.insert("Proba".to_string(), 10);
+    t.insert("Proba".to_string(), 11);
+    t.insert("Proba".to_string(), 12);
+    t.insert("Probam".to_string(), 13);
+    t.insert("Probali".to_string(), 14);
+    t.insert("Probacu".to_string(), 15);
+    t.insert("Probno".to_string(), 16);
 
     println!("{:#?}", t);
 }
