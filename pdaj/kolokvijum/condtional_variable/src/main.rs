@@ -1,4 +1,5 @@
 use std::collections::{HashMap, VecDeque};
+use rand::Rng;
 
 struct Thread{
     id: String,
@@ -27,7 +28,7 @@ impl ConditionalVariable{
         }
     }
 
-    fn add_to_queue(&mut self, thread: Thread){
+    fn wait(&mut self, thread: Thread){
         match self.queue.get_mut(&thread.priority){
             Some(queue)=>{
                 queue.push_back(thread);
@@ -65,29 +66,19 @@ impl ConditionalVariable{
 }
 
 fn main(){
-    let t1 = Thread{
-        id: "1".to_string(),
-        message: "Hello World!".to_string(),
-        priority: 10
-    };
-    let t2 = Thread{
-        id: "2".to_string(),
-        message: "Hello beautiful World!".to_string(),
-        priority: 11
-    };
-    let t3 = Thread{
-        id: "3".to_string(),
-        message: "Hello awful World!".to_string(),
-        priority: 10
-    };
-
+    let mut rand = rand::thread_rng();
     let mut cond_var = ConditionalVariable::new();
-    cond_var.add_to_queue(t3);
-    cond_var.add_to_queue(t2);
-    cond_var.add_to_queue(t1);
 
-    cond_var.notify_one();
-    cond_var.notify_one();
-    cond_var.notify_one();
-    cond_var.notify_one();
+    for i in 0..100{
+        let mut t = Thread::new();
+        t.id = i.to_string();
+        t.message = "Hello World".to_string();
+        t.message.push_str(t.id.as_str());
+        t.priority = rand.gen_range(0..=4);
+        cond_var.wait(t);
+    }
+
+    for _ in 0..=100{
+        cond_var.notify_one();
+    }
 }
