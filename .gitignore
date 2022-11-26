@@ -7,7 +7,7 @@
 *.dll
 *.so
 *.dylib
-*.csv
+**/projekat/**/*.csv
 
 # Test binary, built with `go test -c`
 *.test
