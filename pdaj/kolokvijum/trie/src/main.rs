@@ -1,6 +1,5 @@
 use std::collections::HashMap;
 
-
 #[derive(Debug)]
 struct Trie<T>{
     value: Vec<T>,
@@ -14,6 +13,44 @@ impl<T> Trie<T>{
             value: Vec::new(),
             key: '\0',
             children: HashMap::new()
+        }
+    }
+
+    fn delete(&mut self, key: String) -> Option<Vec<T>>{
+        if key.len() < 1{
+            return None;
+        }
+
+        let first = key.chars().nth(0).unwrap();
+        match self.children.get_mut(&first){
+            Some(v)=> {
+                if key.len() == 2 {
+                    let second = key.chars().nth(1).unwrap();
+                    match v.children.remove(&second){
+                        Some(ret)=>{
+                            for (ck, cv) in ret.children{
+                                match v.children.get_mut(&ck){
+                                    Some(child)=>{
+                                        child.value.extend(cv.value);
+                                    },
+                                    None => {
+                                        v.children.insert(ck, cv);
+                                    }
+                                }
+                            }
+                            Some(ret.value)
+                        },
+                        None => None
+                    }
+                }else if key.len() > 1 {
+                    v.delete(key.get(1..).unwrap().to_string())
+                }else {
+                    None
+                }
+            },
+            None=> {
+                None
+            }
         }
     }
 
@@ -58,13 +95,17 @@ fn main(){
 
     let mut t = Trie::new();
 
-    t.insert("Proba".to_string(), 10);
+    t.insert("Probai".to_string(), 10);
     t.insert("Proba".to_string(), 11);
     t.insert("Proba".to_string(), 12);
     t.insert("Probam".to_string(), 13);
     t.insert("Probali".to_string(), 14);
     t.insert("Probacu".to_string(), 15);
     t.insert("Probno".to_string(), 16);
+
+    println!("{:#?}", t);
+
+    println!("Deleted: {:#?}", t.delete("Probal".to_string()));
 
     println!("{:#?}", t);
 }

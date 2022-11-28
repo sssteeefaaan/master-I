@@ -1,9 +1,9 @@
 Domen projekta: Poljoprivreda i stocarstvo
-Motivacija: 
+Motivacija: Poloziti ispit
 Cilj: Obraditi statističke podatke o prinosima i uzgajanoj stoci
 
 Dataset za batch obradu: https://www.kaggle.com/datasets/unitednations/global-food-agriculture-statistics
-Realtime podaci: ?
+Realtime podaci: https://www.kaggle.com/datasets/shiratorizawa/ncarcsv
 
 Pitanja na koja batch obrada treba da da odgovor:
 	1. Prosečan prinos svake zemlje za svaku kategoriju proizvoda u odgovarajućem periodu?
