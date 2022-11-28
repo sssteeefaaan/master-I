@@ -1,4 +1,4 @@
-use std::collections::HashMap;
+use std::{collections::HashMap, fmt::Display};
 
 #[derive(Debug)]
 struct Trie<T>{
@@ -7,7 +7,7 @@ struct Trie<T>{
     children: HashMap<char, Box<Trie<T>>>
 }
 
-impl<T> Trie<T>{
+impl<T:Display> Trie<T>{
     fn new() -> Self{
         Trie{
             value: Vec::new(),
@@ -51,6 +51,38 @@ impl<T> Trie<T>{
             None=> {
                 None
             }
+        }
+    }
+
+    fn print(&self){
+        print!("{{ ");
+        for el in &self.value{
+            print!("{}, ", el)
+        }
+        println!("}}");
+    }
+
+    fn postorder(&mut self, key:&String){
+        let mut new_key = key.clone();
+        new_key.push_str(&self.key.to_string());
+
+        for (_, v) in &mut self.children{
+            v.postorder(&new_key);
+        }
+
+        print!("{}: ", new_key);
+        self.print();
+    }
+
+    fn preorder(&mut self, key:&String){
+        let mut new_key = key.clone();
+        new_key.push_str(&self.key.to_string());
+
+        print!("{}: ", new_key);
+        self.print();
+
+        for (_, v) in &mut self.children{
+            v.preorder(&new_key);
         }
     }
 
@@ -108,4 +140,10 @@ fn main(){
     println!("Deleted: {:#?}", t.delete("Probal".to_string()));
 
     println!("{:#?}", t);
+
+    println!("\n\nPREORDER\n\n");
+    t.preorder(&"".to_string());
+
+    println!("\n\nPOSTORDER\n\n");
+    t.postorder(&"".to_string());
 }
