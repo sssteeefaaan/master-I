@@ -11,7 +11,7 @@ using System.Text;
 namespace MessagingServerLib
 {
     // NOTE: You can use the "Rename" command on the "Refactor" menu to change the interface name "IService1" in both code and config file together.
-    [ServiceContract(SessionMode=SessionMode.Required)]
+    [ServiceContract(SessionMode=SessionMode.Required, CallbackContract = typeof(IMessageCallback))]
     public interface IMessagingService
     {
         [OperationContract]
@@ -21,7 +21,7 @@ namespace MessagingServerLib
         [OperationContract]
         Chat JoinChat(string username, string chatID);
         [OperationContract]
-        bool SendMessage(string username, Message m);
+        string SendMessage(string username, Message m);
         [OperationContract]
         Dictionary<string, Chat> GetChats(string username);
         [OperationContract]
@@ -29,43 +29,29 @@ namespace MessagingServerLib
     }
 
     [DataContract(IsReference = true)]
-    public class Account
-    {
-        [DataMember]
-        public string Username { get; set; }
-        [DataMember]
-        public string HashedPassword { get; set; }
-        public Account(string username, string password)
-        {
-            Username = username;
-            HashedPassword = password;
-        }
-    }
-
-    [DataContract(IsReference = true)]
     public class User
     {
         [DataMember]
-        readonly Account account;
+        public string Username { get; set; }
 
         [DataMember]
-        public string Username
-        {
-            get { return account.Username; }
-        }
+        public string Password { get; set; }
+
+        public IMessageCallback Callback { get; set; }
 
         [DataMember]
         public Dictionary<string, Chat> Chats { get; set; }
 
         public User(string username, string password)
         {
-            account = new Account(username, password);
+            Username = username;
+            Password = password;
             Chats = new Dictionary<string, Chat>();
         }
 
         public bool CheckPassword(string password)
         {
-            return account.HashedPassword == password;
+            return Password == password;
         }
     }
 
@@ -73,11 +59,11 @@ namespace MessagingServerLib
     public class Chat
     {
         [DataMember]
-        public string ID;
+        public string ID { get; set; }
         [DataMember]
-        public Dictionary<string, User> Users;
+        public Dictionary<string, User> Users { get; set; }
         [DataMember]
-        public List<Message> Messages;
+        public List<Message> Messages { get; set; }
 
         public Chat()
         {
@@ -91,24 +77,19 @@ namespace MessagingServerLib
     public class Message
     {
         [DataMember]
-        public string ID
-        { get; }
+        public string ID { get; set; }
 
         [DataMember]
-        public DateTime Timestamp
-        { get; }
+        public DateTime Timestamp { get; set; }
 
         [DataMember]
-        public User FromUser
-        { get; }
+        public User FromUser { get; set; }
 
         [DataMember]
-        public string Content
-        { get; }
+        public string Content { get; set; }
 
         [DataMember]
-        public string ChatID
-        { get; }
+        public string ChatID { get; set; }
 
         public Message(User fromUser, string content, string chatID)
         {

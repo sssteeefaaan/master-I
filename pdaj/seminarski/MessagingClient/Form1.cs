@@ -4,10 +4,11 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.ServiceModel;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using MessagingClient.MessagingServiceReference;
+using MessagingClient.ServiceReferenceMS;
 
 namespace MessagingClient
 {
@@ -15,9 +16,12 @@ namespace MessagingClient
     {
         private IMessagingService _proxy;
         private User _loggedUser;
+        private FormLoggedUser _formLoggedUser;
         public FormMessagingClient()
         {
-            _proxy = new MessagingServiceClient();
+            _formLoggedUser = new FormLoggedUser(null, null);
+            _proxy = new MessagingServiceClient(new InstanceContext(_formLoggedUser));
+            _formLoggedUser._proxy = _proxy;
             _loggedUser = null;
             InitializeComponent();
         }
@@ -39,8 +43,8 @@ namespace MessagingClient
             }
             else
             {
-                FormLoggedUser fLU = new FormLoggedUser(_proxy, _loggedUser);
-                fLU.ShowDialog();
+                _formLoggedUser._loggedUser = _loggedUser;
+                _formLoggedUser.ShowDialog();
             }
         }
 
@@ -55,7 +59,8 @@ namespace MessagingClient
             }
             else
             {
-
+                _formLoggedUser._loggedUser = _loggedUser;
+                _formLoggedUser.ShowDialog();
             }
         }
 

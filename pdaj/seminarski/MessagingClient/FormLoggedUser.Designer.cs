@@ -31,8 +31,10 @@
             this.components = new System.ComponentModel.Container();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.listViewChats = new System.Windows.Forms.ListView();
+            this.Chats = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.listViewMessages = new System.Windows.Forms.ListView();
+            this.Messages = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
             this.textBoxInput = new System.Windows.Forms.TextBox();
             this.buttonSend = new System.Windows.Forms.Button();
@@ -62,21 +64,30 @@
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 1;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 452F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(923, 452);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
             // listViewChats
             // 
-            this.listViewChats.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.listViewChats.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.Chats});
+            this.listViewChats.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.listViewChats.FullRowSelect = true;
+            this.listViewChats.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
             this.listViewChats.HideSelection = false;
             this.listViewChats.Location = new System.Drawing.Point(3, 3);
             this.listViewChats.Name = "listViewChats";
             this.listViewChats.Size = new System.Drawing.Size(304, 446);
             this.listViewChats.TabIndex = 0;
             this.listViewChats.UseCompatibleStateImageBehavior = false;
+            this.listViewChats.View = System.Windows.Forms.View.Details;
             this.listViewChats.SelectedIndexChanged += new System.EventHandler(this.listViewChats_SelectedIndexChanged);
+            // 
+            // Chats
+            // 
+            this.Chats.Text = "Chats";
+            this.Chats.Width = 100;
             // 
             // tableLayoutPanel2
             // 
@@ -97,15 +108,24 @@
             // 
             // listViewMessages
             // 
-            this.listViewMessages.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.listViewMessages.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.Messages});
+            this.listViewMessages.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.listViewMessages.FullRowSelect = true;
+            this.listViewMessages.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
             this.listViewMessages.HideSelection = false;
             this.listViewMessages.Location = new System.Drawing.Point(3, 3);
+            this.listViewMessages.MultiSelect = false;
             this.listViewMessages.Name = "listViewMessages";
             this.listViewMessages.Size = new System.Drawing.Size(601, 393);
             this.listViewMessages.TabIndex = 0;
             this.listViewMessages.UseCompatibleStateImageBehavior = false;
+            this.listViewMessages.View = System.Windows.Forms.View.Details;
+            // 
+            // Messages
+            // 
+            this.Messages.Text = "Messages";
+            this.Messages.Width = 100;
             // 
             // tableLayoutPanel3
             // 
@@ -180,14 +200,14 @@
             // joinAChatToolStripMenuItem
             // 
             this.joinAChatToolStripMenuItem.Name = "joinAChatToolStripMenuItem";
-            this.joinAChatToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.joinAChatToolStripMenuItem.Size = new System.Drawing.Size(162, 26);
             this.joinAChatToolStripMenuItem.Text = "Join a chat";
             this.joinAChatToolStripMenuItem.Click += new System.EventHandler(this.joinAChatToolStripMenuItem_Click);
             // 
             // logOutToolStripMenuItem
             // 
             this.logOutToolStripMenuItem.Name = "logOutToolStripMenuItem";
-            this.logOutToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.logOutToolStripMenuItem.Size = new System.Drawing.Size(162, 26);
             this.logOutToolStripMenuItem.Text = "Log out";
             this.logOutToolStripMenuItem.Click += new System.EventHandler(this.logOutToolStripMenuItem_Click);
             // 
@@ -201,7 +221,7 @@
             this.Controls.Add(this.menuStrip2);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.MainMenuStrip = this.menuStrip1;
-            this.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.Margin = new System.Windows.Forms.Padding(6);
             this.Name = "FormLoggedUser";
             this.Text = "FormLoggedUser";
             this.Load += new System.EventHandler(this.FormLoggedUser_Load);
@@ -231,5 +251,7 @@
         private System.Windows.Forms.ToolStripMenuItem optionsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem joinAChatToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem logOutToolStripMenuItem;
+        private System.Windows.Forms.ColumnHeader Chats;
+        private System.Windows.Forms.ColumnHeader Messages;
     }
 }

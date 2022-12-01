@@ -48,7 +48,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Connected Services\MessagingServiceReference\Reference.cs">
+    <Compile Include="Connected Services\ServiceReferenceMS\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
@@ -91,26 +91,26 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <None Include="Connected Services\MessagingServiceReference\MessagingClient.MessagingServiceReference.Chat.datasource">
+    <None Include="Connected Services\ServiceReferenceMS\MessagingClient.ServiceReferenceMS.Chat.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
-    <None Include="Connected Services\MessagingServiceReference\MessagingClient.MessagingServiceReference.Message.datasource">
+    <None Include="Connected Services\ServiceReferenceMS\MessagingClient.ServiceReferenceMS.Message.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
-    <None Include="Connected Services\MessagingServiceReference\MessagingClient.MessagingServiceReference.User.datasource">
+    <None Include="Connected Services\ServiceReferenceMS\MessagingClient.ServiceReferenceMS.User.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
-    <None Include="Connected Services\MessagingServiceReference\MessagingService.wsdl" />
-    <None Include="Connected Services\MessagingServiceReference\MessagingService.xsd">
+    <None Include="Connected Services\ServiceReferenceMS\MessagingService.wsdl" />
+    <None Include="Connected Services\ServiceReferenceMS\MessagingService.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Connected Services\MessagingServiceReference\MessagingService1.xsd">
+    <None Include="Connected Services\ServiceReferenceMS\MessagingService1.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Connected Services\MessagingServiceReference\MessagingService2.xsd">
+    <None Include="Connected Services\ServiceReferenceMS\MessagingService2.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Connected Services\MessagingServiceReference\MessagingService3.xsd">
+    <None Include="Connected Services\ServiceReferenceMS\MessagingService3.xsd">
       <SubType>Designer</SubType>
     </None>
     <None Include="Properties\Settings.settings">
@@ -130,19 +130,19 @@
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <ItemGroup>
-    <WCFMetadataStorage Include="Connected Services\MessagingServiceReference\" />
+    <WCFMetadataStorage Include="Connected Services\ServiceReferenceMS\" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Connected Services\MessagingServiceReference\MessagingService.disco" />
+    <None Include="Connected Services\ServiceReferenceMS\MessagingService.disco" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Connected Services\MessagingServiceReference\configuration91.svcinfo" />
+    <None Include="Connected Services\ServiceReferenceMS\configuration91.svcinfo" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Connected Services\MessagingServiceReference\configuration.svcinfo" />
+    <None Include="Connected Services\ServiceReferenceMS\configuration.svcinfo" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Connected Services\MessagingServiceReference\Reference.svcmap">
+    <None Include="Connected Services\ServiceReferenceMS\Reference.svcmap">
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>

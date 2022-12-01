@@ -1,4 +1,4 @@
-﻿using MessagingClient.MessagingServiceReference;
+﻿using MessagingClient.ServiceReferenceMS;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -15,13 +15,13 @@ namespace MessagingClient
     {
         private IMessagingService _proxy;
         private User _loggedUser;
-        private Chat _chat;
-        public FormJoinChat(IMessagingService proxy, User loggedUser, ref Chat chat)
+        public Chat _chat;
+        public FormJoinChat(IMessagingService proxy, User loggedUser)
         {
             _proxy = proxy;
             _loggedUser = loggedUser;
             DialogResult = DialogResult.None;
-            _chat = chat;
+            _chat = null;
             InitializeComponent();
         }
 
@@ -36,7 +36,8 @@ namespace MessagingClient
             _chat = _proxy.JoinChat(_loggedUser.Username, textBoxChat.Text);
             if (_chat != null)
             {
-                _loggedUser.Chats.Add(_chat.ID, _chat);
+                if(!_loggedUser.Chats.ContainsKey(_chat.ID))
+                    _loggedUser.Chats.Add(_chat.ID, _chat);
                 MessageBox.Show("Successfully joined chat " + _chat.ID);
 
                 DialogResult = DialogResult.OK;

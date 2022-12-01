@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace MessagingClient.MessagingServiceReference {
+namespace MessagingClient.ServiceReferenceMS {
     using System.Runtime.Serialization;
     using System;
     
@@ -23,13 +23,13 @@ namespace MessagingClient.MessagingServiceReference {
         private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private System.Collections.Generic.Dictionary<string, MessagingClient.MessagingServiceReference.Chat> ChatsField;
+        private System.Collections.Generic.Dictionary<string, MessagingClient.ServiceReferenceMS.Chat> ChatsField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string PasswordField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private string UsernameField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private MessagingClient.MessagingServiceReference.Account accountField;
         
         [global::System.ComponentModel.BrowsableAttribute(false)]
         public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
@@ -42,7 +42,7 @@ namespace MessagingClient.MessagingServiceReference {
         }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
-        public System.Collections.Generic.Dictionary<string, MessagingClient.MessagingServiceReference.Chat> Chats {
+        public System.Collections.Generic.Dictionary<string, MessagingClient.ServiceReferenceMS.Chat> Chats {
             get {
                 return this.ChatsField;
             }
@@ -55,75 +55,14 @@ namespace MessagingClient.MessagingServiceReference {
         }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
-        public string Username {
+        public string Password {
             get {
-                return this.UsernameField;
+                return this.PasswordField;
             }
             set {
-                if ((object.ReferenceEquals(this.UsernameField, value) != true)) {
-                    this.UsernameField = value;
-                    this.RaisePropertyChanged("Username");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public MessagingClient.MessagingServiceReference.Account account {
-            get {
-                return this.accountField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.accountField, value) != true)) {
-                    this.accountField = value;
-                    this.RaisePropertyChanged("account");
-                }
-            }
-        }
-        
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-        
-        protected void RaisePropertyChanged(string propertyName) {
-            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
-            if ((propertyChanged != null)) {
-                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
-            }
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="Account", Namespace="http://schemas.datacontract.org/2004/07/MessagingServerLib", IsReference=true)]
-    [System.SerializableAttribute()]
-    public partial class Account : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
-        
-        [System.NonSerializedAttribute()]
-        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private string HashedPasswordField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private string UsernameField;
-        
-        [global::System.ComponentModel.BrowsableAttribute(false)]
-        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
-            get {
-                return this.extensionDataField;
-            }
-            set {
-                this.extensionDataField = value;
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public string HashedPassword {
-            get {
-                return this.HashedPasswordField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.HashedPasswordField, value) != true)) {
-                    this.HashedPasswordField = value;
-                    this.RaisePropertyChanged("HashedPassword");
+                if ((object.ReferenceEquals(this.PasswordField, value) != true)) {
+                    this.PasswordField = value;
+                    this.RaisePropertyChanged("Password");
                 }
             }
         }
@@ -164,10 +103,10 @@ namespace MessagingClient.MessagingServiceReference {
         private string IDField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private MessagingClient.MessagingServiceReference.Message[] MessagesField;
+        private System.Collections.Generic.List<MessagingClient.ServiceReferenceMS.Message> MessagesField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private System.Collections.Generic.Dictionary<string, MessagingClient.MessagingServiceReference.User> UsersField;
+        private System.Collections.Generic.Dictionary<string, MessagingClient.ServiceReferenceMS.User> UsersField;
         
         [global::System.ComponentModel.BrowsableAttribute(false)]
         public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
@@ -193,7 +132,7 @@ namespace MessagingClient.MessagingServiceReference {
         }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
-        public MessagingClient.MessagingServiceReference.Message[] Messages {
+        public System.Collections.Generic.List<MessagingClient.ServiceReferenceMS.Message> Messages {
             get {
                 return this.MessagesField;
             }
@@ -206,7 +145,7 @@ namespace MessagingClient.MessagingServiceReference {
         }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
-        public System.Collections.Generic.Dictionary<string, MessagingClient.MessagingServiceReference.User> Users {
+        public System.Collections.Generic.Dictionary<string, MessagingClient.ServiceReferenceMS.User> Users {
             get {
                 return this.UsersField;
             }
@@ -244,7 +183,7 @@ namespace MessagingClient.MessagingServiceReference {
         private string ContentField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private MessagingClient.MessagingServiceReference.User FromUserField;
+        private MessagingClient.ServiceReferenceMS.User FromUserField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private string IDField;
@@ -289,7 +228,7 @@ namespace MessagingClient.MessagingServiceReference {
         }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
-        public MessagingClient.MessagingServiceReference.User FromUser {
+        public MessagingClient.ServiceReferenceMS.User FromUser {
             get {
                 return this.FromUserField;
             }
@@ -338,118 +277,132 @@ namespace MessagingClient.MessagingServiceReference {
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    [System.ServiceModel.ServiceContractAttribute(ConfigurationName="MessagingServiceReference.IMessagingService", SessionMode=System.ServiceModel.SessionMode.Required)]
+    [System.ServiceModel.ServiceContractAttribute(ConfigurationName="ServiceReferenceMS.IMessagingService", CallbackContract=typeof(MessagingClient.ServiceReferenceMS.IMessagingServiceCallback), SessionMode=System.ServiceModel.SessionMode.Required)]
     public interface IMessagingService {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IMessagingService/Register", ReplyAction="http://tempuri.org/IMessagingService/RegisterResponse")]
-        MessagingClient.MessagingServiceReference.User Register(string username, string password);
+        MessagingClient.ServiceReferenceMS.User Register(string username, string password);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IMessagingService/Register", ReplyAction="http://tempuri.org/IMessagingService/RegisterResponse")]
-        System.Threading.Tasks.Task<MessagingClient.MessagingServiceReference.User> RegisterAsync(string username, string password);
+        System.Threading.Tasks.Task<MessagingClient.ServiceReferenceMS.User> RegisterAsync(string username, string password);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IMessagingService/Login", ReplyAction="http://tempuri.org/IMessagingService/LoginResponse")]
-        MessagingClient.MessagingServiceReference.User Login(string username, string password);
+        MessagingClient.ServiceReferenceMS.User Login(string username, string password);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IMessagingService/Login", ReplyAction="http://tempuri.org/IMessagingService/LoginResponse")]
-        System.Threading.Tasks.Task<MessagingClient.MessagingServiceReference.User> LoginAsync(string username, string password);
+        System.Threading.Tasks.Task<MessagingClient.ServiceReferenceMS.User> LoginAsync(string username, string password);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IMessagingService/JoinChat", ReplyAction="http://tempuri.org/IMessagingService/JoinChatResponse")]
-        MessagingClient.MessagingServiceReference.Chat JoinChat(string username, string chatID);
+        MessagingClient.ServiceReferenceMS.Chat JoinChat(string username, string chatID);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IMessagingService/JoinChat", ReplyAction="http://tempuri.org/IMessagingService/JoinChatResponse")]
-        System.Threading.Tasks.Task<MessagingClient.MessagingServiceReference.Chat> JoinChatAsync(string username, string chatID);
+        System.Threading.Tasks.Task<MessagingClient.ServiceReferenceMS.Chat> JoinChatAsync(string username, string chatID);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IMessagingService/SendMessage", ReplyAction="http://tempuri.org/IMessagingService/SendMessageResponse")]
-        bool SendMessage(string username, MessagingClient.MessagingServiceReference.Message m);
+        string SendMessage(string username, MessagingClient.ServiceReferenceMS.Message m);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IMessagingService/SendMessage", ReplyAction="http://tempuri.org/IMessagingService/SendMessageResponse")]
-        System.Threading.Tasks.Task<bool> SendMessageAsync(string username, MessagingClient.MessagingServiceReference.Message m);
+        System.Threading.Tasks.Task<string> SendMessageAsync(string username, MessagingClient.ServiceReferenceMS.Message m);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IMessagingService/GetChats", ReplyAction="http://tempuri.org/IMessagingService/GetChatsResponse")]
-        System.Collections.Generic.Dictionary<string, MessagingClient.MessagingServiceReference.Chat> GetChats(string username);
+        System.Collections.Generic.Dictionary<string, MessagingClient.ServiceReferenceMS.Chat> GetChats(string username);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IMessagingService/GetChats", ReplyAction="http://tempuri.org/IMessagingService/GetChatsResponse")]
-        System.Threading.Tasks.Task<System.Collections.Generic.Dictionary<string, MessagingClient.MessagingServiceReference.Chat>> GetChatsAsync(string username);
+        System.Threading.Tasks.Task<System.Collections.Generic.Dictionary<string, MessagingClient.ServiceReferenceMS.Chat>> GetChatsAsync(string username);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IMessagingService/GetMessages", ReplyAction="http://tempuri.org/IMessagingService/GetMessagesResponse")]
-        MessagingClient.MessagingServiceReference.Message[] GetMessages(string username, string chatID);
+        System.Collections.Generic.List<MessagingClient.ServiceReferenceMS.Message> GetMessages(string username, string chatID);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IMessagingService/GetMessages", ReplyAction="http://tempuri.org/IMessagingService/GetMessagesResponse")]
-        System.Threading.Tasks.Task<MessagingClient.MessagingServiceReference.Message[]> GetMessagesAsync(string username, string chatID);
+        System.Threading.Tasks.Task<System.Collections.Generic.List<MessagingClient.ServiceReferenceMS.Message>> GetMessagesAsync(string username, string chatID);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    public interface IMessagingServiceChannel : MessagingClient.MessagingServiceReference.IMessagingService, System.ServiceModel.IClientChannel {
+    public interface IMessagingServiceCallback {
+        
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IMessagingService/OnMessage")]
+        void OnMessage(MessagingClient.ServiceReferenceMS.Message m);
+        
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IMessagingService/OnInformation")]
+        void OnInformation(string information);
+        
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IMessagingService/OnError")]
+        void OnError(string error);
+    }
+    
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    public interface IMessagingServiceChannel : MessagingClient.ServiceReferenceMS.IMessagingService, System.ServiceModel.IClientChannel {
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    public partial class MessagingServiceClient : System.ServiceModel.ClientBase<MessagingClient.MessagingServiceReference.IMessagingService>, MessagingClient.MessagingServiceReference.IMessagingService {
+    public partial class MessagingServiceClient : System.ServiceModel.DuplexClientBase<MessagingClient.ServiceReferenceMS.IMessagingService>, MessagingClient.ServiceReferenceMS.IMessagingService {
         
-        public MessagingServiceClient() {
+        public MessagingServiceClient(System.ServiceModel.InstanceContext callbackInstance) : 
+                base(callbackInstance) {
         }
         
-        public MessagingServiceClient(string endpointConfigurationName) : 
-                base(endpointConfigurationName) {
+        public MessagingServiceClient(System.ServiceModel.InstanceContext callbackInstance, string endpointConfigurationName) : 
+                base(callbackInstance, endpointConfigurationName) {
         }
         
-        public MessagingServiceClient(string endpointConfigurationName, string remoteAddress) : 
-                base(endpointConfigurationName, remoteAddress) {
+        public MessagingServiceClient(System.ServiceModel.InstanceContext callbackInstance, string endpointConfigurationName, string remoteAddress) : 
+                base(callbackInstance, endpointConfigurationName, remoteAddress) {
         }
         
-        public MessagingServiceClient(string endpointConfigurationName, System.ServiceModel.EndpointAddress remoteAddress) : 
-                base(endpointConfigurationName, remoteAddress) {
+        public MessagingServiceClient(System.ServiceModel.InstanceContext callbackInstance, string endpointConfigurationName, System.ServiceModel.EndpointAddress remoteAddress) : 
+                base(callbackInstance, endpointConfigurationName, remoteAddress) {
         }
         
-        public MessagingServiceClient(System.ServiceModel.Channels.Binding binding, System.ServiceModel.EndpointAddress remoteAddress) : 
-                base(binding, remoteAddress) {
+        public MessagingServiceClient(System.ServiceModel.InstanceContext callbackInstance, System.ServiceModel.Channels.Binding binding, System.ServiceModel.EndpointAddress remoteAddress) : 
+                base(callbackInstance, binding, remoteAddress) {
         }
         
-        public MessagingClient.MessagingServiceReference.User Register(string username, string password) {
+        public MessagingClient.ServiceReferenceMS.User Register(string username, string password) {
             return base.Channel.Register(username, password);
         }
         
-        public System.Threading.Tasks.Task<MessagingClient.MessagingServiceReference.User> RegisterAsync(string username, string password) {
+        public System.Threading.Tasks.Task<MessagingClient.ServiceReferenceMS.User> RegisterAsync(string username, string password) {
             return base.Channel.RegisterAsync(username, password);
         }
         
-        public MessagingClient.MessagingServiceReference.User Login(string username, string password) {
+        public MessagingClient.ServiceReferenceMS.User Login(string username, string password) {
             return base.Channel.Login(username, password);
         }
         
-        public System.Threading.Tasks.Task<MessagingClient.MessagingServiceReference.User> LoginAsync(string username, string password) {
+        public System.Threading.Tasks.Task<MessagingClient.ServiceReferenceMS.User> LoginAsync(string username, string password) {
             return base.Channel.LoginAsync(username, password);
         }
         
-        public MessagingClient.MessagingServiceReference.Chat JoinChat(string username, string chatID) {
+        public MessagingClient.ServiceReferenceMS.Chat JoinChat(string username, string chatID) {
             return base.Channel.JoinChat(username, chatID);
         }
         
-        public System.Threading.Tasks.Task<MessagingClient.MessagingServiceReference.Chat> JoinChatAsync(string username, string chatID) {
+        public System.Threading.Tasks.Task<MessagingClient.ServiceReferenceMS.Chat> JoinChatAsync(string username, string chatID) {
             return base.Channel.JoinChatAsync(username, chatID);
         }
         
-        public bool SendMessage(string username, MessagingClient.MessagingServiceReference.Message m) {
+        public string SendMessage(string username, MessagingClient.ServiceReferenceMS.Message m) {
             return base.Channel.SendMessage(username, m);
         }
         
-        public System.Threading.Tasks.Task<bool> SendMessageAsync(string username, MessagingClient.MessagingServiceReference.Message m) {
+        public System.Threading.Tasks.Task<string> SendMessageAsync(string username, MessagingClient.ServiceReferenceMS.Message m) {
             return base.Channel.SendMessageAsync(username, m);
         }
         
-        public System.Collections.Generic.Dictionary<string, MessagingClient.MessagingServiceReference.Chat> GetChats(string username) {
+        public System.Collections.Generic.Dictionary<string, MessagingClient.ServiceReferenceMS.Chat> GetChats(string username) {
             return base.Channel.GetChats(username);
         }
         
-        public System.Threading.Tasks.Task<System.Collections.Generic.Dictionary<string, MessagingClient.MessagingServiceReference.Chat>> GetChatsAsync(string username) {
+        public System.Threading.Tasks.Task<System.Collections.Generic.Dictionary<string, MessagingClient.ServiceReferenceMS.Chat>> GetChatsAsync(string username) {
             return base.Channel.GetChatsAsync(username);
         }
         
-        public MessagingClient.MessagingServiceReference.Message[] GetMessages(string username, string chatID) {
+        public System.Collections.Generic.List<MessagingClient.ServiceReferenceMS.Message> GetMessages(string username, string chatID) {
             return base.Channel.GetMessages(username, chatID);
         }
         
-        public System.Threading.Tasks.Task<MessagingClient.MessagingServiceReference.Message[]> GetMessagesAsync(string username, string chatID) {
+        public System.Threading.Tasks.Task<System.Collections.Generic.List<MessagingClient.ServiceReferenceMS.Message>> GetMessagesAsync(string username, string chatID) {
             return base.Channel.GetMessagesAsync(username, chatID);
         }
     }
