@@ -1,6 +1,13 @@
 const fs = require('fs');
 const path = require('path');
 
+require("dotenv").config();
+
+const DB_IP = process.env["DB_IP"] || "localhost";
+const DB_PORT = process.env["DB_PORT"] || "27017";
+const DB_DB = process.env["DB_DB"] || "course-goals";
+const PORT = int(process.env["PORT"] || "80");
+
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
@@ -84,7 +91,7 @@ app.delete('/goals/:id', async (req, res) => {
 });
 
 mongoose.connect(
-  'mongodb://localhost:27017/course-goals',
+  `mongodb://${DB_IP}:${DB_POR}/${DB_DB}`,
   {
     useNewUrlParser: true,
     useUnifiedTopology: true,
@@ -95,7 +102,7 @@ mongoose.connect(
       console.error(err);
     } else {
       console.log('CONNECTED TO MONGODB');
-      app.listen(80);
+      app.listen(PORT);
     }
   }
 );
