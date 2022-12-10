@@ -38,7 +38,6 @@ namespace MessagingClient
             {
                 if(!_loggedUser.Chats.ContainsKey(_chat.ID))
                     _loggedUser.Chats.Add(_chat.ID, _chat);
-                MessageBox.Show("Successfully joined chat " + _chat.ID);
 
                 DialogResult = DialogResult.OK;
                 Close();
@@ -46,6 +45,19 @@ namespace MessagingClient
             else
             {
                 MessageBox.Show("Couldn't join the chat " + textBoxChat.Text);
+            }
+        }
+
+        private void FormJoinChat_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBoxChat_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == ((char)Keys.Enter))
+            {
+                buttonJoin.PerformClick();
             }
         }
     }

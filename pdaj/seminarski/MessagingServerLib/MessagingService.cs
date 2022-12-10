@@ -1,16 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.Serialization;
 using System.ServiceModel;
-using System.ServiceModel.Configuration;
-using System.Text;
-using Microsoft.Extensions.Logging;
 
 namespace MessagingServerLib
 {
-    // NOTE: You can use the "Rename" command on the "Refactor" menu to change the class name "Service1" in both code and config file together.
-    [ServiceBehavior(InstanceContextMode=InstanceContextMode.Single, ConcurrencyMode = ConcurrencyMode.Multiple)]
+    [ServiceBehavior(
+        InstanceContextMode=InstanceContextMode.PerSession,
+        ConcurrencyMode = ConcurrencyMode.Multiple,
+        UseSynchronizationContext = true
+        )
+    ]
     public class MessagingService : IMessagingService
     {
         public Dictionary<string, Chat> GetChats(string username)
@@ -21,16 +20,33 @@ namespace MessagingServerLib
 
         public List<Message> GetMessages(string username, string chatID)
         {
-            if (!StorageAdapter.Instance.Chats.ContainsKey(chatID) || !StorageAdapter.Instance.Users.ContainsKey(username)) return null;
+            if (!StorageAdapter.Instance.Chats.ContainsKey(chatID))
+            {
+                //OperationContext.Current.GetCallbackChannel<IMessageCallback>().OnError($"Chat '{chatID}' doesn't exist!");
+                return null;
+            }
+
+            if (!StorageAdapter.Instance.Users.ContainsKey(username))
+            {
+                //OperationContext.Current.GetCallbackChannel<IMessageCallback>().OnError($"User '{username}' doesn't exist!");
+                return null;
+            }
+              
             Chat c = StorageAdapter.Instance.Chats[chatID];
-            if (!c.Users.ContainsKey(username)) return null;
+
+            if (!c.Users.ContainsKey(username))
+            {
+                //OperationContext.Current.GetCallbackChannel<IMessageCallback>().OnError($"User '{ username }' isn't in the chat '{ chatID }'!");
+                return null;
+            }
+
             return c.Messages;
         }
 
         public Chat JoinChat(string username, string chatID)
         {
             if (!StorageAdapter.Instance.Users.ContainsKey(username)) {
-                OperationContext.Current.GetCallbackChannel<IMessageCallback>().OnError("Not logged in!");
+                //OperationContext.Current.GetCallbackChannel<IMessageCallback>().OnError("Not logged in!");
                 return null;
              }
 
@@ -63,7 +79,11 @@ namespace MessagingServerLib
 
         public User Login(string username, string password)
         {
-            if (!StorageAdapter.Instance.Users.ContainsKey(username)) return null;
+            if (!StorageAdapter.Instance.Users.ContainsKey(username))
+            {
+                //OperationContext.Current.GetCallbackChannel<IMessageCallback>().OnError($"Account with the username '{ username }' doesn't exist!");
+                return new User();
+            }
             User u = StorageAdapter.Instance.Users[username];
 
             if (u.CheckPassword(password))
@@ -71,60 +91,73 @@ namespace MessagingServerLib
                 u.Callback = OperationContext.Current.GetCallbackChannel<IMessageCallback>();
                 return u;
             }
-            OperationContext.Current.GetCallbackChannel<IMessageCallback>().OnError("Wrong password!");
-            return null;
+            //OperationContext.Current.GetCallbackChannel<IMessageCallback>().OnError("Wrong password!");
+            return new User();
+        }
+
+        public void Logout(string username)
+        {
+            if (StorageAdapter.Instance.Users.ContainsKey(username))
+            {
+                StorageAdapter.Instance.Users[username].Callback = null;
+            }
         }
 
         public User Register(string username, string password)
         {
             
             if (StorageAdapter.Instance.Users.ContainsKey(username)){
-                OperationContext.Current.GetCallbackChannel<IMessageCallback>().OnError("Username taken!");
-                return null;
+                //OperationContext.Current.GetCallbackChannel<IMessageCallback>().OnError("Username taken!");
+                return new User();
             }
 
             User u = new User(username, password);
+            u.IsValid = true;
             u.Callback = OperationContext.Current.GetCallbackChannel<IMessageCallback>();
             StorageAdapter.Instance.Users.Add(username, u);
 
             return u;
         }
 
-        public string SendMessage(string username, Message m)
+        public void SendMessage(string username, Message m)
         {
+            var ctx = OperationContext.Current.GetCallbackChannel<IMessageCallback>();
+
             if (m == null) {
-                OperationContext.Current.GetCallbackChannel<IMessageCallback>().OnError("Message cannot be empty!");
-                return null;
+                ctx.OnError("Message cannot be empty!");
+                return;
             } else if (m.FromUser == null) {
-                OperationContext.Current.GetCallbackChannel<IMessageCallback>().OnError("Sender cannot be empty!");
-                return null;
-            } else if (m.FromUser.Username != username) {
-                OperationContext.Current.GetCallbackChannel<IMessageCallback>().OnError("Sender must be currently logged user!");
-                return null;
+                ctx.OnError("Sender cannot be empty!");
+                return;
+            }
+            else if (m.FromUser != username) {
+                ctx.OnError("Sender must be currently logged user!");
+                return;
             } else if (!StorageAdapter.Instance.Chats.ContainsKey(m.ChatID)) {
-                OperationContext.Current.GetCallbackChannel<IMessageCallback>().OnError("Chat doesn't exist!");
-                return null;
+                ctx.OnError("Chat doesn't exist!");
+                return;
             } else if (!StorageAdapter.Instance.Users.ContainsKey(username)){
-                OperationContext.Current.GetCallbackChannel<IMessageCallback>().OnError("User doesn't exist!");
-                return null;
+                ctx.OnError("User doesn't exist!");
+                return;
             }
 
-            m.ID = Guid.NewGuid().ToString();
             Chat c = StorageAdapter.Instance.Chats[m.ChatID];
-            
-            if (!c.Users.ContainsKey(username)) return null;
+
+            if (!c.Users.ContainsKey(username)) {
+                ctx.OnError($"User '{username}' hasn't joined the chat '{m.ChatID}'!");
+                return;
+            }
 
             foreach(User u in c.Users.Values)
             {
-                if(u.Username != m.FromUser.Username)
+                if(u.Callback != null && u.Callback != ctx && u.Username != m.FromUser)
                 {
                     u.Callback.OnMessage(m);
                 }
             }
-
+            
             c.Messages.Add(m);
             StorageAdapter.Instance.Messages.Add(m.ID, m);
-            return m.ID;
         }
     }
 
@@ -136,7 +169,11 @@ namespace MessagingServerLib
         private Dictionary<string, Chat> _chats;
         private Dictionary<string, Message> _messages;
 
-        public StorageAdapter(Dictionary<string, User> users, Dictionary<string, Chat> chats, Dictionary<string, Message> messages)
+        public StorageAdapter(
+            Dictionary<string, User> users,
+            Dictionary<string, Chat> chats,
+            Dictionary<string, Message> messages
+            )
         {
             _users = users;
             _chats = chats;
@@ -150,7 +187,10 @@ namespace MessagingServerLib
                 {
                     if (_instance == null)
                     {
-                        _instance = new StorageAdapter(new Dictionary<string, User>(), new Dictionary<string, Chat>(), new Dictionary<string, Message>());
+                        _instance = new StorageAdapter(
+                            new Dictionary<string, User>(),
+                            new Dictionary<string, Chat>(),
+                            new Dictionary<string, Message>());
                     }
                     return _instance;
                 }

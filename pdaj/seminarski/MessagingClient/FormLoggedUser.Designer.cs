@@ -70,9 +70,11 @@
             // 
             // listViewChats
             // 
+            this.listViewChats.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.listViewChats.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.Chats});
-            this.listViewChats.Dock = System.Windows.Forms.DockStyle.Fill;
             this.listViewChats.FullRowSelect = true;
             this.listViewChats.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
             this.listViewChats.HideSelection = false;
@@ -108,9 +110,11 @@
             // 
             // listViewMessages
             // 
+            this.listViewMessages.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.listViewMessages.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.Messages});
-            this.listViewMessages.Dock = System.Windows.Forms.DockStyle.Fill;
             this.listViewMessages.FullRowSelect = true;
             this.listViewMessages.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
             this.listViewMessages.HideSelection = false;
@@ -143,17 +147,23 @@
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel3.Size = new System.Drawing.Size(601, 41);
             this.tableLayoutPanel3.TabIndex = 1;
-            this.tableLayoutPanel3.Paint += new System.Windows.Forms.PaintEventHandler(this.tableLayoutPanel3_Paint);
             // 
             // textBoxInput
             // 
+            this.textBoxInput.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxInput.Location = new System.Drawing.Point(3, 3);
             this.textBoxInput.Name = "textBoxInput";
             this.textBoxInput.Size = new System.Drawing.Size(467, 38);
             this.textBoxInput.TabIndex = 0;
+            this.textBoxInput.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxInput_KeyPress);
             // 
             // buttonSend
             // 
+            this.buttonSend.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.buttonSend.Location = new System.Drawing.Point(476, 3);
             this.buttonSend.Name = "buttonSend";
             this.buttonSend.Size = new System.Drawing.Size(122, 35);
@@ -224,6 +234,7 @@
             this.Margin = new System.Windows.Forms.Padding(6);
             this.Name = "FormLoggedUser";
             this.Text = "FormLoggedUser";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.FormLoggedUser_FormClosed);
             this.Load += new System.EventHandler(this.FormLoggedUser_Load);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel2.ResumeLayout(false);

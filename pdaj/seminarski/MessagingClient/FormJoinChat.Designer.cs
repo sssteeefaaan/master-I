@@ -40,6 +40,7 @@
             this.textBoxChat.TabIndex = 0;
             this.textBoxChat.Text = "ChatID";
             this.textBoxChat.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.textBoxChat.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxChat_KeyPress);
             // 
             // buttonJoin
             // 
@@ -59,9 +60,10 @@
             this.Controls.Add(this.buttonJoin);
             this.Controls.Add(this.textBoxChat);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.Margin = new System.Windows.Forms.Padding(6);
             this.Name = "FormJoinChat";
             this.Text = "JoinChat";
+            this.Load += new System.EventHandler(this.FormJoinChat_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

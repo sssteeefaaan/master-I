@@ -9,6 +9,7 @@ using System.ServiceModel.Channels;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 
 namespace MessagingClient
@@ -16,20 +17,15 @@ namespace MessagingClient
     public partial class FormLoggedUser : Form, ServiceReferenceMS.IMessagingServiceCallback
     {
         private string _openedChatID;
-        public User _loggedUser;
-        public IMessagingService _proxy;
+        public User LoggedUser { get; set; }
+        public IMessagingService Proxy { get; set; }
 
         public FormLoggedUser(IMessagingService proxy, User loggedUser)
         {
-            _loggedUser = loggedUser;
-            _proxy = proxy;
+            LoggedUser = loggedUser;
+            Proxy = proxy;
             _openedChatID = null;
             InitializeComponent();
-        }
-
-        private void tableLayoutPanel3_Paint(object sender, PaintEventArgs e)
-        {
-
         }
 
         private void buttonSend_Click(object sender, EventArgs e)
@@ -38,31 +34,24 @@ namespace MessagingClient
             {
                 ServiceReferenceMS.Message m = new ServiceReferenceMS.Message()
                 {
-                    ID = "",
+                    ID = Guid.NewGuid().ToString(),
                     ChatID = _openedChatID,
-                    FromUser = _loggedUser,
+                    FromUser = LoggedUser.Username,
                     Content = textBoxInput.Text,
                     Timestamp = DateTime.Now
                 };
 
-                m.ID = _proxy.SendMessage(_loggedUser.Username, m);
-                if (!String.IsNullOrEmpty(m.ID))
-                {
-                    textBoxInput.Text = "";
-                    _loggedUser.Chats[_openedChatID].Messages.Add(m);
-                    RefreshMessages();
-                }
-                else
-                {
-                    MessageBox.Show("Couldn't send the message!");
-                }
+                Proxy.SendMessage(LoggedUser.Username, m);
+                textBoxInput.Text = "";
+                LoggedUser.Chats[_openedChatID].Messages.Add(m);
+                RefreshMessages();
             }
         }
 
         private void RefreshChatList()
         {
             listViewChats.Items.Clear();
-            foreach (Chat c in _loggedUser.Chats.Values)
+            foreach (Chat c in LoggedUser.Chats.Values)
             {
                 listViewChats.Items.AddRange(new ListViewItem[]{
                     new ListViewItem(c.ID)
@@ -74,13 +63,23 @@ namespace MessagingClient
         {
             listViewChats.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
             listViewMessages.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
-            _loggedUser.Chats = _proxy.GetChats(_loggedUser.Username);
+            LoggedUser.Chats = Proxy.GetChats(LoggedUser.Username);
             RefreshChatList();
+            RefreshMessages();
+
+            textBoxInput.Enabled =
+                buttonSend.Enabled =
+                listViewMessages.Enabled =
+                false;
         }
 
         private void listViewChats_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (listViewChats.SelectedItems.Count != 1) return;
+            textBoxInput.Enabled =
+                buttonSend.Enabled =
+                listViewMessages.Enabled =
+                true;
             string k = listViewChats.SelectedItems[0].Text;
             if(k != null && (_openedChatID == null || _openedChatID != k))
             {
@@ -92,7 +91,7 @@ namespace MessagingClient
         private void joinAChatToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Chat c = new Chat();
-            FormJoinChat f = new FormJoinChat(_proxy, _loggedUser);
+            FormJoinChat f = new FormJoinChat(Proxy, LoggedUser);
             if(f.ShowDialog() == DialogResult.OK)
             {
                 _openedChatID = f._chat.ID;
@@ -103,14 +102,33 @@ namespace MessagingClient
 
         private void RefreshMessages()
         {
-
             listViewMessages.Items.Clear();
-            foreach (ServiceReferenceMS.Message m in _loggedUser.Chats[_openedChatID].Messages)
+            if (LoggedUser != null && !String.IsNullOrEmpty(_openedChatID))
             {
                 listViewMessages.Items.Add(new ListViewItem
                 {
-                    Text = m.FromUser.Username + ": " + m.Content + "\n@" + m.Timestamp.ToShortTimeString()
+                    Text = ""
                 });
+
+                foreach (ServiceReferenceMS.Message m in LoggedUser.Chats[_openedChatID].Messages)
+                {
+                    listViewMessages.Items.Add(new ListViewItem
+                    {
+                        Text = m.FromUser + ": " + m.Content
+                    });
+
+                    listViewMessages.Items.Add(new ListViewItem
+                    {
+                        Text = "@" + m.Timestamp.ToShortTimeString()
+                    });
+
+                    listViewMessages.Items.Add(new ListViewItem
+                    {
+                        Text = ""
+                    });
+                }
+
+                listViewMessages.Items[listViewMessages.Items.Count - 1].EnsureVisible();
             }
         }
 
@@ -119,8 +137,6 @@ namespace MessagingClient
             DialogResult dr = MessageBox.Show("Are you sure you want to logout?", "Question", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if(dr == DialogResult.Yes)
             {
-                _loggedUser = null;
-                _openedChatID = null;
                 Close();
             }
         }
@@ -129,9 +145,9 @@ namespace MessagingClient
         {
             if(m != null)
             {
-                if (_loggedUser.Chats.ContainsKey(m.ChatID))
+                if (LoggedUser.Chats.ContainsKey(m.ChatID))
                 {
-                    _loggedUser.Chats[m.ChatID].Messages.Add(m);
+                    LoggedUser.Chats[m.ChatID].Messages.Add(m);
                 }
 
                 if (_openedChatID == m.ChatID)
@@ -150,6 +166,21 @@ namespace MessagingClient
         {
             MessageBox.Show(error, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
+        }
+
+        private void textBoxInput_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if(e.KeyChar == ((char)Keys.Enter))
+            {
+                buttonSend.PerformClick();
+            }
+        }
+
+        private void FormLoggedUser_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            Proxy?.Logout(LoggedUser?.Username);
+            LoggedUser = null;
+            _openedChatID = null;
         }
     }
 }

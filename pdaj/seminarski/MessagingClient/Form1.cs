@@ -1,12 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
 using System.ServiceModel;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using MessagingClient.ServiceReferenceMS;
 
@@ -14,15 +7,15 @@ namespace MessagingClient
 {
     public partial class FormMessagingClient : Form
     {
-        private IMessagingService _proxy;
         private User _loggedUser;
         private FormLoggedUser _formLoggedUser;
+        private InstanceContext _ctx;
         public FormMessagingClient()
         {
-            _formLoggedUser = new FormLoggedUser(null, null);
-            _proxy = new MessagingServiceClient(new InstanceContext(_formLoggedUser));
-            _formLoggedUser._proxy = _proxy;
             _loggedUser = null;
+            _formLoggedUser = new FormLoggedUser(null, null);
+            _ctx = new InstanceContext(_formLoggedUser);
+             _formLoggedUser.Proxy = new MessagingServiceClient(_ctx);
             InitializeComponent();
         }
 
@@ -35,15 +28,15 @@ namespace MessagingClient
         {
             if (!ValidateInput())
                 return;
-
-            _loggedUser = _proxy.Login(textBoxUsername.Text, textBoxPassword.Text);
-            if (_loggedUser == null)
+            
+            _loggedUser = _formLoggedUser.Proxy.Login(textBoxUsername.Text, textBoxPassword.Text);
+            if (_loggedUser == null || !_loggedUser.IsValid)
             {
                 MessageBox.Show("Error logging in!");
             }
             else
             {
-                _formLoggedUser._loggedUser = _loggedUser;
+                _formLoggedUser.LoggedUser = _loggedUser;
                 _formLoggedUser.ShowDialog();
             }
         }
@@ -52,14 +45,14 @@ namespace MessagingClient
         {
             if (!ValidateInput()) return;
 
-            _loggedUser = _proxy.Register(textBoxUsername.Text, textBoxPassword.Text);
-            if (_loggedUser == null)
+            _loggedUser = _formLoggedUser.Proxy.Register(textBoxUsername.Text, textBoxPassword.Text);
+            if (_loggedUser == null || !_loggedUser.IsValid)
             {
                 MessageBox.Show("Error registering!");
             }
             else
             {
-                _formLoggedUser._loggedUser = _loggedUser;
+                _formLoggedUser.LoggedUser = _loggedUser;
                 _formLoggedUser.ShowDialog();
             }
         }

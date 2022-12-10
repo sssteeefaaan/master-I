@@ -289,7 +289,7 @@
       </wsp:All>
     </wsp:ExactlyOne>
   </wsp:Policy>
-  <wsp:Policy wsu:Id="WSDualHttpBinding_IMessagingService_SendMessage_Input_policy">
+  <wsp:Policy wsu:Id="WSDualHttpBinding_IMessagingService_Logout_Input_policy">
     <wsp:ExactlyOne>
       <wsp:All>
         <sp:SignedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
@@ -320,7 +320,7 @@
       </wsp:All>
     </wsp:ExactlyOne>
   </wsp:Policy>
-  <wsp:Policy wsu:Id="WSDualHttpBinding_IMessagingService_SendMessage_output_policy">
+  <wsp:Policy wsu:Id="WSDualHttpBinding_IMessagingService_SendMessage_Input_policy">
     <wsp:ExactlyOne>
       <wsp:All>
         <sp:SignedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
@@ -594,11 +594,11 @@
   <wsdl:message name="IMessagingService_JoinChat_OutputMessage">
     <wsdl:part name="parameters" element="tns:JoinChatResponse" />
   </wsdl:message>
+  <wsdl:message name="IMessagingService_Logout_InputMessage">
+    <wsdl:part name="parameters" element="tns:Logout" />
+  </wsdl:message>
   <wsdl:message name="IMessagingService_SendMessage_InputMessage">
     <wsdl:part name="parameters" element="tns:SendMessage" />
-  </wsdl:message>
-  <wsdl:message name="IMessagingService_SendMessage_OutputMessage">
-    <wsdl:part name="parameters" element="tns:SendMessageResponse" />
   </wsdl:message>
   <wsdl:message name="IMessagingService_GetChats_InputMessage">
     <wsdl:part name="parameters" element="tns:GetChats" />
@@ -634,9 +634,11 @@
       <wsdl:input wsaw:Action="http://tempuri.org/IMessagingService/JoinChat" message="tns:IMessagingService_JoinChat_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IMessagingService/JoinChatResponse" message="tns:IMessagingService_JoinChat_OutputMessage" />
     </wsdl:operation>
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="Logout">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMessagingService/Logout" message="tns:IMessagingService_Logout_InputMessage" />
+    </wsdl:operation>
     <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="SendMessage">
       <wsdl:input wsaw:Action="http://tempuri.org/IMessagingService/SendMessage" message="tns:IMessagingService_SendMessage_InputMessage" />
-      <wsdl:output wsaw:Action="http://tempuri.org/IMessagingService/SendMessageResponse" message="tns:IMessagingService_SendMessage_OutputMessage" />
     </wsdl:operation>
     <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="GetChats">
       <wsdl:input wsaw:Action="http://tempuri.org/IMessagingService/GetChats" message="tns:IMessagingService_GetChats_InputMessage" />
@@ -692,16 +694,19 @@
         <soap12:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="Logout">
+      <soap12:operation soapAction="http://tempuri.org/IMessagingService/Logout" style="document" />
+      <wsdl:input>
+        <wsp:PolicyReference URI="#WSDualHttpBinding_IMessagingService_Logout_Input_policy" />
+        <soap12:body use="literal" />
+      </wsdl:input>
+    </wsdl:operation>
     <wsdl:operation name="SendMessage">
       <soap12:operation soapAction="http://tempuri.org/IMessagingService/SendMessage" style="document" />
       <wsdl:input>
         <wsp:PolicyReference URI="#WSDualHttpBinding_IMessagingService_SendMessage_Input_policy" />
         <soap12:body use="literal" />
       </wsdl:input>
-      <wsdl:output>
-        <wsp:PolicyReference URI="#WSDualHttpBinding_IMessagingService_SendMessage_output_policy" />
-        <soap12:body use="literal" />
-      </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="GetChats">
       <soap12:operation soapAction="http://tempuri.org/IMessagingService/GetChats" style="document" />

@@ -19,22 +19,4 @@
     </xs:sequence>
   </xs:complexType>
   <xs:element name="ArrayOfKeyValueOfstringChat6bWKi4mm" nillable="true" type="tns:ArrayOfKeyValueOfstringChat6bWKi4mm" />
-  <xs:complexType name="ArrayOfKeyValueOfstringUser6bWKi4mm">
-    <xs:annotation>
-      <xs:appinfo>
-        <IsDictionary xmlns="http://schemas.microsoft.com/2003/10/Serialization/">true</IsDictionary>
-      </xs:appinfo>
-    </xs:annotation>
-    <xs:sequence>
-      <xs:element minOccurs="0" maxOccurs="unbounded" name="KeyValueOfstringUser6bWKi4mm">
-        <xs:complexType>
-          <xs:sequence>
-            <xs:element name="Key" nillable="true" type="xs:string" />
-            <xs:element xmlns:q2="http://schemas.datacontract.org/2004/07/MessagingServerLib" name="Value" nillable="true" type="q2:User" />
-          </xs:sequence>
-        </xs:complexType>
-      </xs:element>
-    </xs:sequence>
-  </xs:complexType>
-  <xs:element name="ArrayOfKeyValueOfstringUser6bWKi4mm" nillable="true" type="tns:ArrayOfKeyValueOfstringUser6bWKi4mm" />
 </xs:schema>

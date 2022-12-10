@@ -10,27 +10,36 @@ using System.Text;
 
 namespace MessagingServerLib
 {
-    // NOTE: You can use the "Rename" command on the "Refactor" menu to change the interface name "IService1" in both code and config file together.
     [ServiceContract(SessionMode=SessionMode.Required, CallbackContract = typeof(IMessageCallback))]
     public interface IMessagingService
     {
-        [OperationContract]
+        [OperationContract(IsOneWay = false)]
         User Register(string username, string password);
-        [OperationContract]
+
+        [OperationContract(IsOneWay = false)]
         User Login(string username, string password);
-        [OperationContract]
+
+        [OperationContract(IsOneWay = false)]
         Chat JoinChat(string username, string chatID);
-        [OperationContract]
-        string SendMessage(string username, Message m);
-        [OperationContract]
+
+        [OperationContract(IsOneWay = true)]
+        void Logout(string username);
+
+        [OperationContract(IsOneWay = true)]
+        void SendMessage(string username, Message m);
+
+        [OperationContract(IsOneWay = false)]
         Dictionary<string, Chat> GetChats(string username);
-        [OperationContract]
+
+        [OperationContract(IsOneWay = false)]
         List<Message> GetMessages(string username,string chatID);
     }
 
     [DataContract(IsReference = true)]
     public class User
     {
+        [DataMember]
+        public bool IsValid { get; set; }
         [DataMember]
         public string Username { get; set; }
 
@@ -42,8 +51,16 @@ namespace MessagingServerLib
         [DataMember]
         public Dictionary<string, Chat> Chats { get; set; }
 
+        public User()
+        {
+            IsValid = false;
+            Username = "";
+            Password = "";
+            Chats = new Dictionary<string, Chat>();
+        }
         public User(string username, string password)
         {
+            IsValid = false;
             Username = username;
             Password = password;
             Chats = new Dictionary<string, Chat>();
@@ -60,7 +77,6 @@ namespace MessagingServerLib
     {
         [DataMember]
         public string ID { get; set; }
-        [DataMember]
         public Dictionary<string, User> Users { get; set; }
         [DataMember]
         public List<Message> Messages { get; set; }
@@ -83,7 +99,7 @@ namespace MessagingServerLib
         public DateTime Timestamp { get; set; }
 
         [DataMember]
-        public User FromUser { get; set; }
+        public string FromUser { get; set; }
 
         [DataMember]
         public string Content { get; set; }
@@ -91,7 +107,7 @@ namespace MessagingServerLib
         [DataMember]
         public string ChatID { get; set; }
 
-        public Message(User fromUser, string content, string chatID)
+        public Message(string fromUser, string content, string chatID)
         {
             ID = Guid.NewGuid().ToString();
             Timestamp = DateTime.Now;
