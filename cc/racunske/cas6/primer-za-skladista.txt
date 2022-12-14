@@ -1,0 +1,15 @@
+#Sadržaj Dockerfile-a za primer skladišta
+
+FROM node
+
+WORKDIR /app
+
+COPY . /app
+
+RUN npm install
+
+EXPOSE 80
+
+#VOLUME ["/app/feedback"]
+
+CMD ["node", "server.js"]
