@@ -1,7 +1,7 @@
 from sys import argv
 from time import time
 
-from utils import save, generateRandomGraph, bfs_find_shortest
+from utils import save, generate_random_fully_connected_graph_with_weght, bfs_find_shortest
 
 default = {
     "node_numb": 1000,
@@ -11,7 +11,7 @@ default = {
 }
 
 def main(kwargs):
-    graph = generateRandomGraph(
+    graph = generate_random_fully_connected_graph_with_weght(
         node_numb = kwargs["node_numb"],
         min_w = kwargs["min_w"],
         max_w = kwargs["max_w"])

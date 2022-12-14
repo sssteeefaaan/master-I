@@ -1,20 +1,4 @@
-def readFile(filePath):
-    f = open(filePath, "r")
-    ret = f.read()
-    f.close()
-    return ret
-
-def check(file1, file2):
-    print(readFile(file1) == readFile(file2))
-
-def save(filePath, paths):
-    from json import dumps
-    f = open(filePath, "w")
-    f.write(dumps(paths))
-    f.close()
-
-
-def bfs_find_shortest(graph: dict, start):
+def bfs_find_shortest(graph: dict[str|int, list[tuple[str|int, int]]], start : str) -> dict[str|int, tuple[list[str|int], int]]:
     from math import inf
     queue = [([start], 0)]
     paths = { n: ([start], inf if n != start else 0) for n in graph.keys() }
@@ -28,7 +12,7 @@ def bfs_find_shortest(graph: dict, start):
                 queue = queue + [(path + [node], curr_distance)]
     return paths
 
-def dfs_find_shortest(graph: dict, start):
+def dfs_find_shortest(graph: dict[str | int, list[tuple[str|int, int]]], start : str) -> dict[str|int, tuple[list[str|int], int]]:
     from math import inf
     stack = [([start], 0)]
     paths = { n: ([start], inf if n != start else 0) for n in graph.keys() }
@@ -42,17 +26,43 @@ def dfs_find_shortest(graph: dict, start):
                 stack = stack + [(path + [node], curr_distance)]
     return paths
 
-def generateRandomGraph(node_numb, min_w, max_w) -> dict:
+def int_to_letters(value : int)->str:
+    ret = ""
+    for j in range(value // 26):
+        ret += chr(ord('A') + j % 26)
+    return ret + chr(ord('A') + value % 26)
+
+def generate_random_fully_connected_graph_with_weght(vertex_numb : int, min_w : int, max_w : int, datatype : type) -> dict[str|int, list[tuple[str|int, int]]]:
     from random import randrange
-    nodes = list()
-    for i in range(node_numb):
-        node = ""
-        for j in range(i // 26):
-            node += chr(ord('A') + j % 26)
-        nodes.append(node + chr(ord('A') + i % 26))
-    graph = {}
-    for ind, node in enumerate(nodes):
-        graph[node] = []
-        for neighbour in nodes:
-            graph[node] += [(neighbour, min(max(ind, min_w),max_w))]
-    return graph
+    if datatype == str:
+        return { int_to_letters(i): [(int_to_letters(j), randrange(min_w, max_w)) for j in range(vertex_numb)] for i in range(vertex_numb) }
+    elif datatype == int:
+        return { i : [(j, randrange(min_w, max_w)) for j in range(vertex_numb)] for i in range(vertex_numb) }
+    return {}
+
+def generate_random_fully_connected_graph_without_weght(vertex_numb : int, datatype:type) -> dict[str|int, list[str|int]]:
+    if datatype == str:
+        return { int_to_letters(i): [int_to_letters(j) for j in range(vertex_numb)] for i in range(vertex_numb) }
+    elif datatype == int:
+        return { i : [j for j in range(vertex_numb)] for i in range(vertex_numb) }
+    return {}
+
+def generate_graph_random_degree_with_weight(vertex_numb : int, min_w : int, max_w : int, degree : int, datatype:type) -> dict[str|int, list[tuple[str|int, int]]]:
+    from random import randrange
+    if datatype == str:
+        return { int_to_letters(i): [(int_to_letters(randrange(vertex_numb)), randrange(min_w, max_w)) for _ in range(degree)] for i in range(vertex_numb) }
+    elif datatype == int:
+        return { i : [(randrange(vertex_numb), randrange(min_w, max_w)) for _ in range(degree)] for i in range(vertex_numb) }
+    return {}
+
+def generate_graph_random_degree_no_weight(vertex_numb : int, degree : int, datatype : type) -> dict[str|int, list[str|int]]:
+    from random import randrange
+    if datatype == str:
+        return { int_to_letters(i): [int_to_letters(randrange(vertex_numb)) for _ in range(degree)] for i in range(vertex_numb) }
+    elif datatype == int:
+        return { i : [randrange(vertex_numb) for _ in range(degree)] for i in range(vertex_numb) }
+    return {}
+
+def generate_graph_random_degree_no_weight_matrix(vertex_numb : int, degree : int) -> list[list[int]]:
+    from random import randrange
+    return [[randrange(vertex_numb) for _ in range(degree)] for _ in range(vertex_numb)]

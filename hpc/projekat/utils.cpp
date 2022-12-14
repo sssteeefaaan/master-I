@@ -121,7 +121,7 @@ void serial_traversal(map<string, deque<tuple<string, uint>>>& graph)
 
 int main(int argc, char** argv)
 {
-    int node_numb = 1000, min_w = 1, max_w = 10;
+    int node_numb = 10000, min_w = 1, max_w = 10;
     switch(argc)
     {
         case(4): node_numb=atoi(argv[3]);
