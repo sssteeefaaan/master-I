@@ -1,52 +1,39 @@
-import logging
+from sys import argv
+from json import loads
 
-from confluent_kafka import TIMESTAMP_NOT_AVAILABLE
-from confluent_kafka import Consumer
-from confluent_kafka import KafkaError
-from confluent_kafka import Message
-from confluent_kafka import Producer
-from confluent_kafka.cimpl import KafkaException
+from kafka import KafkaConsumer
 
-TOPIC = 'python_topic'
-TIMEOUT=1 # Maximum time to block waiting for message, event or callback
+TOPIC = argv[1] if len(argv) > 1 else 'python_topic'
+TIMEOUT = int(argv[2]) if len(argv) > 2 else 1000
+MAX_RECORDS = int(argv[3]) if len(argv) > 3 else 10
 
 CONSUMER_CONFIG = {
-    "bootstrap.servers": "localhost:9092",
-    "group.id": "python_consumer_group1",
-    "auto.offset.reset": "earliest",    # 'auto.offset.reset=earliest' to start reading from the beginning of the
+    "bootstrap_servers": argv[4] if len(argv) > 4 else "localhost:9092",
+    "group_id": argv[5] if len(argv) > 5 else "python_consumer_group1",
+    "auto_offset_reset": "earliest",    # 'auto.offset.reset=earliest' to start reading from the beginning of the
                                         #   topic if no committed offsets exist
-    "fetch.min.bytes": "1",
-    "enable.auto.commit": "False",  # TODO: Update
+    "fetch_min_bytes": 1,
+    "enable_auto_commit": "False",  # TODO: Update
+    "value_deserializer" : lambda x: loads(str(x, encoding='utf-8')),
+    "key_deserializer": lambda x: str(x, encoding='utf-8')
 }
 
 if __name__ == '__main__':
-    consumer = Consumer(CONSUMER_CONFIG)
-    consumer.subscribe([TOPIC])
-
-    # Process messages
+    consumer = KafkaConsumer(**CONSUMER_CONFIG)
+    consumer.subscribe(topics=[TOPIC])
     try:
         while True:
-            msg = consumer.poll(TIMEOUT)
-            if msg is None:
-                # No message available within timeout.
-                # Initial message consumption may take up to
-                # `session.timeout.ms` for the consumer group to
-                # rebalance and start consuming
+            msg = consumer.poll(timeout_ms=TIMEOUT, max_records=MAX_RECORDS)
+            if not msg:
                 print("Waiting for message or event/error in poll()")
                 continue
-            elif msg.error():
-                print('error: {}'.format(msg.error()))
             else:
-                # Check for Kafka message
-                record_key = msg.key()
-                record_value = msg.value()
-                partition = msg.partition()
-                offset = msg.offset()
-                print("Key: {}, Value: {}, Partition: {}, Offset: {}"
-                      .format(record_key, record_value, partition, offset))
-                consumer.commit(asynchronous=False)  # Synchronous guarantees, Asynchronous will speed up
+                for (k, records) in msg.items():
+                    print(f"[{ k.topic }]")
+                    for record in records:
+                        print("{}: {}".format(record.key, record.value))
+                consumer.commit_async()
     except KeyboardInterrupt:
         pass
     finally:
-        # Leave group and commit final offsets
         consumer.close()

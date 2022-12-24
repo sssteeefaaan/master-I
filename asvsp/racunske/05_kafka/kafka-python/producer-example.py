@@ -1,48 +1,25 @@
-from confluent_kafka import Producer, KafkaError
+from kafka import KafkaProducer
+from sys import argv
 import json
 
-TOPIC = 'python_topic'
-
-CONSUMER_CONFIG = {
-    "bootstrap.servers": "localhost:9092",
-    "group.id": "python_consumer_group1",
-    "auto.offset.reset": "earliest",    # 'auto.offset.reset=earliest' to start reading from the beginning of the
-                                        #   topic if no committed offsets exist
-    "fetch.min.bytes": "1",
-    "enable.auto.commit": "True",  # TODO: Update
-}
+FILE = argv[1] if len(argv) > 1 else './prepared_messages.txt'
+TOPIC = argv[2] if len(argv) > 2 else 'python_topic'
 
 PRODUCER_CONFIG = {
-    "bootstrap.servers": "localhost:9092",
-    "message.max.bytes": 100000,
+    "bootstrap_servers": argv[3] if len(argv) > 3 else "localhost:9092",
+    "max_request_size" : int(argv[4]) if len(argv) > 4 else 100000,
+    "key_serializer": str.encode,
+    "value_serializer": lambda x: json.dumps(x).encode('utf-8')
 }
-
 
 if __name__ == '__main__':
 
-    producer = Producer(PRODUCER_CONFIG)
-    delivered_records = 0
+    producer = KafkaProducer(**PRODUCER_CONFIG)
 
     def hash(key):
         return len(key)-1
 
-    # Optional per-message on_delivery handler (triggered by poll() or flush())
-    # when a message has been successfully delivered or
-    # permanently failed delivery (after retries).
-    def acked(err, msg):
-        global delivered_records
-        """Delivery report handler called on
-        successful or failed delivery of message
-        """
-        if err is not None:
-            print("Failed to deliver message: {}".format(err))
-        else:
-            delivered_records += 1
-            print("Produced record with key {} to topic {} partition [{}] @ offset {}"
-                  .format(msg.key(), msg.topic(), msg.partition(), msg.offset()))
-
-
-    with open('prepared_messages.txt') as f:
+    with open(FILE) as f:
         lines = f.readlines()
 
         for l in lines:
@@ -51,12 +28,7 @@ if __name__ == '__main__':
             record_value = line_split[1]
 
             print("Producing record: {}\t{}".format(record_key, record_value))
-            producer.produce(TOPIC, key=record_key, value=record_value, partition=hash(record_key),on_delivery=acked)
-            # p.poll() serves delivery reports (on_delivery)
-            # from previous produce() calls.
-            producer.poll(0)
+            producer.send(TOPIC, key=record_key, value=record_value)#, partition=hash(record_key))
 
         producer.flush()
-
-        print("{} messages were produced to topic {}!".format(delivered_records, TOPIC))
 
