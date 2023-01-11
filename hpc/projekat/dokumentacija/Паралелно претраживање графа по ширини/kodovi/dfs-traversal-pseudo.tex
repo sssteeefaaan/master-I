@@ -1,0 +1,23 @@
+\begin{algorithm}[H]
+\caption{Обилазак графа по дубини}
+\label{algorithm:dfs-traversal-pseudo}
+\hspace*{\algorithmicindent} \textbf{Улаз}: Граф $G$, полазно теме $v$
+\begin{algorithmic}[1]
+\Procedure{depthFirstSearch}{$G$, $v$}
+\State create stack $S$
+\State push($S$, $v$)
+\State mark $v$
+\While{$S$ is not empty}
+\State $w \gets$ pop($S$)
+\State visit $w$
+\ForAll{edges $e$ in incidentEdges($G$, $w$)}
+\State $x \gets$ adjacentVertex($w$, $e$)
+\If{$x$ is not marked}
+\State mark $x$
+\State push($S$, $x$)
+\EndIf
+\EndFor
+\EndWhile
+\EndProcedure
+\end{algorithmic}
+\end{algorithm}

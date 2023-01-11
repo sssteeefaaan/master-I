@@ -1,0 +1,94 @@
+\usepackage[table]{xcolor}
+% фонтови и језик
+% fontspec docs: shorturl.at/ouI26
+\usepackage{fontspec}
+
+% polyglossia docs: shorturl.at/gELX9
+\usepackage{polyglossia}
+\newfontfamily\cyrillicfont{Times New Roman} % може се заменити компатибилним фонтом
+\newfontfamily\cyrillicfontsf{Arial}         % може се заменити компатибилним фонтом
+\newfontfamily\cyrillicfonttt{Courier New}   % може се заменити компатибилним фонтом
+\setmainlanguage[Script=cyrillic]{serbian}
+\setotherlanguage{english}
+\setlength{\parskip}{\baselineskip}%
+
+% вербатим линкови (веб адресе, имејлови, релативне адресе, итд.)
+% url docs: shorturl.at/iktM4
+\usepackage{url}
+
+% хиперлинкови
+% hyperref docs: shorturl.at/fmHPW
+\usepackage{hyperref}
+
+% приказивање математичких израза
+% amsmath docs: shorturl.at/avJU3
+\usepackage{amsmath}
+\usepackage{mathtools}
+\DeclarePairedDelimiter{\ceil}{\lceil}{\rceil}
+
+% напредни пакет за исцрватање графика коришћењем команде \includegraphics
+% graphicx docs: shorturl.at/diHUW
+\usepackage{graphicx}
+\graphicspath{{images/}}    % коренски директоријум слика, сваки пут када се користи includegraphics команда путања која се задаје треба да буде релативна у односу на овај директоријум
+
+% подешавања маргина
+\usepackage{vmargin}
+\setmarginsrb{3 cm}{2.5 cm}{3 cm}{2.5 cm}{1 cm}{1.5 cm}{1 cm}{1.5 cm}
+
+% исцртавање програмског кода
+\usepackage{minted}
+
+% подешавање размака линија текста
+\usepackage{setspace}
+
+% цртање табела
+\usepackage{booktabs}
+
+% додатни макрои за израду рада
+\usepackage{rsvp}
+
+%\usepackage[Glenn]{fncychap}
+\usepackage{tikzit}
+\input{tikzit-graphs/node_style.tikzstyles}
+
+\usepackage{algorithm}
+\usepackage[noend]{algpseudocode}
+
+\makeatletter
+\def\BState{\State\hskip-\ALG@thistlm}
+\makeatother
+\floatname{algorithm}{Алгоритам}
+
+\usepackage{nicematrix}
+
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+
+%\renewcommand{\caption}[1]{\caption{\textit{#1}}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usepackage{fancyhdr}
+
+\makeatletter
+\let\thetitle\@title
+\let\theauthor\@author
+\let\thedate\@date
+\let\theindex\studentindex
+\makeatother
+
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{\theauthor}
+\lhead{\thetitle}
+\cfoot{\thepage}
+
+
+\hypersetup{
+    colorlinks=true,
+    allcolors={blue!60!black}
+}
+\newcolumntype{B}{>{\columncolor{blue!10}} c}
+\definecolor{light blue}{HTML}{D5EBFF}
+\definecolor{dark blue}{HTML}{00008B}
+\newcommand{\textbw}[1]{\textbf{\textcolor{white}{#1}}}

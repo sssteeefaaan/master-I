@@ -1,0 +1,17 @@
+\begin{tikzpicture}
+	\begin{pgfonlayer}{nodelayer}
+		\node [style={blue_node}] (3) at (-13.25, 0.5) {E};
+		\node [style={blue_node}] (4) at (-18, 6) {A};
+		\node [style={blue_node}] (5) at (-6.25, 9) {B};
+		\node [style={blue_node}] (6) at (-13, 11) {C};
+		\node [style={blue_node}] (7) at (-3.5, 1.75) {D};
+	\end{pgfonlayer}
+	\begin{pgfonlayer}{edgelayer}
+		\draw [style={blue_edge}, in=45, out=-45, loop, very thick] (7) to ();
+		\draw [style={blue_edge}, very thick] (6) to (4);
+		\draw [style={blue_edge}, very thick] (4) to (3);
+		\draw [style={blue_edge}, very thick] (3) to (7);
+		\draw [style={blue_edge}, very thick] (7) to (5);
+		\draw [style={blue_edge}, very thick] (5) to (6);
+	\end{pgfonlayer}
+\end{tikzpicture}

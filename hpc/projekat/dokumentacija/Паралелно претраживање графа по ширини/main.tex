@@ -1,0 +1,33 @@
+\documentclass[12pt]{report}
+
+\title{Паралелно претраживање графа по ширини}
+\author{Стефан Алексић}
+\newcommand{\studentindex}{E2 42/2022}
+
+\input{poglavlja/preamble}
+
+\begin{document}
+\begin{sloppypar}
+\input{poglavlja/naslovna_strana}
+
+\pagenumbering{roman}
+\input{poglavlja/abstrakt}             
+\input{poglavlja/listinzi}
+
+\pagenumbering{arabic}
+\input{poglavlja/uvod}
+\input{poglavlja/telo/01-grafovi.tex}
+\input{poglavlja/telo/02-paralelno-pretrazivanje-grafa.tex}
+\input{poglavlja/telo/03-implementacija.tex}
+\input{poglavlja/zakljucak}
+
+\bibliographystyle{plain}
+\typeout{}
+\bibliography{biblist}
+
+\appendix
+%\input{poglavlja/dodaci}
+\cite{ashtsp}
+
+\end{sloppypar}
+\end{document}

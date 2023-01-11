@@ -1,0 +1,23 @@
+\begin{algorithm}[H]
+\caption{Обилазак графа по ширини}
+\label{algorith:bfs-traversal-pseudo}
+\hspace*{\algorithmicindent} \textbf{Улаз}: Граф $G$, полазно теме $v$
+\begin{algorithmic}[1]
+\Procedure{breadthFirstSearch}{$G$, $v$}
+\State create queue $Q$
+\State enqueue($Q$, $v$)
+\State mark $v$
+\While{$Q$ is not empty}
+\State $w \gets$ dequeue($Q$)
+\State visit $w$
+\ForAll{edges $e$ in adjacentEdges($w$)}
+\State $x \gets$ adjacentVertex(w, e)
+\If{$x$ is not marked}
+\State mark $x$
+\State enqueue($Q$, $x$)
+\EndIf
+\EndFor
+\EndWhile
+\EndProcedure
+\end{algorithmic}
+\end{algorithm}

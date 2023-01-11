@@ -1,0 +1,111 @@
+\section{Секвенцијална имплементација \textit{BFS} алгоритма}
+Што се секвенцијалне имплементације алгоритма за претрагу по ширини тиче, он је дат у оквиру исечка \ref{code:bfs-sequential}. Функција \cinline{void bfs_seq(...)} прима параметре:
+\begin{enumerate}
+    \item \textit{long long* graph} - низ целобројних вредности који садржи сегменте за суседе одговарајућих темена,
+    \item \textit{long long* degrees} - низ целобројних вредности који садржи помераје у оквиру низа \textit{graph},
+    \item \textit{long long vertex\_numb} - целобројна вредност која представља број потега у графу, односно димензију низа \textit{degrees} ($\textit{vertex\_numb} + 1$),
+    \item \textit{long long start} - целобројна вредност која представља индекс почетног чвора у оквиру низа \textit{degrees} и
+    \item \textit{long long* distance} - низ целобројних вредности у оквиру којих ће бити бележено растојање од почетног чвора $start$ до чвора $v_i$ представљено у виду броја суседа који деле ова два чвора.
+\end{enumerate}
+
+\par
+На почетку, у оквиру линија 36-38, се низ у којем се бележе растојања иницијализује за сваки чвор $v_i$ на бесконачност (највећа целобројна вредност), док је растојање до почетног чвора постављена на вредност $0$. Након овога се, у оквиру линија 40 и 41 врши алоцирање меморије за низове $fs$ и $ns$ (\textit{fs - frontier set; ns - next frontier set}). У низ $fs$ се убацује индекс почетног чвора \textit{start} (линија 43), а затим се у линијама 45, 46 и 47 врши иницијализација променљивих \textit{level}, \textit{count1} и \textit{count2} респективно. Променљива \textit{level} бележи тренутни ниво, односно дубину графа која се обрађује у итерацији, \textit{count1} бележи дужину низа \textit{fs}, док \textit{count2} бележи дужину низа \textit{ns}.
+
+\par
+У линијама 49 до 65 се налази петља која итерира све док низ \textit{fs} није празан, односно промељива \textit{count1} има вредност већу од нуле. У линијама 51 до 60 се налази петља којом се итерирају елементи низа \textit{fs}. Сваки елемент бива смештен у променљиву \textit{node} која се у линијама 53-59 користи за рачунање помераја у оквиру низа \textit{degrees} и поново у петљи итерира сегмент у низу \textit{graph}, одакле се добијају суседи чвора \textit{node} односно променљива \textit{neighbour} за сваку итерацију, која када се употреби као индекс у окивур низа \textit{distance} и очита вредност која је \textit{INFINITY}, следи упис вредности $\textit{level} + 1$ на њено место као и убацивање самог индекса у низ \textit{ns} који ће се итерирати у следећем нивоу.
+
+\par
+Као последње инструкције у $while$ петљи у оквиру линија 61-64 врши се замена низова $fs$ и $ns$, ажурирање променљивих које бележе њихову величину, као и инкрементирање вредности променљиве \textit{level}. У линијама 67 и 68 се врши деалоцирање низова $ns$ и $fs$ респективно.
+
+\begin{listing}[H]
+\inputminted[fontsize={\fontsize{5}{5}\selectfont},firstline=29,lastline=69]{c}{kodovi/bfs-dist-general-1d.c}
+\caption{\textit{Секвенцијални BFS}}
+\label{code:bfs-sequential}
+\end{listing}
+
+\subsection{Перформансе имеплементацираног алгоритма}
+Дијаграм који илуструје однос броја чворова и времена потребног за проналажење растојања до досежних чворова из почетног чвора је приказа на слици \ref{diagram:bfs-seq-vertex-numb-variable}. Подаци су приказани и у оквиру табеле \ref{table:bfs-seq-vertex-variable}.
+
+\begin{table}[H]
+    \centering
+    \rowcolors{2}{light blue}{}
+\begin{tabular}{| m{.15\textwidth} | m{.15\textwidth} | m{.15\textwidth} | m{.15\textwidth} |}
+    \hline \rowcolor{dark blue}
+     \textbw{Број темена} & \textbw{Максималан број потега} & \textbw{Минималан број потега} & \textbw{Време извршавања} \\ \hline
+         50 & 10 & 1 & 0.000002 \\ \hline
+         100 & 10 & 1 & 0.000002 \\ \hline
+         500 & 10 & 1 & 0.000003 \\ \hline
+         1000 & 10 & 1 & 0.000003 \\ \hline
+         5000 & 10 & 1 & 0.000008 \\ \hline
+         10000 & 10 & 1 & 0.000016 \\ \hline
+         50000 & 10 & 1 & 0.000092 \\ \hline
+         100000 & 10 & 1 & 0.000167 \\ \hline
+         500000 & 10 & 1 & 0.000962 \\ \hline
+         1000000 & 10 & 1 & 0.003166 \\ \hline
+         5000000 & 10 & 1 & 0.015701 \\ \hline
+         10000000 & 10 & 1 & 0.030105 \\ \hline
+    \end{tabular}
+    \caption{\textit{Перформансе секвенцијалног алгоритма са променом броја темена}}
+    \label{table:bfs-seq-vertex-variable}
+\end{table}
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+        \begin{axis}[
+                xtick={100, 1000, 10000, 100000, 10000000},
+                xmode=log,
+                log ticks with fixed point,
+                xlabel={Број темена},
+                ylabel={Време извршења},
+                width=.7\columnwidth
+                ]
+            \addplot+
+            table[x=VN, y=T]{testovi/seq-vertex-numb-variable.txt};
+        \end{axis}
+    \end{tikzpicture}
+    \caption{\textit{Зависност времена извршења секвенцијалног алгоритма од броја темена}}
+    \label{diagram:bfs-seq-vertex-numb-variable}
+\end{figure}
+
+\par
+Дијаграм који илуструје однос броја потега и времена потребног за проналажење растојања до досежних чворова из почетног чвора је приказа на слици \ref{diagram:bfs-seq-edge-numb-variable}. Подаци су приказани и у оквиру табеле \ref{table:bfs-seq-edge-variable}.
+
+\begin{table}[H]
+\centering
+\rowcolors{2}{light blue}{}
+\begin{tabular}{| m{.15\textwidth} | m{.15\textwidth} | m{.15\textwidth} | m{.15\textwidth} |}
+    \hline \rowcolor{dark blue}
+     \textbw{Број темена} & \textbw{Максималан број потега} & \textbw{Минималан број потега} & \textbw{Време извршавања} \\ \hline
+     10000 & 1 & 1 & 0.000030 \\ \hline
+     10000 & 5 & 1 & 0.000046 \\ \hline
+     10000 & 10 & 5 & 0.000018 \\ \hline
+     10000 & 50 & 10 & 0.000032 \\ \hline
+     10000 & 100 & 50 & 0.000049 \\ \hline
+     10000 & 500 & 100 & 0.000365\\ \hline
+     10000 & 1000 & 500 & 0.001497 \\ \hline
+     10000 & 5000 & 1000 & 0.028588 \\ \hline
+     10000 & 10000 & 5000 & 0.143870 \\ \hline
+     10000 & 10000 & 10000 & 0.196691 \\ \hline
+\end{tabular}
+\caption{\textit{Перформансе секвенцијалног алгоритма са променом степена повезаности}}
+\label{table:bfs-seq-edge-variable}
+\end{table}
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+        \begin{axis}[
+                xmode=log,
+                log ticks with fixed point,
+                xlabel={Просечан број потега},
+                ylabel={Време извршења},
+                width=.7\columnwidth
+                ]
+            \addplot+
+            table[x=EN, y=T]{testovi/seq-edge-numb-variable.txt};
+        \end{axis}
+    \end{tikzpicture}
+    \caption{\textit{Зависност времена извршења секвенцијалног алгоритма од броја потега}}
+    \label{diagram:bfs-seq-edge-numb-variable}
+\end{figure}

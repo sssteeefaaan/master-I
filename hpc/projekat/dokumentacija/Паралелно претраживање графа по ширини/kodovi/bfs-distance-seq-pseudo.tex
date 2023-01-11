@@ -1,0 +1,35 @@
+\begin{algorithm}[H]
+\caption{\textit{Секвенцијално претраживање графа по ширини}}
+\label{algorith:bfs-seq-pseudo}
+\hspace*{\algorithmicindent} \textbf{Улаз}: Граф $G(V, E)$, полазно теме $s$ \\
+\hspace*{\algorithmicindent} \textbf{Излаз}: Низ $d$ чији елементи представљају број скокова од почетног темена $s$ до темена $v_i \in V$
+\begin{algorithmic}[1]
+\Procedure{bfsSequential}{$G(V, E)$, $s$}
+\State 
+$d(i) \gets
+\begin{cases}
+\inf, &i \neq s\\
+0, &i = s
+\end{cases}
+$
+\State create set $FS$
+\State create set $NS$
+\State push($FS$, $s$)
+\State $level \gets 1$
+\While{$FS$ in not empty}
+\For{$u$ in $FS$}
+\ForAll{neighbour $v$ of $u$}
+\If{$d[v] = \inf$}
+\State push($NS$, $v$)
+\State $d[v] \gets level$
+\EndIf
+\EndFor
+\EndFor
+\State $FS \gets NS$
+\State $NS \gets \{\}$
+\State $level \gets level + 1$
+\EndWhile
+\State \Return $d$
+\EndProcedure
+\end{algorithmic}
+\end{algorithm}

@@ -1,0 +1,38 @@
+\begin{algorithm}[H]
+\caption{Паралелни \textit{BFS} са дводимензионим партиционисањем}
+\label{algorith:bfs-distance-2D-par-pseudo}
+\hspace*{\algorithmicindent} \textbf{Улаз}: Граф $G(V, E)$, полазно теме $s$ \\
+\hspace*{\algorithmicindent} \textbf{Излаз}: Низ $d$ чији елементи представљају број скокова од почетног темена $s$ до темена $v_i \in V$
+\begin{algorithmic}[1]
+\Procedure{bfsDistributedSearch}{$G(V, E)$, $s$}
+\State Initialize $L_s(v) \gets
+\begin{cases}
+\inf, &v \neq s\\
+0, &v = s
+\end{cases}
+$
+\For{$level \gets 0 \; to \; \infty$}
+\State $F \gets \{ v | L_s(v) = level \}$, скуп локалних темена за процес са нивоом $level$
+\If{$F \; is \; empty$ за све процесе}
+\State Терминирај спољашњу петљу свим процесима
+\EndIf
+\ForAll{\textit{processors q} у колони процесорске мреже}
+\State \textbf{Send} $F \; to \; processor \; q$
+\State \textbf{Receive} $\widehat{F_q} \; from \; processor \; q$ (скупови $F_q$ су дисјунктни)
+\EndFor
+\State $\widehat{F} \gets \cup_q \widehat{F_q}$
+\State $N \gets \{ $суседна темена из скупа $\widehat{F}$ користећи локалну листу потега (нису нужно локална темена за тренутни процес)$\}$
+\ForAll{$processes \; q$ y реду процесорске мреже}
+\State $N_q \gets \{$темена из $N$ која припадају процесу $q\}$
+\State \textbf{Send} $N_q \; to \; process \; q$
+\State \textbf{Receive} $\widehat{N_q} \; from \; process \; q$
+\EndFor
+\State $\widehat{N} \gets \cup_q \widehat{N_q}$ \; ($\widehat{N_q}$ је могуће да има дупликате)
+\For{$v \in \widehat{N} \; and \; L_s(v) = \infty$}
+\State $L_s(v) \gets level + 1$
+\EndFor
+\EndFor
+\State \Return $L_s$
+\EndProcedure
+\end{algorithmic}
+\end{algorithm}

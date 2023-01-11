@@ -1,0 +1,81 @@
+\section{Упоређивање резултата}
+На крају овог поглавља, односно у оквиру ове секције биће упоредо истакнут однос секвенцијалне и паралелних имплементација, односно убрзања која се постижу у зависности од броја темена, степена повезаности графова као и броја ентитета који паралелно обављају посао.
+
+\par
+На дијаграму \ref{diagram:bfs-speedup-vertex-numb-variable} представљен је однос брзине извршења секвенцијалне имплементације и паралелних имплементација у окружењу са дистрибуираном и дељеном меморијом, у односу на број темена графа. Ентитети који паралелно обављају посао, као и број потега је овде константан. Са дијаграма се нажалост може уочити да обе имплементације немају позитивне резултате.
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+        \begin{axis}[
+                legend pos=south east,
+                xtick={100, 1000, 10000, 100000, 10000000},
+                xmode=log,
+                log ticks with fixed point,
+                xlabel={Број темена},
+                ylabel={Убрзање},
+                width=.7\columnwidth
+                ]
+            \addplot+
+            table[x=VertexNumber, y=SpeedUpDist1D]{testovi/speedup-vertex-numb-variable.txt};
+            \addlegendentry{Дистрибуирана меморија}
+            \addplot+
+            table[x=VertexNumber, y=SpeedUpPar1D]{testovi/speedup-vertex-numb-variable.txt};
+            \addlegendentry{Дељена меморија}
+        \end{axis}
+    \end{tikzpicture}
+    \caption{\textit{Убрзање паралелних имплементација у односу на број темена графа}}
+    \label{diagram:bfs-speedup-vertex-numb-variable}
+\end{figure}
+
+\par
+На дијаграму \ref{diagram:bfs-speedup-edge-numb-variable} представљен је однос брзине извршења секвенцијалне имплементације и паралелних имплементација у окружењу са дистрибуираном и дељеном меморијом, у односу на број потега графа. Ентитети који паралелно обављају посао, као и број темена графа су константни. Са дијаграма се може уочити да за број потега већи од $10^3$, паралелна имплементација са дељеном меморијом достиже убрзање до $1.14$. Нажалост, имплементација у окружењу дистрибуиране меморије има негативне резултате.
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+        \begin{axis}[
+                legend pos=north west,
+                xtick={100, 1000, 10000, 100000, 10000000},
+                xmode=log,
+                log ticks with fixed point,
+                xlabel={Број потега},
+                ylabel={Убрзање},
+                width=.7\columnwidth
+                ]
+            \addplot+
+            table[x=EdgeNumber, y=SpeedUpDist1D]{testovi/speedup-edge-numb-variable.txt};
+            \addlegendentry{Дистрибуирана меморија}
+            \addplot+
+            table[x=EdgeNumber, y=SpeedUpPar1D]{testovi/speedup-edge-numb-variable.txt};
+            \addlegendentry{Дељена меморија}
+        \end{axis}
+    \end{tikzpicture}
+    \caption{\textit{Убрзање паралелних имплементација у односу на степен повезаности графа}}
+    \label{diagram:bfs-speedup-edge-numb-variable}
+\end{figure}
+
+Коначно, на дијаграму \ref{diagram:bfs-speedup-par-entity-numb-variable} представљен је однос брзине извршења секвенцијалне имплементације и паралелних имплементација у окружењу са дистрибуираном и дељеном меморијом, у односу на број ентитета који изврашавају посао у паралели. За окружења са дистрибуираном меморијом, то су процеси, док у окружењима са дељивом меморијом су то нити. Број потега, као и врој темена графа су константни. Са дијаграма се може уочити да за број нити већи од $6$, паралелна имплементација са дељеном меморијом достиже до чак $1.37$. Нажалост, имплементација у окружењу дистрибуиране меморије ни овде нема позитивне резултате.
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+        \begin{axis}[
+                legend style={at={(1,0.5)},anchor=east},
+                xtick={1, 2, 4, 6, 8, 10, 12, 14, 16},
+                xlabel={Број ентитета извршења (процеса/нити)},
+                ylabel={Убрзање},
+                width=.7\columnwidth
+                ]
+            \addplot+
+            table[x=EntityNumber, y=SpeedUpDist1D]{testovi/speedup-par-entity-numb-variable.txt};
+            \addlegendentry{Дистрибуирана меморија}
+            \addplot+
+            table[x=EntityNumber, y=SpeedUpPar1D]{testovi/speedup-par-entity-numb-variable.txt};
+            \addlegendentry{Дељена меморија}
+        \end{axis}
+    \end{tikzpicture}
+    \caption{\textit{Убрзање паралелних имплементација у односу на број паралелних ентитета извршења}}
+    \label{diagram:bfs-speedup-par-entity-numb-variable}
+\end{figure}
+
