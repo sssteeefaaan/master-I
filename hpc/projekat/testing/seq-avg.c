@@ -26,8 +26,13 @@ void swap(long long** a, long long** b){
     *b = temp;
 }
 
-void bfs_seq(long long* graph, long long* degrees, long long vertex_numb, long long start, long long* distance)
-{
+void bfs_seq(
+    long long* graph,
+    long long* degrees,
+    long long vertex_numb,
+    long long start,
+    long long* distance
+){
     for(long long i = 0; i < vertex_numb; i++)
         distance[i] = INFINITY;
     distance[start] = 0;
@@ -63,8 +68,13 @@ void bfs_seq(long long* graph, long long* degrees, long long vertex_numb, long l
     free(fs);
 }
 
-void bfs_dist(long long* graph, long long* degrees, long long vertex_numb, long long start, long long* distance)
-{
+void bfs_dist(
+    long long* graph,
+    long long* degrees,
+    long long vertex_numb,
+    long long start,
+    long long* distance
+){
     int rank, size;
     long long work_load;
     MPI_Comm_size(MPI_COMM_WORLD, &size);
@@ -147,9 +157,26 @@ void bfs_dist(long long* graph, long long* degrees, long long vertex_numb, long 
     free(F);
 }
 
-void generate_random_graph(long long** graph, long long* degrees, long long vertex_numb, long long max_degrees, long long min_degrees)
-{
-    long long max_deg = (vertex_numb - 1) < max_degrees ? (vertex_numb - 1) : max_degrees,
+void reset_options(long long *options, long long size){
+    for(long long i = 0; i < size; i++)
+        options[i] = i;
+}
+
+long long get_unique_random(long long *options, long long maximum){
+    long long cursor = rand() % maximum,
+    tmp = options[cursor];
+    options[cursor] = options[maximum - 1];
+    return options[maximum - 1] = tmp;
+}
+
+void generate_random_graph(
+    long long** graph,
+    long long* degrees,
+    long long vertex_numb,
+    long long max_degrees,
+    long long min_degrees
+){
+    long long max_deg = vertex_numb < max_degrees ? vertex_numb : max_degrees,
         min_deg = (max_deg > min_degrees) ? min_degrees : max_deg,
         start = 0;
 
@@ -159,24 +186,19 @@ void generate_random_graph(long long** graph, long long* degrees, long long vert
     }
     degrees[vertex_numb] = start;
 
-    long long *G = (long long*) malloc(sizeof(long long) * start);
+    long long *G = (long long*) malloc(sizeof(long long) * start),
+        *options = (long long*) malloc(sizeof(long long) * vertex_numb);
 
     for(long long i = 0; i < vertex_numb; i++){
-        for(long long j = degrees[i]; j < degrees[i + 1]; j++){
-            long long val, flag;
-
-            do{
-                val = rand() % vertex_numb;
-                flag = 1;
-                for(long long k = degrees[i]; flag && k < j; k++)
-                    flag = G[k] != val;
-            }while(flag == 0);
-
-            G[j] = val;
-        }
+        reset_options(options, vertex_numb);
+        long long range = degrees[i + 1] - degrees[i];
+        for(long long j = 0; j < range; j++)
+            G[j] = get_unique_random(options, vertex_numb - j);
     }
 
     *graph = G;
+
+    free(options);
 }
 
 void print_graph(long long* G, long long* degrees, long long vertex_numb)
@@ -198,12 +220,7 @@ void print_distance(long long*d, long long vertex_numb, long long start)
     printf("|\n");
 }
 
-int main(int argc, char** argv)
-{
-    MPI_Init(&argc, &argv);
-
-    int rank;
-    MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+double calc(int argc, char** argv){
 
     long long vertex_numb = 1000000,
     max_degree = 10,
@@ -217,48 +234,38 @@ int main(int argc, char** argv)
         case(2): vertex_numb = atoll(argv[1]);
     }
 
-    double dt;
+    long long * G = NULL,
+        * degrees = (long long*) malloc(sizeof(long long) * (vertex_numb + 1));
 
-    long long * G = NULL, // (long long*)malloc(sizeof(long long) * vertex_numb * vertex_numb),
-        * degrees = (long long*) malloc(sizeof(long long) * (vertex_numb + 1)),
-        * d_d = (long long*) malloc(sizeof(long long) * vertex_numb);
+    generate_random_graph(&G, degrees, vertex_numb, max_degree, min_degree);
 
-    if(rank == MASTER){
-        printf("[Number of vertexes]: %d\n", vertex_numb);
-        printf("[Maximum vertex degree]: %d\n", max_degree);
-        printf("[Minimum vertex degree]: %d\n", min_degree);
-        printf("[Starting node]: %d\n", start_node);
-        printf("[Random graph generation]: Starting!\n");
-        generate_random_graph(&G, degrees, vertex_numb, max_degree, min_degree);
-        printf("[Random graph generation]: Completed!\n");
-        printf("[Graph size]: %d\n", degrees[vertex_numb]);
-        dt = MPI_Wtime();
-    }
+    long long* d_s = (long long*) malloc(sizeof(long long) * vertex_numb);
 
-    bfs_dist(G, degrees, vertex_numb, start_node, d_d);
+    double st = MPI_Wtime();
+    bfs_seq(G, degrees, vertex_numb,start_node, d_s);
+    st = MPI_Wtime() - st;
 
-    if(rank == MASTER)
-    {
-        dt = MPI_Wtime() - dt;
-        printf("[Distributed calculations]: Time taken (%f)\n", dt);
-
-        long long* d_s = (long long*) malloc(sizeof(long long) * vertex_numb);
-
-        double st = MPI_Wtime();
-        bfs_seq(G, degrees, vertex_numb,start_node, d_s);
-        st = MPI_Wtime() - st;
-
-        printf("[Sequential calculations]: Time taken (%f)\n", st);
-
-        printf("[Results]: %s\n", compare_vectors(d_d, d_s, vertex_numb) ? "Correct!" : "False!");
-        printf("[Speedup]: %f\n", st/dt);
-
-        free(d_s);
-    }
-
-    free(d_d);
+    free(d_s);
     free(degrees);
     free(G);
+
+    return st;
+}
+
+int main(int argc, char** argv)
+{
+    MPI_Init(&argc, &argv);
+    int rank;
+    MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+
+    if(!rank){
+    double dt = 0;
+    for(int i = 0; i < 10; i++){
+        dt += calc(argc, argv);
+    }
+
+    printf("Avg is: %f\n", dt / 10.0);
+    }
 
     MPI_Finalize();
 

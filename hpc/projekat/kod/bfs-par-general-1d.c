@@ -15,7 +15,7 @@ void print_vector(char* label, long long*v, long long n)
 }
 
 long long compare_vectors(long long* a, long long* b, long long n){
-    long long t = 1;
+    char t = 1;
     for(long long i = 0; t && i < n; i++) t = a[i] == b[i];
     return t;
 }
@@ -26,8 +26,13 @@ void swap(long long** a, long long** b){
     *b = temp;
 }
 
-void bfs_seq(long long* graph, long long* degrees, long long vertex_numb, long long start, long long* distance)
-{
+void bfs_seq(
+    long long* graph,
+    long long* degrees,
+    long long vertex_numb,
+    long long start,
+    long long* distance
+){
     for(long long i = 0; i < vertex_numb; i++)
         distance[i] = INFINITY;
     distance[start] = 0;
@@ -63,8 +68,14 @@ void bfs_seq(long long* graph, long long* degrees, long long vertex_numb, long l
     free(fs);
 }
 
-void bfs_par(long long* graph, long long* degrees, long long vertex_numb, long long start, long long* distance, long long num_threads)
-{
+void bfs_par(
+    long long* graph,
+    long long* degrees,
+    long long vertex_numb,
+    long long start,
+    long long* distance,
+    long long num_threads
+){
     long long F_global_count = 0,
         work_load = vertex_numb / num_threads + 1;
 
@@ -135,14 +146,14 @@ void bfs_par(long long* graph, long long* degrees, long long vertex_numb, long l
             {
                 long long offset = thread_num * num_threads + i;
                 for(long long j = 0; j < N_size[offset]; j++)
-                    if(distance[N[offset * vertex_numb + j]] == INFINITY){
+                    if(distance[N[offset * vertex_numb + j]] == INFINITY)
                         distance[N[offset * vertex_numb + j]] = level + 1;
-                    }
             }
 
             level++;
         }
 
+        free(dups);
         free(F);
     }
 
@@ -150,9 +161,26 @@ void bfs_par(long long* graph, long long* degrees, long long vertex_numb, long l
     free(N);
 }
 
-void generate_random_graph(long long** graph, long long* degrees, long long vertex_numb, long long max_degrees, long long min_degrees)
-{
-    long long max_deg = (vertex_numb - 1) < max_degrees ? (vertex_numb - 1) : max_degrees,
+void reset_options(long long *options, long long size){
+    for(long long i = 0; i < size; i++)
+        options[i] = i;
+}
+
+long long get_unique_random(long long *options, long long maximum){
+    long long cursor = rand() % maximum,
+    tmp = options[cursor];
+    options[cursor] = options[maximum - 1];
+    return options[maximum - 1] = tmp;
+}
+
+void generate_random_graph(
+    long long** graph,
+    long long* degrees,
+    long long vertex_numb,
+    long long max_degrees,
+    long long min_degrees
+){
+    long long max_deg = vertex_numb < max_degrees ? vertex_numb : max_degrees,
         min_deg = (max_deg > min_degrees) ? min_degrees : max_deg,
         start = 0;
 
@@ -162,33 +190,28 @@ void generate_random_graph(long long** graph, long long* degrees, long long vert
     }
     degrees[vertex_numb] = start;
 
-    long long *G = (long long*) malloc(sizeof(long long) * start);
+    long long *G = (long long*) malloc(sizeof(long long) * start),
+        *options = (long long*) malloc(sizeof(long long) * vertex_numb);
 
     for(long long i = 0; i < vertex_numb; i++){
-        for(long long j = degrees[i]; j < degrees[i + 1]; j++){
-            long long val, flag;
-
-            do{
-                val = rand() % vertex_numb;
-                flag = 1;
-                for(long long k = degrees[i]; flag && k < j; k++)
-                    flag = G[k] != val;
-            }while(flag == 0);
-
-            G[j] = val;
-        }
+        reset_options(options, vertex_numb);
+        long long range = degrees[i + 1] - degrees[i];
+        for(long long j = 0; j < range; j++)
+            G[degrees[i] + j] = get_unique_random(options, vertex_numb - j);
     }
 
     *graph = G;
+
+    free(options);
 }
 
-void print_graph(long long*G, long long vertex_numb, long long degree)
+void print_graph(long long*G, long long vertex_numb, long long *degrees)
 {
     for(long long i = 0; i < vertex_numb; i++)
     {
         printf("%d | ", i);
-        for(long long j = 0; j < degree; j++)
-            printf("%d ", G[i * degree + j]);
+        for(long long j = degrees[i]; j < degrees[i+1]; j++)
+            printf("%d ", G[j]);
         printf("|\n");
     }
 }
