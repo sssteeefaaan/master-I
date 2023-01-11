@@ -1,0 +1,13 @@
+\chapter{Elastic Stack}
+U ovom poglavlju biće opisan Elastik stek, kao primer postojećeg rešenja za prikupljanje i integraciju podataka. Bitno je napomenuti da se dalji tekst oslanja na dokumentaciju trenutno najnovije javno dostupne verzije alata [16], odnosno najnovije verzije komponenti koje čine alat, a koje će biti istaknute pri obrađivanju svake od komponenti. U ovom poglavlju će biti opisani delovi alata neophodni za implementaciju sistema koja će biti data u sledećem poglavlju.
+
+\section{Osnove \textit{Elastic stack}-a}
+Elastik stek, takođe poznat kao ELK stek, predstavlja alat, koji postoji kao otvoreno rešenje (eng. open source) kompanije Elastik, a čije funkcionalnosti podrazumevaju: prikupljanje podataka u bilo kom formatu, njihovu obradu, nadogradnju, skladištenje, pretraživanje, analizu i vizuelizaciju u realnom vremenu. Akronim ELK identifikuje ključne komponente ovog steka, a to su: Elasticsearch, Logstash i Kibana [17].
+
+\par
+Podaci mogu doći iz bilo kog izvora, što je na slici generalizovano komponentom Beats, koja predstavlja opcioni dodatak ELK steka i služi za slanje operativnih podataka na Logstash. Logstash komponenta predstavlja uređivač (eng. formatter) sistema, njena glavna funkcionalnost jeste prikupljanje ulaznih podataka bilo kog formata, parsiranje podataka i slanje istih u željenom obliku na Elasticsearch. Elasticseach uz pomoć indeksa vrši skladištenje podataka i olakšava njihovo pretraživanje, takozvano pretraživanje celog teksta (eng. full-text search). Tako indeksirani podaci se uz pomoć Kibane mogu vizualno prikazivati i ujedno se vršiti njihova analiza.
+Neke od najčešćih vrsta podataka koji se obrađuju uz pomoć ELK steka podrazumevaju: evidentirane (eng. logged), metričke, bezbednosne i podatke biznis logike.
+
+\input{poglavlja/telo/01-elastic-stack/01-elasticsearch.tex}
+\input{poglavlja/telo/01-elastic-stack/02-logstash.tex}
+\input{poglavlja/telo/01-elastic-stack/03-kibana.tex}

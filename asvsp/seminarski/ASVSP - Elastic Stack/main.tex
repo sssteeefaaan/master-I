@@ -1,0 +1,32 @@
+\documentclass[12pt]{report}
+
+\title{Elastic Stack}
+\author{Stefan Aleksić}
+\newcommand{\studentindex}{E2 42/2022}
+
+\input{poglavlja/00-preamble.tex}
+
+\begin{document}
+\begin{sloppypar}
+\input{poglavlja/01-naslovna-strana.tex}
+
+\pagenumbering{roman}
+\input{poglavlja/02-abstrakt.tex}             
+\input{poglavlja/03-listinzi.tex}
+
+\pagenumbering{arabic}
+\input{poglavlja/04-uvod.tex}
+\input{poglavlja/telo/01-elastic-stack.tex}
+\input{poglavlja/telo/02-primer-koriscenja.tex}
+\input{poglavlja/05-zakljucak.tex}
+
+\bibliographystyle{plain}
+\typeout{}
+\bibliography{biblist}
+
+\appendix
+\input{poglavlja/06-dodaci.tex}
+\cite{ashtsp}
+
+\end{sloppypar}
+\end{document}
