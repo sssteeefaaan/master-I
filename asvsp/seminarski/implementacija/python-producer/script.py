@@ -8,7 +8,7 @@ ADDRESS = environ.get("TCP_ADDRESS", "localhost")
 PORT = int(environ.get("TCP_PORT", "50000"))
 
 def main():
-    filepath = join(join(curdir, "archive"), "network-traffic.csv")
+    filepath = join(curdir, "network-traffic.csv")
     file = open(filepath)
     print(f"Opened socket tcp://{ADDRESS}:{PORT}")
     _headers = file.readline()
