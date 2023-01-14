@@ -1,106 +1,123 @@
-\section{Logstash}
-Logstash je alat otvorenog koda za prikupljanje podataka sa mogućnostima nadovezivanja (eng. pipelining) u realnom vremenu. Alat može dinamičnim putem objediniti podatke iz različitih izvora, obogatiti ih, normalizovati i na kraju dostaviti podatke na unapred definisana odredišta. Ovim se pruža mogućnost prečišćavanja podataka za različite slučajeve upotrebe, naprednu analizu ili vizuelizaciju [21].
+\section{\textit{\textbf{Logstash}}}
+\textit{\textbf{Logstash}} je alat otvorenog koda za prikupljanje podataka sa mogućnostima nadovezivanja \textit{(eng. pipelining)} u realnom vremenu. Alat može dinamičnim putem objediniti podatke iz različitih izvora, obogatiti ih, normalizovati i na kraju dostaviti podatke na unapred definisana odredišta. Ovim se pruža mogućnost prečišćavanja podataka za različite slučajeve upotrebe, naprednu analizu ili vizuelizaciju \cite{elastic-logstash}.
 
 \par
-Na početku je Logstash bio korišćen za prikupljanje podataka evidencije (eng. log), međutim, mogućnosti koje pruža su prevazišle taj slučaj korišćenja. Naime, bilo koja vrsta događaja može biti prosleđena alatu, uz pomoć širokog spektra ulaznih dodataka (eng. input plugins), primljeni događaji mogu biti integrisani i transformisani uz pomoć dodataka za filtriranje (eng. filter plugins) i na kraju tako formatirani podaci mogu biti prosleđeni na razne vrste izlaza, uz pomoć izlazih dodataka (eng. output plugins). Sam proces obrade je podržan velikim brojem često korišćenih kodera, a pritom je alat dizajniran za obradu velike količine podataka u realnom vremenu. Alat je razvijen u programskom jeziku JRuby i izvršava se na javinoj virtuelnoj mašini (eng. Java Virtual Machine), skraćeno JVM.
+Na početku je \textit{\textbf{Logstash}} bio korišćen za prikupljanje podataka evidencije \textit{(eng. log)}, međutim, mogućnosti koje pruža su prevazišle taj slučaj korišćenja. Naime, bilo koja vrsta događaja može biti prosleđena alatu, uz pomoć širokog spektra ulaznih dodataka \textit{(eng. input plugins)}, primljeni događaji mogu biti integrisani i transformisani uz pomoć dodataka za filtriranje \textit{(eng. filter plugins)} i na kraju tako formatirani podaci mogu biti prosleđeni na razne vrste izlaza, uz pomoć izlazih dodataka \textit{(eng. output plugins)}. Sam proces obrade je podržan velikim brojem često korišćenih kodera, a pritom je alat dizajniran za obradu velike količine podataka u realnom vremenu. Alat je razvijen u programskom jeziku JRuby i izvršava se na javinoj virtuelnoj mašini \textit{(eng. Java Virtual Machine)}, skraćeno \textit{JVM} \cite{jvm}.
 
-\subsection{Kako \textit{Logstash} funkcioniše?}
-Logstash za sebe ima vezane cevovode, ili tokove podataka (eng. pipeline) definisane ulaznim, transformacionim i izlaznim etapama. Ulazi očitavaju događaje, filteri ih modifikuju, a izlazi tako modifikovane događaje dostavljaju na definisana odredišta. Ulazi i izlazi imaju unapred podržane kodeke, koji omogućavaju kodiranje i dekodiranje podataka pri ulazu i izlazu iz toka obrade, bez korišćenja transformacionih filtera.
+\subsection{Kako \textit{\textbf{Logstash}} funkcioniše?}
+\textit{\textbf{Logstash}} za sebe ima vezane cevovode, ili tokove podataka \textit{(eng. pipeline)} definisane ulaznim, transformacionim i izlaznim etapama. Ulazi očitavaju događaje, filteri ih modifikuju, a izlazi tako modifikovane događaje dostavljaju na definisana odredišta. Ulazi i izlazi imaju unapred podržane kodeke \footnote{Kodek \textit{(eng. codec)} kompresuje ili dekompresuje bilo koji sadržaj u i iz bajtova.\cite{codec}}, koji omogućavaju kodiranje i dekodiranje podataka pri ulazu i izlazu iz toka obrade, bez korišćenja transformacionih filtera. Primer jednog toka podataka prikazan je na slici \ref{diagram:primer-logstash-toka-podataka}.
+
+\begin{figure}[H]
+    \centering
+    \fboxsep=0.025\columnwidth%padding thickness
+    \fboxrule=1pt%border thickness
+    \fbox{\includegraphics[width=0.95\columnwidth]{images/Logstash-pipeline.pdf}}
+    \caption{\textit{Primer \textbf{Logstash} toka podataka}}
+    \label{diagram:primer-logstash-toka-podataka}
+\end{figure}
 
 \par
-Svaki dodatak koji se koristi u okviru ulazne etape se izvršava u sopstvenoj niti i svaki od njih upisuje događaje u centralizovani red čekanja koji je ili u radnoj memoriji pokrenutog procesa, ili može biti na disku. Svaki radnik toka podataka (eng. pipeline worker) uzima blok događaja iz reda čekanja, sprovodi blok kroz definisane dodatke u okviru filter etape i na kraju šalje obrađene događaje na svaki od definisanih dodataka izlazne etape. Veličina bloka, kao i broj radnika toka podataka, odnosno niti, je podesiv kroz konfiguracione fajlove Logstash-a.
+Svaki dodatak koji se koristi u okviru ulazne etape se izvršava u sopstvenoj niti i svaki od njih upisuje događaje u centralizovani red čekanja koji je ili u radnoj memoriji pokrenutog procesa, ili može biti na disku. Svaki radnik toka podataka \textit{(eng. pipeline worker)} uzima blok događaja iz reda čekanja, sprovodi blok kroz definisane dodatke u okviru filter etape i na kraju šalje obrađene događaje na svaki od definisanih dodataka izlazne etape. Veličina bloka, kao i broj radnika toka podataka, odnosno niti, je podesiv kroz konfiguracione fajlove \textit{\textbf{Logstash}}-a.
 
 \par
-Logstash podrazumevano koristi redove čekanja koji se nalaze u radnoj memoriji za baferovanje događaja između etapa, ulaz i filter etapa, odnosno filter i izlaz etapa, što je brže rešenje. Međutim pri nastanku greške, odnosno obustavi procesa, baferovani podaci bivaju izgubljeni.
+\textit{\textbf{Logstash}} podrazumevano koristi redove čekanja koji se nalaze u radnoj memoriji za baferovanje događaja između etapa, ulaz i filter etapa, odnosno filter i izlaz etapa, što je brže rešenje. Međutim pri nastanku greške, odnosno obustavi procesa, baferovani podaci bivaju izgubljeni.
 
 \par
-Ulaznim dodacima se definiše izvor podataka koji ulaze u sistem. Najčešće korišćeni ulazni dodaci podrazumevaju:
+\textbf{Ulaznim dodacima} se definiše izvor podataka koji ulaze u sistem. Najčešće korišćeni ulazni dodaci podrazumevaju:
 \begin{itemize}
-\item file – vrši čitanje fajla sa fajl sistema nalik Unix komandi tail -0F
-\item syslog – osluškuje na podrazumevanom portu 514, koji predstavlja port za syslog poruke u Unix-u i parsira ih na osnovu RFC3164 formata [22].
-\item redis – vrši čitanje sa Redis servera, konkretno sa Redis kanala i listi. Redis je često korišćen kao berzijanac poruka (eng. message broker) u centralizovanoj instalaciji Logstash-a i služi za skladištenje događaja u okviru reda čekanja.
-\item beats – vrši obradu podataka koji se dobijaju uz pomoć Beats alata.
+\item \textbf{file} – vrši čitanje fajla sa fajl sistema nalik \textit{Unix} komandi \mintinline{shell-session}{tail -0F},
+\item \textbf{syslog} – osluškuje na podrazumevanom portu 514, koji predstavlja port za \textit{syslog} poruke u \textit{Unix}-u i parsira ih na osnovu RFC3164 formata \cite{syslog-protocol},
+\item \textbf{redis} – vrši čitanje sa \textit{Redis} servera, konkretno sa \textit{Redis} kanala i listi. \textit{Redis} \cite{redis} je često korišćen kao berzijanac poruka \textit{(eng. message broker)} u centralizovanoj instalaciji \textit{\textbf{Logstash}}-a i služi za skladištenje događaja u okviru reda čekanja,
+\item \textbf{beats} – vrši obradu podataka koji se dobijaju uz pomoć \textit{Beats} alata \cite{elastic-beats}.
 \end{itemize}
 
 \par
-Filter dodaci predstavljaju procesne uređaje koji posreduju tokom podataka. Filteri mogu biti kombinovani uslovima koji diriguju da li se određena faza obrade izvršava ili ne, u zavisnosti od kriterijuma koji se ispituje. Najčešće korišćeni dodaci za filtriranje su:
+textbf{Filter dodaci} predstavljaju procesne uređaje koji posreduju tokom podataka. Filteri mogu biti kombinovani uslovima koji diriguju da li se određena faza obrade izvršava ili ne, u zavisnosti od kriterijuma koji se ispituje. Najčešće korišćeni dodaci za filtriranje su:
 \begin{itemize}
-\item grok – parsira i gradi proizvoljan tekst. Ovaj dodatak je trenutno najpogodnije rešenje za parsiranje nestrukturnih tokova podataka u podatke koji imaju strukturu i moguće je nad njima izvršavati upite.
-\item mutate – izvršava generalne transformacije nad poljima događaja, poput: preimenovanja, uklanjanja, zamene, modifikacije i slično.
-\item drop – izvršava obustavu događaja u potpunosti. Korisno pri događajima koji imaju debug nivo ozbiljnosti .
-\item clone – vrši replikaciju događaja, sa mogućnošću za dalje dodavanje i uklanjanje pojedinih polja.
-\item geoip – nadograđuje IP adresu geo-prostornim koordinatama, kao i dostupnim informacijama za iste.
+\item \textbf{grok} – parsira i gradi proizvoljan tekst. Ovaj dodatak je trenutno najpogodnije rešenje za parsiranje nestrukturnih tokova podataka u podatke koji imaju strukturu i moguće je nad njima izvršavati upite,
+\item \textbf{mutate} – izvršava generalne transformacije nad poljima događaja, poput: preimenovanja, uklanjanja, zamene, modifikacije i slično,
+\item \textbf{drop} – izvršava obustavu događaja u potpunosti. Korisno pri događajima koji imaju debug nivo ozbiljnosti,
+\item \textbf{clone} – vrši replikaciju događaja, sa mogućnošću za dalje dodavanje i uklanjanje pojedinih polja,
+\item \textbf{geoip} – nadograđuje \textit{IP} adresu geo-prostornim koordinatama, kao i dostupnim informacijama za iste.
 \end{itemize}
 
 \par
-Izlazni dodaci predstavljaju destinacije konačne etape u izvršavanju toka podataka Logstash-a. Događaj može proći kroz više izlaza, međutim, njegova obrada je završena kada prođe kroz sve navedene izlaze. Najčešće korišćeni dodaci za izlaz podrazumevaju:
+\textbf{Izlazni dodaci} predstavljaju destinacije konačne etape u izvršavanju toka podataka \textit{\textbf{Logstash}}-a. Događaj može proći kroz više izlaza, međutim, njegova obrada je završena kada prođe kroz sve navedene izlaze. Najčešće korišćeni dodaci za izlaz podrazumevaju:
 \begin{itemize}
-\item elasticsearch – šalje događaj na Elasticsearch, samim tim se vrši indeksiranje podataka koji dalje mogu lako da se pretražuju i vizualizuju u Kibani.
-\item file – skladišti formatiran događaj na fajl u fajl sistemu.
-\item graphite – šalje događaj na graphite, koji predstavlja popularan alat otvorenog koda za skladištenje podataka metrike. [23]
-\item statsd – šalje podatke na statsd. Ovo je pozadinski servis (eng. deamon), koji se izvršava na Node.js platformi, a čija je funkcija osluškivanje podataka statistike poslate UDP transportnim protokolom i prosleđivanje primljenih podataka na jedan ili više priključivih (eng. pluggable) pozadinskih (eng. backend) servisa, poput gore navedenog graphite servisa. [24]
+    \item \textbf{elasticsearch} – šalje događaj na \textit{Elasticsearch}, samim tim se vrši indeksiranje podataka koji dalje mogu lako da se pretražuju i vizualizuju u \textit{Kibani}.
+    \item \textbf{stdout} – ispisuje događaj na standardni izlaz.
+    \item \textbf{file} – skladišti formatiran događaj na fajl u fajl sistemu.
+    \item \textbf{graphite} – šalje događaj na  \textit{graphite}, koji predstavlja popularan alat otvorenog koda za skladištenje podataka metrike. \cite{graphite}
+    \item \textbf{statsd} – šalje podatke na  \textit{statsd}. Ovo je pozadinski servis  \textit{(eng. deamon)}, koji se izvršava na  \textit{Node.js} platformi, a čija je funkcija osluškivanje podataka statistike poslate  \textit{UDP} transportnim protokolom i prosleđivanje primljenih podataka na jedan ili više priključivih  \textit{(eng. pluggable)} pozadinskih  \textit{(eng. backend)} servisa, poput gore navedenog  \textit{graphite} servisa. \cite{statsd}
 \end{itemize}
 
-\subsection{Logstash konfiguracioni fajlovi}
-Logstash sadrži dve vrste konfiguracionih fajlova, a to su:
+\subsection{\textit{\textbf{Logstash}} konfiguracioni fajlovi}
+\textit{\textbf{Logstash}} sadrži dve vrste konfiguracionih fajlova, a to su:
 \begin{itemize}
-    \item Pipeline konfiguracioni fajlovi, koji definišu sam tok podataka. Izgled ovih fajlova će biti detaljnije objašnjen u nastavku.
-    \item Settings konfiguracioni fajlovi, koji definišu inicijalizaciju i tok rada samog Logstash procesa. Ovi fajlovi su generisani pri instaliranju samog Logstash servisa i podrazumevaju fajlove:
+    \item \textbf{Pipeline konfiguracioni fajlovi}, koji definišu sam tok podataka. Izgled ovih fajlova će biti detaljnije objašnjen u nastavku.
+    \item \textbf{Settings konfiguracioni fajlovi}, koji definišu inicijalizaciju i tok rada samog \textit{\textbf{Logstash}} procesa. Ovi fajlovi su generisani pri instaliranju samog \textit{\textbf{Logstash}} servisa i podrazumevaju fajlove:
     \begin{itemize}
-        \item[o] Logstash.yml – sadrži konfiguracione indikatore (eng. flags) za instancu programa. Ovde se mogu definisati: tip i lokacija bafera koji se koristi za red čekanja između etapa, veličina bloka događaja koju obrađuje jedan radnik, nivo evidentiranja (eng. logging level) i mnoga druga podešavanja.
-        \item[o] Pipelines.yml – sadrži konfiguraciju većeg broja tokova podataka koji će se izvršavati u okviru jedne instance Logstash-a. Ovde se između ostalog navodi putanja do same konfiguracije toka podataka, kao i broj radnika u okviru toka, identifikator toka i slično.
-        \item[o] Jvm.options – sadrži podešavanja za JVM indikatore. Ovde se između ostalog može definisati minimalna i maksimalna veličina radne memorije dodeljene procesu.
-        \item[o] Log4j2.properties – sadrži podrazumevana podešavanja za log4j biblioteku [25].
+        \item[o] \textbf{Logstash.yml} – sadrži konfiguracione indikatore \textit{(eng. flags)} za instancu programa. Ovde se mogu definisati: tip i lokacija bafera koji se koristi za red čekanja između etapa, veličina bloka događaja koju obrađuje jedan radnik, nivo evidentiranja \textit{(eng. logging level)} i mnoga druga podešavanja.
+        \item[o] \textbf{Pipelines.yml} – sadrži konfiguraciju većeg broja tokova podataka koji će se izvršavati u okviru jedne instance \textit{\textbf{Logstash}}-a. Ovde se između ostalog navodi putanja do same konfiguracije toka podataka, kao i broj radnika u okviru toka, identifikator toka i slično.
+        \item[o] \textbf{Jvm.options} – sadrži podešavanja za \textit{JVM} indikatore. Ovde se između ostalog može definisati minimalna i maksimalna veličina radne memorije dodeljene procesu.
+        \item[o] \textbf{Log4j2.properties} – sadrži podrazumevana podešavanja za \textit{log4j} biblioteku \cite{log4j}.
     \end{itemize}
 \end{itemize}
 
 \subsubsection{Struktura konfiguracionih fajlova}
-Logstash konfiguracioni fajlovi za tokove podataka su pisani u specijalnom jeziku [26] koji je razvijen od strane samih osnivača programa. Jezik podseća na JSON format sa par izuzetaka, ali je vrlo jednostavan za razumevanje.
-Tok podataka, pipeline ima odvojene segmente za ulaznu, filter i izlaznu etapu, čija je oblast važenja uokvirena vitičastim zagradama. U okviru svake od etapa se mogu navesti dodaci koji se koriste.  Bitno je naglasiti da se dodaci u okviru ulazne etape izvršavaju konkurentno, dok se u filter i izlaznoj etapi izvršavaju sekvencijalno.
+\textit{\textbf{Logstash}} konfiguracioni fajlovi za tokove podataka su pisani u specijalnom jeziku \cite{logstash-pipeline-language} koji je razvijen od strane samih osnivača programa. Jezik podseća na \textit{JSON} format sa par izuzetaka, ali je vrlo jednostavan za razumevanje.
+Tok podataka, \textit{pipeline} ima odvojene segmente za ulaznu, filter i izlaznu etapu, čija je oblast važenja uokvirena vitičastim zagradama. U okviru svake od etapa se mogu navesti dodaci koji se koriste.  Bitno je naglasiti da se dodaci u okviru ulazne etape izvršavaju konkurentno, dok se u filter i izlaznoj etapi izvršavaju sekvencijalno.
 
 \par
-Primer jednog konfiguracionog fajla je dat u okviru slike 7.
+Primer jednog konfiguracionog fajla je dat u okviru slike \ref{code:primer-konfiguracije-toka-podataka}.
 \begin{listing}[H]
-\begin{minted}{python}
+\begin{minted}[frame=single,
+               framesep=3mm,
+               linenos=true,
+               xleftmargin=21pt,
+               tabsize=4]{js}
 input {
     http {
         port => 3333
         tags => gateway
     }
 }
-
 filter {
     . . . 
 }
-
 output {
     . . .
 }
 \end{minted}
-\caption{Primer konfiguracije toka podataka}
+\caption{\textit{Primer konfiguracije toka podataka}}
 \label{code:primer-konfiguracije-toka-podataka}
 \end{listing}
 
+\par
 Dodaci mogu zahtevati vrednosti za određena podešavanja. Tipovi vrednosti koje postoje u okviru konfiguracije su:
 \begin{itemize}
-    \item Lista – definiše se uglastim zagradama, dok su elementi unutar zagrada odvojeni zarezima.
-    \item Logička vrednost – definiše se vrednostima true i false.
-    \item Bajt – definiše se kao string koji sadrži broj bajtova sa mernom jedinicom, bilo da je u pitanju SI (osnova 1000), ili binarna (osnova 1024) merna jedinica. Polje nije osetljivo na velika slova (eng. case-insensitive) i prepoznaje razmak između vrednosti i jedinice. Ukoliko se ne napiše jedinica, već samo celobrojna vrednost, podrazumeva se da vrednost predstavlja egzaktan broj bajtova.
-    \item Kodek – definiše ime jednog od Logstash kodeka, koji se može naznačiti i u ulaznim i u izlaznim etapama. Kada se nađe u ulaznoj etapi, predstavlja način dekodiranja podataka koji ulaze u tok, dok na izlazu predstavljaju način kodiranja u određeni format.
-    \item Heš mapa – definiše kolekciju ključ-vrednost elemenata u formatu “polje“ => “vrednost“, gde se elementi razdvajaju blanko znacima, ne zapetama kao kod listi i nizova.
-    \item Broj – obuhvata realne brojeve, odnosno integer i float vrednosti.
-    \item Lozinka – string vrednost koja ne biva evidentirana.
-    \item URI – string vrednost koja predstavlja identifikator resursa, može biti potpun ili parcijalni URL. Ukoliko sadrži korisničko ime i lozinku, takođe se neće evidentirati.
-    \item Putanja – definiše validnu putanju do resursa na sistemu.
-    \item String – sekvenca karaktera, ukoliko sadrži blanko znake, neophodno je ograditi ga jednostrukim ili dvostrukim znakom navoda.
-    \item Referenca na polje – predstavlja putanju do polja u događaju, ukoliko se radi o polju koje je u korenu događaja, onda se može koristiti notacija [polje] ili se izostaviti uglaste zagrade, polje. Ukoliko se referencira ugnježdeno polje, onda je neophodno koristiti notaciju sa uglastim zagradama i to po ugledu na oblik [polje prvog nivoa][polje drugog nivoa]… [polje n-tog nivoa].
-    \item Komentari se označavaju kao u programskim jezicima Perl, Ruby i Python, počinju znakom taraba (\#).
+    \item \textbf{Lista} – definiše se uglastim zagradama, dok su elementi unutar zagrada odvojeni zarezima,
+    \item \textbf{Logička vrednost} – definiše se vrednostima \mintinline{js}{true} i \mintinline{js}{false},
+    \item \textbf{Bajt} – definiše se kao string koji sadrži broj bajtova sa mernom jedinicom, bilo da je u pitanju SI (osnova 1000), ili binarna (osnova 1024) merna jedinica. Polje nije osetljivo na velika slova \textit{(eng. case-insensitive)} i prepoznaje razmak između vrednosti i jedinice. Ukoliko se ne napiše jedinica, već samo celobrojna vrednost, podrazumeva se da vrednost predstavlja egzaktan broj bajtova,
+    \item \textbf{Kodek} – definiše ime jednog od \textit{\textbf{Logstash}} kodeka, koji se može naznačiti i u ulaznim i u izlaznim etapama. Kada se nađe u ulaznoj etapi, predstavlja način dekodiranja podataka koji ulaze u tok, dok na izlazu predstavljaju način kodiranja u određeni format,
+    \item \textbf{Heš mapa} – definiše kolekciju ključ-vrednost elemenata u formatu \textit{"polje" => "vrednost"}, gde se elementi razdvajaju blanko znacima, ne zapetama kao kod listi i nizova,
+    \item \textbf{Broj} – obuhvata realne brojeve, odnosno \textit{integer} i \textit{float} vrednosti,
+    \item \textbf{Lozinka} – string vrednost koja ne biva evidentirana,
+    \item \textbf{URI} – string vrednost koja predstavlja identifikator resursa, može biti potpun ili parcijalni \textit{URL}. Ukoliko sadrži korisničko ime i lozinku, takođe se neće evidentirati,
+    \item \textbf{Putanja} – definiše validnu putanju do resursa na sistemu,
+    \item \textbf{String} – sekvenca karaktera, ukoliko sadrži blanko znake, neophodno je ograditi ga jednostrukim ili dvostrukim znakom navoda,
+    \item \textbf{Referenca na polje} – predstavlja putanju do polja u događaju, ukoliko se radi o polju koje je u korenu događaja, onda se može koristiti notacija \mintinline{js}{[polje]} ili se izostaviti uglaste zagrade, polje. Ukoliko se referencira ugnježdeno polje, onda je neophodno koristiti notaciju sa uglastim zagradama i to po ugledu na oblik \mintinline{js}{[polje prvog nivoa][polje drugog nivoa]...[polje n-tog nivoa]}.
+    \item \textbf{Komentari} se označavaju kao u programskim jezicima \textit{Perl}, \textit{Ruby} i \textit{Python}, odnosno počinju znakom taraba (\#).
 \end{itemize}
 
 \par
-Uslovne strukture (eng. conditionals) su podržane, imaju poznatu strukturu kao i u ostalim programskim jezicima if, else if, else, a koriste se za dodatno kontrolisanje filter i izlazne etape toka podataka. Primer strukture je dat u nastavku (slika 8).
+\textbf{Uslovne strukture} \textit{(eng. conditionals)} su podržane, imaju poznatu strukturu kao i u ostalim programskim jezicima \mintinline{python}{if, else if, else}, a koriste se za dodatno kontrolisanje filter i izlazne etape toka podataka. Primer strukture je dat u nastavku \ref{code:uslovne-strukture-u-konfiguracionom-fajlu-toka-podataka}.
 \begin{listing}[H]
-\begin{minted}{python}
+\begin{minted}[frame=single,
+               framesep=3mm,
+               linenos=true,
+               xleftmargin=21pt,
+               tabsize=4]{python}
 if EXPRESSION {
     ...
 } else if EXPRESSION {
@@ -109,73 +126,78 @@ if EXPRESSION {
     ...
 }
 \end{minted}
-\caption{Uslovne strukture u konfiguracionom fajlu toka podataka}
-\label{code:Uslovne-strukture-u-konfiguracionom-fajlu-toka-podataka}
+\caption{\textit{Uslovne strukture u konfiguracionom fajlu toka podataka}}
+\label{code:uslovne-strukture-u-konfiguracionom-fajlu-toka-podataka}
 \end{listing}
 
 \par
-Izraz (eng. expression) predstavlja logički izraz koji se svodi na jednu od logičkih vrednosti true, ili false. Ukoliko izraz sadrži referencu na polje, vrednost izraza će biti false ukoliko: polje ne postoji, polje ima nedefinisanu vrednost null ili postoji i ima vrednost false. Podržani operatori u okviru jezika podrazumevaju:
+\textbf{Izraz} \textit{(eng. expression)} predstavlja logički izraz koji se svodi na jednu od logičkih vrednosti \mintinline{js}{true}, ili \mintinline{js}{false}. Ukoliko izraz sadrži referencu na polje, vrednost izraza će biti \mintinline{js}{false} ukoliko: polje ne postoji, polje ima nedefinisanu vrednost \mintinline{js}{null} ili postoji i ima vrednost \mintinline{js}{false}. Podržani operatori u okviru jezika podrazumevaju:
 \begin{itemize}
 \item Operatore poređenja:
-\item[o] Jednakost: ==, !=, <, >, <=, >=
-\item[o] Regularni izraz: =~, !~
-\item[o] Provera sadržaja: in, not in
-\item[o] Logičke operatore: and, or, nand, xor
-\item Unarni operator: !
+\begin{itemize}
+\item[o] Jednakost: \textbf{==}, \textbf{!=}, \textbf{<}, \textbf{>}, \textbf{<=}, \textbf{>=}
+\item[o] Regularni izraz: \textbf{=~}, \textbf{!~}
+\item[o] Provera sadržaja: \textbf{in}, \textbf{not in}
+\end{itemize}
+\item Logičke operatore: \textbf{and}, \textbf{or}, \textbf{nand}, \textbf{xor}
+\item Unarni operator: \textbf{!}
 \end{itemize}
 
 \par
-Konkretan primer uslovne strukture sa izrazima je dat na slici 9.
+Konkretan primer uslovne strukture sa izrazima je dat na slici \ref{code:primer-izraza-u-okviru-uslovnih-struktura}.
 \begin{listing}[H]
-\begin{minted}{python}
+\begin{minted}[frame=single,
+               framesep=3mm,
+               linenos=true,
+               xleftmargin=21pt,
+               tabsize=4,
+               fontsize={\fontsize{10}{10}\selectfont}]{python}
 filter {
-    if [fooVal] in ["test", "debug"] and !([logLevel] == "debug") {
+    if [fooVal] in ["test", "debug"] and ([logLevel] != "debug") {
         mutate { add_tag => "testing" }
     }
-	
-	if [foo] =~ "[0-9]+" {
+    if [foo] =~ "[0-9]+" {
         mutate { add_tag => "contains numbers" }
     }
-
-
     if "%{+HH}" < "16" {
       mutate { add_tag => "Before 16h" }
     }    
 }
-
 output {
     if "testing" not in [tags] {
-        elasticsearch(...)
+        elasticsearch{
+            ...
+        }
     }
 }
 \end{minted}
-\caption{Primer izraza u okviru uslovnih struktura}
+\caption{\textit{Primer izraza u okviru uslovnih struktura}}
 \label{code:primer-izraza-u-okviru-uslovnih-struktura}
 \end{listing}
 
 \par
 Svakom događaju koji se generiše u ulaznoj etapi obrade se pridružuju polja koja bliže opisuju događaj. Ova polja su rezervisana, njihov tip zavisi od implementacije samog ulaznog dodatka koji ih generiše, a namenjeni su boljoj kontroli toka obrade:
 \begin{itemize}
-    \item @metadata – heš mapa namenjena za skladištenje pomoćnih podataka u toku obrade. Ovo polje je dostupno u filter i izlaznoj etapi, međutim, podrazumevano se ne šalje na izlazne dodatke.
-    \item @timestamp – predstavlja vremenski trenutak u kom je generisan događaj. Iz ovog polja se čitaju podaci koje koristi sprintf format, koji omogućava referenciranje vrednosti iz ostalih polja događaja.
-    \item @version – predstavlja verziju dodatka koji je generisao događaj.
-    \item tags – niz vrednosti koji se koriste radi bližeg opisivanja događaja.
+    \item \textbf{@metadata} – heš mapa namenjena za skladištenje pomoćnih podataka u toku obrade. Ovo polje je dostupno u filter i izlaznoj etapi, međutim, podrazumevano se ne šalje na izlazne dodatke.
+    \item \textbf{@timestamp} – predstavlja vremenski trenutak u kom je generisan događaj. Iz ovog polja se čitaju podaci koje koristi \textit{sprintf} format, koji omogućava referenciranje vrednosti iz ostalih polja događaja.
+    \item \textbf{@version} – predstavlja verziju dodatka koji je generisao događaj.
+    \item \textbf{tags} – niz vrednosti koji se koriste radi bližeg opisivanja događaja.
 \end{itemize}
 
 \subsection{Dodaci toka obrade}
-Dodaci toka obrade (eng. pipeline plugins) su programi napisani u programskom jeziku Java ili Ruby, koji predstavljaju alat za olakšavanje kontrole samog toka obrade, od ulaza, preko obrade, do izlaza samih podataka. Ove programe može napisati bilo ko u programskom jeziku Java ili Ruby i publikovati ih na javni Github repozitorijum sa kog ostali korisnici mogu da ih povlače i koriste u svojim sistemima. Samim tim, Logstash ima jako veliki skup dodataka koji mogu biti korišćeni, dok će ovaj rad nadalje obraditi samo one koji su neophodni za razumevanje sistema koji se implementira.
+\textbf{Dodaci toka obrade} \textit{(eng. pipeline plugins)} su programi napisani u programskom jeziku \textit{Java} ili \textit{Ruby}, koji predstavljaju alat za olakšavanje kontrole samog toka obrade, od ulaza, preko obrade, do izlaza samih podataka. Ove programe može napisati bilo ko u programskom jeziku \textit{Java} ili \textit{Ruby} i publikovati ih na javni \textit{Github} repozitorijum sa kog ostali korisnici mogu da ih povlače i koriste u svojim sistemima. Samim tim, \textit{\textbf{Logstash}} ima jako veliki skup dodataka koji mogu biti korišćeni, dok će ovaj rad nadalje obraditi samo one koji su neophodni za razumevanje sistema koji se implementira.
 
 \par
-Syslog ulazni dodatak [27] vrši čitanje syslog [28] poruka preko mreže, tako što osluškuje poruke TCP i UDP protokola, generišući odgovarajuće događaje za tok podataka u kom je konfigurisan. 
+\textbf{TCP ulazni dodatak} \cite{tcp-plugin} vrši čitanje poruka poslatih preko mreže, tako što osluškuje poruke TCP protokola, generišući odgovarajuće događaje za tok podataka u kom je konfigurisan. 
 
 \par
-Grok filter dodatak [30] vrši parsiranje proizvoljnog teksta i njegovo prevođenje u strukturni podatak, nad kojim se mogu pisati upiti. Funkcioniše tako što koristi regularne izraze za pronalaženje šablona u okviru tekstualnih polja. Sintaksa koju prati ovaj dodatak je \%{SINTAKSA:SEMANTIKA}. Sintaksa predstavlja ime unapred definisanog šablona regularnog izraza koji se koristi za identifikovanje dela teksta, dok semantika predstavlja identifikator pronađenog teksta koji se dalje može koristiti u toku podataka. Pored unapred definisanih šablona, mogu se direktno pisati regularni izrazi za pronalaženje šablona. Sintaksa regularnih izraza koja se koristi je Onigurama [31], koja ima izgled (?<identifikator polja>šablon). Još jedan način jeste kreiranje sopstvenih šablona u odvojenim fajlovima (putanje do fajlova se definišu u konfiguraciji dodatka), dok novo-definisani šablon ima izgled IME\_ŠABLONA ŠABLON.
+\textbf{Grok filter dodatak} \cite{grok-plugin} vrši parsiranje proizvoljnog teksta i njegovo prevođenje u strukturni podatak, nad kojim se mogu pisati upiti. Funkcioniše tako što koristi regularne izraze za pronalaženje šablona u okviru tekstualnih polja. Sintaksa koju prati ovaj dodatak je \textbf{\%{SINTAKSA:SEMANTIKA}}. Sintaksa predstavlja ime unapred definisanog šablona regularnog izraza koji se koristi za identifikovanje dela teksta, dok semantika predstavlja identifikator pronađenog teksta koji se dalje može koristiti u toku podataka. Pored unapred definisanih šablona, mogu se direktno pisati regularni izrazi za pronalaženje šablona. Sintaksa regularnih izraza koja se koristi je \textit{Onigurama} \cite{onigurama}, koja ima izgled \textit{(?<identifikator polja>šablon)}. Još jedan način jeste kreiranje sopstvenih šablona u odvojenim fajlovima (putanje do fajlova se definišu u konfiguraciji dodatka), dok novo-definisani šablon ima izgled \textit{IME\_ŠABLONA ŠABLON}.
 
 \par
-Mutate filter dodatak [32] omogućava generalizaciju mutacija nad poljima događaja. Moguće su operacije: preimenovanja, zamene, modifikacije polja u okviru događaja i slično. Redosled operacija u okviru dodatka je unapred ustanovljen, odnosno ne prati redosled navođenja operacija u okviru konfiguracije. Ukoliko je neophodno izvršiti više operacija koje ne prate ovakav redosled, neophodno je definisati više mutate filter dodataka u odgovarajućem redosledu. 
+\textbf{Mutate filter dodatak} \cite{mutate-plugin} omogućava generalizaciju mutacija nad poljima događaja. Moguće su operacije: preimenovanja, zamene, modifikacije polja u okviru događaja i slično. Redosled operacija u okviru dodatka je unapred ustanovljen, odnosno ne prati redosled navođenja operacija u okviru konfiguracije. Ukoliko je neophodno izvršiti više operacija koje ne prate ovakav redosled, neophodno je definisati više \textit{mutate} filter dodataka u odgovarajućem redosledu. 
 
 \par
-Geoip filter dodatak [33] nadograđuje događaje informacijama o geo-prostornoj lokaciji prosleđene IP adrese. Ovaj dodatak je zasnovan na podacima iz MaxMind GeoLite2 baze podataka [34], koja dolazi kao podrazumevana baza dodatka. Moguće je kroz opcije konfigurisati bazu podataka, odnosno promeniti podrazumevanu. Primer odgovora koji se dobija za prosleđenu IP adresu dat je u okviru slike 10.
+\textbf{Geoip filter dodatak} \cite{geoip-plugin} nadograđuje događaje informacijama o geo-prostornoj lokaciji prosleđene \textit{IP} adrese. Ovaj dodatak je zasnovan na podacima iz \textit{MaxMind GeoLite2} baze podataka \cite{maxmind-geolite}, koja dolazi kao podrazumevana baza dodatka. Moguće je kroz opcije konfigurisati bazu podataka, odnosno promeniti podrazumevanu. Primer odgovora koji se dobija za prosleđenu \textit{IP} adresu dat je u okviru slike \ref{code:primer-podataka-koje-pruza-geoip-filter-dodatak-za-prosledjenu-ip-adresu}.
 
 \begin{listing}[H]
 \begin{minted}[frame=single,
@@ -215,20 +237,20 @@ Geoip filter dodatak [33] nadograđuje događaje informacijama o geo-prostornoj 
     }
 }
 \end{minted}
-\caption{ Primer podataka koje pruža geoip filter dodatak za prosleđenu IP adresu}
+\caption{\textit{Primer podataka koje pruža geoip filter dodatak za prosleđenu IP adresu}}
 \label{code:primer-podataka-koje-pruza-geoip-filter-dodatak-za-prosledjenu-ip-adresu}
 \end{listing}
 
 \par
-Http filter dodatak [35] omogućava integraciju sa eksternim Veb servisima ili REST API-jima, tako što osposobljava Logstash da šalje zahteve podesive strukture na odgovarajuće krajnje tačke (eng. endpoint), kako bi obogatio događaj koji se obrađuje dodatnim informacijama. Parametar koji definiše zaglavlja zahteva (eng. headers) koji se šalju bivaju definisana u okviru @metadata polja, kako ne bi okupirali destinacije na izlazu. Ovo je vrlo podesiv dodatak i ima veliki broj opcija za konfiguraciju.
+\textbf{Http filter dodatak} \cite{http-plugin} omogućava integraciju sa eksternim \textit{Web} servisima ili \textit{REST API}-jima, tako što osposobljava \textit{\textbf{Logstash}} da šalje zahteve podesive strukture na odgovarajuće krajnje tačke \textit{(eng. endpoint)}, kako bi obogatio događaj koji se obrađuje dodatnim informacijama. Parametar koji definiše zaglavlja zahteva \textit{(eng. headers)} koji se šalju bivaju definisana u okviru \textbf{@metadata} polja, kako ne bi okupirali destinacije na izlazu. Ovo je vrlo podesiv dodatak i ima veliki broj opcija za konfiguraciju.
 
 \par
-Dns filter dodatak [36] pruža pretragu stavki, kanoničkih imena (eng. CNAME), ili stavki adresa (eng. A record), odnosno ukoliko je u pitanju inverzni DNS, pretražuju se pointer stavke (eng. pointer record, PTR). Bitno je napomenuti da ovaj dodatak može da obradi samo jednu stavku, dakle za veći broj stavki je potrebno više puta iskoristiti ovaj dodatak, s tim što ovakvo podešavanje može drastično da uspori sistem. 
+\textbf{Dns filter dodatak} \cite{dns-plugin} pruža pretragu stavki, kanoničkih imena \textit{(eng. CNAME)}, ili stavki adresa \textit{(eng. A record)}, odnosno ukoliko je u pitanju inverzni \textit{DNS}, pretražuju se pointer stavke \textit{(eng. pointer record, PTR)}. Bitno je napomenuti da ovaj dodatak može da obradi samo jednu stavku, dakle za veći broj stavki je potrebno više puta iskoristiti ovaj dodatak, s tim što ovakvo podešavanje može drastično da uspori sistem. 
 
 \par
-Elasticseach izlazni dodatak [37] omogućava skladištenje vremenskih serija podataka, poput podataka evidencije, događaja i metrike, kao i podataka čije skladištenje nije bazirano na vremenskim intervalima, direktno u Elasticsearch. S obzirom da se radi o dodatku koji radi sa osnovnim proizvodom kompanije, ovaj dodatak je jako fleksibilan i može kontrolisati razne segmente vezane za operacije u Elasticsearch-u. Najbitnije opcije u okviru dodatka, koje se vezuju za temu ovog rada podrazumevaju:
+\textbf{Elasticseach izlazni dodatak} \cite{elasticsearch-plugin} omogućava skladištenje vremenskih serija podataka, poput podataka evidencije, događaja i metrike, kao i podataka čije skladištenje nije bazirano na vremenskim intervalima, direktno u \textit{Elasticsearch}. S obzirom da se radi o dodatku koji radi sa osnovnim proizvodom kompanije, ovaj dodatak je jako fleksibilan i može kontrolisati razne segmente vezane za operacije u \textit{Elasticsearch}-u. Najbitnije opcije u okviru dodatka, koje se vezuju za temu ovog rada podrazumevaju:
 \begin{itemize}
-    \item action – enumeracija(index, delete, create, update) koja definiše koja vrsta operacije biva izvršavana. Podrazumevana vrednost za vremenske serije podataka, odnosno tokove podataka je create, dok je index podrazumevana vrednost za podatke koji se ne vezuju za vremenske intervale.
-    \item index – string koji predstavlja indeks u koji se upisuju podaci obrađeni u okviru toka podataka
-    \item hosts – uri tip vrednosti, koji predstavlja jednu ili više adresa čvorova na kojima je pokrenuta instanca Elasticsearch-a. Podrazumevana vrednost je [//127.0.0.1].
+    \item \textbf{action} – enumeracija(\textit{index, delete, create, update}) koja definiše koja vrsta operacije biva izvršavana. Podrazumevana vrednost za vremenske serije podataka, odnosno tokove podataka je \textit{create}, dok je \textit{index} podrazumevana vrednost za podatke koji se ne vezuju za vremenske intervale.
+    \item \textbf{index} – string koji predstavlja indeks u koji se upisuju podaci obrađeni u okviru toka podataka
+    \item \textbf{hosts} – uri tip vrednosti, koji predstavlja jednu ili više adresa čvorova na kojima je pokrenuta instanca \textit{Elasticsearch}-a. Podrazumevana vrednost je \mintinline{python}{[//127.0.0.1]}.
 \end{itemize}

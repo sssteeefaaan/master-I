@@ -1,8 +1,8 @@
-\section{Kibana}
-Kibana je aplikacija otvorenog koda koja pruža pregledan korisnički interfejs ka Elastik steku, uz mogućnosti pretraživanja, vizuelizacije i analize podataka indeksiranih Elasticsearch-om. Takođe poznata i kao alat za kreiranje raznovrsnih grafikona (eng. charts), Kibana omogućava nadgledanje, upravljanje i održavanje bezbednosti klastera u ELK steku. Prvi put je postala dostupna javnosti 2013. godine, dok je trenutna aktuelna verzija 8.4, na osnovu koje će biti opisani pojedini detalji same aplikacije [38].
+\section{\textit{\textbf{Kibana}}}
+\textit{\textbf{Kibana}} je aplikacija otvorenog koda koja pruža pregledan korisnički interfejs ka \textit{Elastic stack}-u, uz mogućnosti pretraživanja, vizuelizacije i analize podataka indeksiranih \textit{Elasticsearch}-om. Takođe poznata i kao alat za kreiranje raznovrsnih grafikona \textit{(eng. charts)}, \textit{\textbf{Kibana}} omogućava nadgledanje, upravljanje i održavanje bezbednosti klastera u \textit{Elastic stack}-u. Prvi put je postala dostupna javnosti 2013. godine, dok je trenutna aktuelna verzija 8.6, na osnovu koje će biti opisani pojedini detalji same aplikacije \cite{elastic-kibana}.
 
 \par
-Glavna primena Kibane podrazumeva: pretraživanje, vizualizaciju indeksiranih podataka u okviru Elasticsearch-a, kao i analizu podataka kroz kreiranje grafikona, poput: poluga, pita, tabela, histograma i mapa. Komandna tabla (eng. dashboard) kombinuje ove elemente na jedan pano i time omogućava analitički pregled podataka u realnom vremenu za razne slučajeve korišćenja, poput:
+Glavna primena \textit{\textbf{Kibana}}-e podrazumeva: pretraživanje, vizualizaciju indeksiranih podataka u okviru \textit{Elasticsearch}-a, kao i analizu podataka kroz kreiranje grafikona, poput: poluga, pita, tabela, histograma i mapa. Komandna tabla \textit{(eng. dashboard)} kombinuje ove elemente na jedan pano i time omogućava analitički pregled podataka u realnom vremenu za razne slučajeve korišćenja, poput:
 \begin{enumerate}
     \item analize podataka evidencije, 
     \item nadgledanja metričkih podataka infrastrukture i kontejnera, 
@@ -11,25 +11,29 @@ Glavna primena Kibane podrazumeva: pretraživanje, vizualizaciju indeksiranih po
     \item analizu podataka biznis logike.
 \end{enumerate}
 
-\subsubsection{Upitni jezik Kibane}
-Kibana koristi specifični upitni jezik nazvan Kibana Query Language, ili skraćeno KQL, kojim je omogućeno jednostavno filtriranje podataka u svrhu vizualizacije. Ovaj jezik se razlikuje od standardnog Lucene upitnog jezika, jer ne omogućava pretragu uz pomoć regularnih izraza ili takozvanu pomućenu (eng. fuzzy) pretragu podataka, međutim omogućena je pretraga ugnježdenih polja kao i takozvanih skriptovanih polja (eng. scripted fields).
+\subsection{Upitni jezik \textit{\textbf{Kibana}}-e}
+\textit{\textbf{Kibana}} koristi specifični upitni jezik nazvan \textit{\textbf{Kibana Query Language}} \cite{kql}, ili skraćeno \textit{\textbf{KQL}}, kojim je omogućeno jednostavno filtriranje podataka u svrhu vizualizacije. Ovaj jezik se razlikuje od standardnog \textit{Lucene }upitnog jezika, jer ne omogućava pretragu uz pomoć regularnih izraza ili takozvanu pomućenu \textit{(eng. fuzzy)} pretragu podataka, međutim omogućena je pretraga ugnježdenih polja kao i takozvanih skriptovanih polja \textit{(eng. scripted fields)}.
 
 \par
-U okviru jezika se mogu identifikovati podvrste upitnog jezika:
-Upiti termina (eng. terms query), koji koriste egzaktan stil pretrage. Sintaksa ovog upita ima oblik
-<putanja do polja> : <list termina>
-Gde putanja do polja predstavlja ugnježdena polja počevši od korena dokumenta, sve do polja koje se pretražuje, nivoi su razdvojeni tačkom. Lista termina predstavlja prihvatljive vrednosti u okviru navedenog polja, dok se različiti termini odvajaju razmakom, a ukoliko se pretražuju egzaktne fraze, koriste se znaci navođenja. Putanja do polja i lista termina se odvajaju specijalnim karakterom dvotačka, na koji može da se gleda kao na operator in.
-Upiti Bulove algebre (eng. boolean queries) predstavljaju kombinovanje prethodno navedene podvrste upita logičkim operatorima: or, and i not. Po pravilu, and ima viši prioritet od operatora or, ukoliko je neophodna drugačija logika, koriste se zagrade.
+U okviru jezika se mogu identifikovati podvrste upitnog jezika: \textbf{upiti termina}, \textbf{upiti Bulove algebre}, \textbf{opsežni upiti}, \textbf{upiti koji koriste džokere} i \textbf{upiti nad ugnježdenim poljima}.
 
 \par
-Opsežni upiti (eng. range queries) predstavljaju upite koji numeričke i vrednosti datuma navedenih polja porede operatorima jednakosti: >, >=, < i <=. Moguće je koristiti i matematičke izraze pri poređenju vrednosti, što je jako pogodno za datume.
+\textbf{Upiti termina} \textit{(eng. terms query)}, koji koriste egzaktan stil pretrage. Sintaksa ovog upita ima oblik \textit{<putanja do polja> : <list termina>}, gde putanja do polja predstavlja ugnježdena polja počevši od korena dokumenta, sve do polja koje se pretražuje, nivoi su razdvojeni tačkom. Lista termina predstavlja prihvatljive vrednosti u okviru navedenog polja, dok se različiti termini odvajaju razmakom, a ukoliko se pretražuju egzaktne fraze, koriste se znaci navođenja. Putanja do polja i lista termina se odvajaju specijalnim karakterom dvotačka, na koji može da se gleda kao na operator \textit{in}.
 
 \par
-Upiti koji koriste džokere (eng. wildcard), koji je označen znakom * i može biti ili u delu putanje polja, čime se pokriva veći broj polja, ili u okviru vrednosti koje se traže u poljima i time pokriva veći spektar vrednosti, jer menja odgovarajući deo bilo kojom sekvencom bilo koje dužine.
-Upiti nad ugnježdenim poljima (eng. nested field queries) omogućavaju dva pristupa u filtriranju ugnježdenih dokumenata:
+\textbf{Upiti Bulove algebre} \textit{(eng. boolean queries)} predstavljaju kombinovanje prethodno navedene podvrste upita logičkim operatorima: \textbf{or}, \textbf{and} i \textbf{not}. Po pravilu, \textbf{and} ima viši prioritet od operatora \textbf{or}, ukoliko je neophodna drugačija logika, koriste se zagrade.
+
+\par
+\textbf{Opsežni upiti} \textit{(eng. range queries)} predstavljaju upite koji numeričke i vrednosti datuma navedenih polja porede operatorima jednakosti: \textbf{>}, \textbf{>=}, \textbf{<} i \textbf{<=}. Moguće je koristiti i matematičke izraze pri poređenju vrednosti, što je jako pogodno za datume.
+
+\par
+\textbf{Upiti koji koriste džokere} \textit{(eng. wildcard)}, koji je označen znakom \textbf{*} i može biti ili u delu putanje polja, čime se pokriva veći broj polja, ili u okviru vrednosti koje se traže u poljima i time pokriva veći spektar vrednosti, jer menja odgovarajući deo bilo kojom sekvencom bilo koje dužine.
+
+\par
+\textbf{Upiti nad ugnježdenim poljima} \textit{(eng. nested field queries)} omogućavaju dva pristupa u filtriranju ugnježdenih dokumenata:
 \begin{itemize}
-    \item Filtriranje jednog dokumenta na osnovu određenih delova upita
-<polje>:{ <ugnježdeno polje 1>:<izraz 1> and <ugnježdeno polje 2>:<izraz 2> }
-    \item Filtriranje više dokumenata na osnovu određenih delova upita
-<polje>:{ <ugnježdeno polje 1>:<izraz 1> } and <polje>:{ <ugnježdeno polje 2>:<izraz 2> }
+    \item Filtriranje jednog dokumenta na osnovu određenih delova upita\\
+\textit{<polje>:\{ <ugnježdeno polje 1>:<izraz 1> and <ugnježdeno polje 2>:<izraz 2> \}}
+    \item Filtriranje više dokumenata na osnovu određenih delova upita \\
+\textit{<polje>:\{ <ugnježdeno polje 1>:<izraz 1> \} and <polje>:\{ <ugnježdeno polje 2>:<izraz 2> }\}
 \end{itemize}

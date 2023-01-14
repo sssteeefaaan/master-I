@@ -1,13 +1,22 @@
-\chapter{Elastic Stack}
-U ovom poglavlju biće opisan Elastik stek, kao primer postojećeg rešenja za prikupljanje i integraciju podataka. Bitno je napomenuti da se dalji tekst oslanja na dokumentaciju trenutno najnovije javno dostupne verzije alata [16], odnosno najnovije verzije komponenti koje čine alat, a koje će biti istaknute pri obrađivanju svake od komponenti. U ovom poglavlju će biti opisani delovi alata neophodni za implementaciju sistema koja će biti data u sledećem poglavlju.
+\chapter{\textit{\textbf{Elastic stack}}}
+U ovom poglavlju biće opisan \textit{\textbf{Elastic stack}}, kao primer alata za obradu velikih skupova podataka u realnom vremenu. Bitno je napomenuti da se dalji tekst oslanja na dokumentaciju trenutno najnovije javno dostupne verzije alata 8.6 \cite{elastic-stack-docs}, odnosno najnovije verzije komponenti koje čine alat, a koje će biti istaknute pri obrađivanju svake od komponenti. U ovom poglavlju će, između ostalog, biti opisani delovi alata neophodni za implementaciju sistema koja će biti data u sledećem poglavlju kao primer korišćenja alata.
 
-\section{Osnove \textit{Elastic stack}-a}
-Elastik stek, takođe poznat kao ELK stek, predstavlja alat, koji postoji kao otvoreno rešenje (eng. open source) kompanije Elastik, a čije funkcionalnosti podrazumevaju: prikupljanje podataka u bilo kom formatu, njihovu obradu, nadogradnju, skladištenje, pretraživanje, analizu i vizuelizaciju u realnom vremenu. Akronim ELK identifikuje ključne komponente ovog steka, a to su: Elasticsearch, Logstash i Kibana [17].
+\section{Osnove \textit{\textbf{Elastic stack}}-a}
+\textit{\textbf{Elastic stack}}, takođe poznat kao \textit{\textbf{ELK stack}}, predstavlja alat, koji postoji kao otvoreno rešenje \textit{(eng. open source)} kompanije \textit{\textbf{Elastic}} \cite{elastic-site}, a čije funkcionalnosti podrazumevaju: prikupljanje podataka u bilo kom formatu, njihovu obradu, nadogradnju, skladištenje, pretraživanje, analizu i vizuelizaciju u realnom vremenu. Akronim \textit{ELK} identifikuje ključne komponente ovog steka, a to su: \textit{\textbf{Elasticsearch}} \cite{elastic-elasticsearch}, \textit{\textbf{Logstash}} \cite{elastic-logstash} i \textit{\textbf{Kibana}} \cite{elastic-kibana}.
 
 \par
-Podaci mogu doći iz bilo kog izvora, što je na slici generalizovano komponentom Beats, koja predstavlja opcioni dodatak ELK steka i služi za slanje operativnih podataka na Logstash. Logstash komponenta predstavlja uređivač (eng. formatter) sistema, njena glavna funkcionalnost jeste prikupljanje ulaznih podataka bilo kog formata, parsiranje podataka i slanje istih u željenom obliku na Elasticsearch. Elasticseach uz pomoć indeksa vrši skladištenje podataka i olakšava njihovo pretraživanje, takozvano pretraživanje celog teksta (eng. full-text search). Tako indeksirani podaci se uz pomoć Kibane mogu vizualno prikazivati i ujedno se vršiti njihova analiza.
-Neke od najčešćih vrsta podataka koji se obrađuju uz pomoć ELK steka podrazumevaju: evidentirane (eng. logged), metričke, bezbednosne i podatke biznis logike.
+Apstrakcija toka podataka je prikazana na slici \ref{diagram:apstrakcija-toka-podataka-kroz-ELK-stack}. Podaci mogu doći iz bilo kog izvora, što je na slici generalizovano komponentom \textit{Beats} \cite{elastic-beats}, koja predstavlja opcioni dodatak \textit{\textbf{ELK stack}}-a i služi za slanje operativnih podataka na \textit{\textbf{Logstash}}. \textit{\textbf{Logstash}} komponenta predstavlja uređivač \textit{(eng. formatter)} sistema, njena glavna funkcionalnost jeste prikupljanje ulaznih podataka bilo kog formata, parsiranje podataka i slanje istih u željenom obliku na \textit{\textbf{Elasticsearch}}. \textit{\textbf{Elasticsearch}} uz pomoć indeksa vrši skladištenje podataka i olakšava njihovo pretraživanje, takozvano pretraživanje celog teksta \textit{(eng. full-text search)}. Tako indeksirani podaci se uz pomoć \textit{\textbf{Kibana}} mogu vizualno prikazivati i ujedno se vršiti njihova analiza.
+Neke od najčešćih vrsta podataka koji se obrađuju uz pomoć \textit{\textbf{ELK stack}}-a podrazumevaju: evidentirane \textit{(eng. logged)}, metričke, bezbednosne i podatke biznis logike.
+
+\begin{figure}[H]
+    \centering
+    \fboxsep=0.025\columnwidth%padding thickness
+    \fboxrule=1pt%border thickness
+    \fbox{\includegraphics[width=0.95\columnwidth]{images/ELK stek.pdf}}
+    \caption{\textit{Apstrakcija toka podataka kroz \textbf{ELK stack}}}
+    \label{diagram:apstrakcija-toka-podataka-kroz-ELK-stack}
+\end{figure}
 
 \input{poglavlja/telo/01-elastic-stack/01-elasticsearch.tex}
-\input{poglavlja/telo/01-elastic-stack/02-logstash.tex}
+\input{poglavlja/telo/01-elastic-stack/02-Logstash.tex}
 \input{poglavlja/telo/01-elastic-stack/03-kibana.tex}

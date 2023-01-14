@@ -1,1 +1,11 @@
 \chapter{Zaključak}
+\textit{Elasticsearch}-ov model podataka je zaista fleksibilan i intuitivan. Moguće je ugnježdavanje polja, neograničenost u broju polja, bilo kakve tranformacije nad poljima, a nije unapred potrebno definisati šemu podataka. \textit{Logstash} pruža neverovatnu fleksibilnost pri obrađivanju podataka u realnom vremenu. Postoji veliki broj gotovih dodataka koji dolaze unapred instalirani uz \textit{Logstash}, a činjenica da je moguće ručno pisati dodatke u \textit{Java}-i zaista pruža još veću fleksibilnost. \textit{Kibana}, kao alat za vizuelizaciju ima veliki broj mogućnosti, mnoge od kojih ovaj rad nije pokrio. Sve u svemu, \textit{ELK stack} je veoma stabilan alat. Tokom realizacije sistema opisanog u radu, konfiguracija je bila vrlo jednostavna, a rušenje i ponovno podizanje kontejnera nije pravilo nikakve probleme u međusobnoj komunikaciji između komponenata.
+
+\par
+Kada se poredi sa tehnologijama poput \textit{Apache Spark}-a ili \textit{Hadoop}-a, mogu se naći zajedničke karakteristike. To je, u suštini, rezultat toga da svaki radni okvir želi da pruži način za obradu skupa velikih podataka, čime se granice raznih tehnologija zamagljuju. Ipak svaki alat služi određenoj svrsi i moramo da izaberemo ono što najbolje odgovara datim zahtevima. Ako jednostavno želimo da lociramo dokumente prema ključnoj reči i izvršimo jednostavnu analizu, onda \textit{ELK stack} može da posluži kao sjajan alat za to. Ako imamo ogromnu količinu podataka za koje je potreban širok spektar različitih tipova složene obrade i analize, onda \textit{Hadoop} pruža najširi spektar alata i najveću fleksibilnost. 
+
+\par
+Nismo ograničeni na korišćenje samo jedne tehnologije, već je zaista lepo i korisno biti upoznat sa što više različitih, jer se tada isti problem može sagledati iz više različitih uglova i pružiti mnogo više potencijalnih ideja i rešenja.
+
+\par
+U okviru prvog poglavlja je dat uvod u rad. U drugom poglavlju su opisane osnove \textit{Elastic stack}-a, zajedno sa njegovim komponentama i njihovim specifikacijama. U okviru trećeg poglavlja, je prikazan i objašnjen primer korišćenja jednog sistema koji se zasniva na alatu \textit{Elastic stack}. U okviru ovog, poslednjeg, poglavlja su izneti zaključci rada.

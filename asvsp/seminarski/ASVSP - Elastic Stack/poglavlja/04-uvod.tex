@@ -1,1 +1,17 @@
-\chapter*{Uvod}
+\chapter{Uvod}
+Obrada velikih skupova podataka je grupa tehnika ili modela programiranja za pristup podacima velikih razmera kako bi se izdvojile korisne informacije za podršku procesu donošenja odluka \cite{noauthor_2016-ll}.
+
+\par
+Veliki skupovi podataka se obično čuvaju na hiljadama servera, tako da tradicionalni modeli programiranja kao što je interfejs za prosleđivanje poruka \textit{(eng. message passing interface - MPI)} \cite{open-mpi} ne mogu efikasno da rukovode njima. Stoga se novi modeli paralelnog programiranja koriste za poboljšanje performansi NoSQL baza podataka u centrima podataka. \textit{MapReduce} \cite{map-reduce} je jedan od najpopularnijih modela programiranja za obradu velikih skupova podataka korišćenjem velikih klastera. Glavna prednost ovog modela programiranja je jednostavnost, tako da korisnici mogu lako da ga iskoriste za obradu velikih podataka.
+
+\par
+\textit{Hadoop} \cite{hadoop} je implementacija \textit{MapReduce} otvorenog koda i široko se koristi za obradu velikih podataka. \textit{Hadoop} usvaja \textit{HDFS} sistem datoteka \cite{hadoop}. Korišćenjem ovog sistema datoteka, podaci će biti locirani blizu čvora za obradu da bi se minimizirali troškovi komunikacije.
+
+\par
+\textit{Spark} \cite{spark}, razvijen na Univerzitetu Kalifornije u Berkliju, predstavlja alternativu \textit{Hadoop}-u, koji je dizajniran da prevaziđe ograničenja diska I/O i poboljša performanse ranijih sistema. Glavna karakteristika \textit{Spark}-a koja ga čini jedinstvenim je njegova sposobnost da izvrši proračune u memoriji. Omogućava da se podaci keširaju u memoriji, čime se eliminišu \textit{Hadoop}-ovo ograničenje diska za iterativne zadatke.
+
+\par
+Pomenute tehnologije se uglavnom koriste za \textit{batch} obradu podataka. Međutim, u današnje vreme, ogromna količina podataka je generisana svake sekunde. Generisani podaci su većinom nestrukturne prirode i neophodno ih je obraditi i prilagoditi određenoj strukturi, pridodati im semantiku, obogatiti ih i slično, kako bi bilo lakše izvlačiti korisne informacije, odnosno kako bi se lakše vršila njihova pretraga. Baš u te svrhe se koristi alat koji je tema ovog rada, odnosno \textit{Elastic stack} \cite{elastic-stack-docs}.
+
+\par
+U drugom poglavlju rada biće opisane osnove \textit{Elastic stack}-a, zajedno sa njegovim komponentama i njihovim specifikacijama. U okviru trećeg poglavlja, biće prikazan i objašnjen primer korišćenja jednog sistema koji se zasniva na alatu \textit{Elastic stack}. Na kraju rada, u okviru poslednjeg poglavlja, biće izneti zaključci samog rada.
