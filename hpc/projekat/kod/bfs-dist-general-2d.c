@@ -2,55 +2,56 @@
 #include <omp.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
 
-const long long MASTER = 0;
-const long long INFINITY = 0xffff;
+const int MASTER = 0;
+const int INF = 0xffff;
 
-void print_vector(char* label, long long*v, long long n)
+void print_vector(char* label, int*v, int n)
 {
     printf("%s\t |", label);
-    for(long long i = 0; i < n; i++)
+    for(int i = 0; i < n; i++)
         printf("\t %d", v[i]);
     printf("\t|\n");
 }
 
-long long compare_vectors(long long* a, long long* b, long long n){
-    long long t = 1;
-    for(long long i = 0; t && i < n; i++) t = a[i] == b[i];
+int compare_vectors(int* a, int* b, int n){
+    int t = 1;
+    for(int i = 0; t && i < n; i++) t = a[i] == b[i];
     return t;
 }
 
-void swap(long long** a, long long** b){
-    long long* temp = *a;
+void swap(int** a, int** b){
+    int* temp = *a;
     *a = *b;
     *b = temp;
 }
 
 void bfs_seq(
     char* graph,
-    long long vertex_numb,
-    long long start,
-    long long* distance
+    int vertex_numb,
+    int start,
+    int* distance
 ){
-    for(long long i = 0; i < vertex_numb; i++)
-        distance[i] = INFINITY;
+    for(int i = 0; i < vertex_numb; i++)
+        distance[i] = INF;
     distance[start] = 0;
 
-    long long *fs = (long long*) malloc(sizeof(long long) * vertex_numb),
-        *ns = (long long*) malloc(sizeof(long long) * vertex_numb);
+    int *fs = (int*) malloc(sizeof(int) * vertex_numb),
+        *ns = (int*) malloc(sizeof(int) * vertex_numb);
 
     fs[0] = start;
 
-    long long level = 0,
+    int level = 0,
         count1 = 1,
         count2 = 0;
 
     while(count1 > 0)
     {
-        for(long long i = 0; i < count1; i++){
-            long long node = fs[i];
-            for(long long j = 0; j < vertex_numb; j++){
-                if(graph[node * vertex_numb + j] != 0 && distance[j] == INFINITY){
+        for(int i = 0; i < count1; i++){
+            int node = fs[i];
+            for(int j = 0; j < vertex_numb; j++){
+                if(graph[node * vertex_numb + j] != 0 && distance[j] == INF){
                     distance[j] = level + 1;
                     ns[count2++] = j;
                 }
@@ -66,169 +67,244 @@ void bfs_seq(
     free(fs);
 }
 
+void print_submatrix(int rank, int col_rank, int row_rank, char* mat, int n){
+    printf("P[%d](%d, %d)\n", rank, col_rank, row_rank);
+    for(int i = 0; i < n; i++)
+    {
+        printf("|\t");
+        for(int j = 0; j < n; j++){
+            printf("%d\t ", mat[i * n + j]);
+        }
+        printf("|\n");
+    }
+}
+
 void bfs_dist(
     char* graph,
-    long long vertex_numb,
-    long long start,
-    long long* distance
+    int vertex_numb,
+    int start,
+    int *distance
 ){
-    int rank, size;
+    int rank, size, q;
     MPI_Comm_size(MPI_COMM_WORLD, &size);
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
 
-    long long work_load = vertex_numb / size + 1;
+    q = sqrt(size);
 
-    MPI_Bcast(graph, vertex_numb * vertex_numb, MPI_CHAR, MASTER, MPI_COMM_WORLD);
+    int work_load = vertex_numb / q;
 
-    long long *d = (long long*) malloc(sizeof(long long) * vertex_numb);
-    for(long long i = 0; i < vertex_numb; i++)
-        d[i] = INFINITY;
+    MPI_Comm row, col;
+    MPI_Comm_split(MPI_COMM_WORLD, rank % q, rank, &col);
+    MPI_Comm_split(MPI_COMM_WORLD, rank / q, rank, &row);
+
+    int col_rank, row_rank;
+    MPI_Comm_rank(col, &col_rank);
+    MPI_Comm_rank(row, &row_rank);
+
+    char* local_graph = (char*) malloc(sizeof(char) * work_load * work_load);
+    MPI_Datatype sub_matrix;
+    int sizes[2] = {vertex_numb, vertex_numb};
+    int subsizes[2] = {work_load, work_load};
+    int starts[2] = {col_rank * work_load * vertex_numb, row_rank * work_load * vertex_numb};
+    MPI_Type_create_subarray(2, sizes, subsizes, starts, MPI_ORDER_C, MPI_CHAR, &sub_matrix);
+    MPI_Type_commit(&sub_matrix);
+    MPI_Type_create_resized(sub_matrix, 0, sizeof(char), &sub_matrix);
+    MPI_Type_commit(&sub_matrix);
+
+    int* sendcounts = (int*) malloc(sizeof(int) * size);
+    int* displacements = (int*) malloc(sizeof(int) * size);
+    for(int i = 0; i < size; i++){
+        sendcounts[i] = 1;
+        displacements[i] = work_load * (i % q) + vertex_numb * (i / q) * work_load;
+    }
+
+    MPI_Scatterv(graph, sendcounts, displacements, sub_matrix, local_graph, work_load * work_load, MPI_CHAR, MASTER, MPI_COMM_WORLD);
+
+    free(displacements);
+    free(sendcounts);
+
+    int *d = (int*) malloc(sizeof(int) * work_load);
+    for(int i = 0; i < work_load; i++)
+        d[i] = INF;
     d[start] = 0;
 
-    long long *F = (long long*) malloc(sizeof(long long) * vertex_numb),
-        *N = (long long*) malloc(sizeof(long long) * size * vertex_numb),
-        *N_recv = (long long*) malloc(sizeof(long long) * vertex_numb),
-        *N_size = (long long*) malloc(sizeof(long long) * size);
+    int *F = (int*) malloc(sizeof(int) * vertex_numb),
+        *locals =(int*) malloc(sizeof(int) * work_load),
+        *N = (int*) malloc(sizeof(int) * work_load);
 
-    long long level = 0,
+    int level = 0,
         F_count,
-        F_global_count,
-        my_size;
+        F_col_count,
+        F_global_count;
 
     while(1) {
 
-        F_count = F_global_count = 0;
+        F_count = F_col_count = F_global_count = 0;
 
-        for(long long i = rank * work_load; i < (rank + 1) * work_load; i++)
-            if(i < vertex_numb && d[i] == level)
-                F[F_count++] = i;
+        for(int  i = 0; i < work_load; i++){
+            locals[i] = 0;
+            if(d[i] == level){
+                locals[i] = 1;
+                F_count++;
+            }
+        }
 
-        MPI_Allreduce(&F_count, &F_global_count, 1, MPI_LONG_LONG, MPI_BOR, MPI_COMM_WORLD);
+        MPI_Allreduce(&F_count, &F_col_count, 1, MPI_INT, MPI_SUM, col);
+
+        MPI_Allreduce(&F_col_count, &F_global_count, 1, MPI_INT, MPI_SUM, row);
 
         if(F_global_count == 0)
             break;
 
-        for(long long i = 0; i < size; i++)
-            N_size[i] = 0;
+        MPI_Allgather(locals, work_load, MPI_INT, F, work_load, MPI_INT, col);
 
-        for(long long i = 0; i < F_count; i++)
-        {
-            long long current_node = F[i];
+        for(int i = 0; i < work_load; i++) locals[i] = 0;
 
-            for(long long j = 0; j < vertex_numb; j++)
-            {
-                long long neighbour_node = current_node * vertex_numb + j;
-                if(graph[neighbour_node] != 0){
-                    long long proc = j / work_load,
-                        k = 0;
-
-                    while(k < N_size[proc] && N[proc * vertex_numb + k++] != j);
-
-                    if(k == N_size[proc])
-                        N[proc * vertex_numb + N_size[proc]++] = j;
+        for(int i = 0; i < work_load; i++){
+            if(F[col_rank * work_load + i] == 1){
+                for(int j = 0; j < work_load; j++){
+                    if(local_graph[i * work_load + j] == 1)
+                        locals[j] = 1;
                 }
             }
         }
 
-        for(int i = 0; i < size; i++)
-        {
-            MPI_Sendrecv(
-                &N_size[i],
-                1,
-                MPI_LONG_LONG,
-                i,
-                level,
-                &my_size,
-                1,
-                MPI_LONG_LONG,
-                i,
-                level,
-                MPI_COMM_WORLD,
-                MPI_STATUS_IGNORE
-                );
-            MPI_Sendrecv(
-                &N[i * vertex_numb],
-                N_size[i],
-                MPI_LONG_LONG,
-                i,
-                level,
-                N_recv,
-                my_size,
-                MPI_LONG_LONG,
-                i,
-                level,
-                MPI_COMM_WORLD,
-                MPI_STATUS_IGNORE);
+        MPI_Allreduce(locals, N, work_load, MPI_INT, MPI_MAX, row);
 
-            for(long long j = 0; j < my_size; j++)
-                if(d[N_recv[j]] == INFINITY)
-                    d[N_recv[j]] = level + 1;
-        }
+        for(int j = 0; j < work_load; j++)
+            if(N[j] == 1 && d[j] == INF)
+                d[j] = level + 1;
 
         level++;
     }
 
-    MPI_Reduce(d, distance, vertex_numb, MPI_LONG_LONG, MPI_MIN, MASTER, MPI_COMM_WORLD);
+    MPI_Gather(d, work_load, MPI_INT, distance, work_load, MPI_INT, MASTER, MPI_COMM_WORLD);
 
-    free(N_size);
-    free(N_recv);
     free(N);
+    free(locals);
     free(F);
     free(d);
+    free(local_graph);
 }
 
-void reset_options(long long *options, long long size){
-    for(long long i = 0; i < size; i++)
+void reset_options(int *options, int size){
+    for(int i = 0; i < size; i++)
         options[i] = i;
 }
 
-long long get_unique_random(long long *options, long long maximum){
-    long long cursor = rand() % maximum,
+int get_unique_random(int *options, int maximum){
+    int cursor = rand() % maximum,
     tmp = options[cursor];
     options[cursor] = options[maximum - 1];
     return options[maximum - 1] = tmp;
 }
 
-void generate_random_graph(
-    char* graph,
-    long long vertex_numb,
-    long long max_degrees,
-    long long min_degrees
-){
-    long long max_deg = vertex_numb < max_degrees ? vertex_numb : max_degrees,
-        min_deg = (max_deg > min_degrees) ? min_degrees : max_deg;
-
-    long long *options = (long long*) malloc(sizeof(long long) * vertex_numb);
-
-    for(long long i = 0; i < vertex_numb * vertex_numb; i++) graph[i] = 0;
-
-    reset_options(options, vertex_numb);
-
-    for(long long i = 0; i < vertex_numb; i++){
-        long long rand_deg = rand() % (max_deg - min_deg + 1) + min_deg;
-        for(long long j = 0; j < rand_deg; j++){
-            graph[i * vertex_numb + get_unique_random(options, vertex_numb - j)] = 1;
+void remove_option(int* options, int n, int r){
+    for(int i = 0; i < n; i++)
+        if(options[i] == r){
+            options[i] = options[n - 1];
+            break;
         }
-    }
-
-    free(options);
 }
 
-void print_graph(long long* G, long long* degrees, long long vertex_numb)
+void print_graph(char* G, int vertex_numb)
 {
-    for(long long i = 0; i < vertex_numb; i++)
+    for(int i = 0; i < vertex_numb; i++)
     {
         printf("%d | ", i);
-        for(long long j = degrees[i]; j < degrees[i + 1]; j++)
-            printf("%d ", G[j]);
+        for(int j = 0; j < vertex_numb; j++)
+            printf("%d ", G[i * vertex_numb + j]);
         printf("|\n");
     }
 }
 
-void print_distance(long long*d, long long vertex_numb, long long start)
+void generate_random_graph(
+    char* graph,
+    int vertex_numb,
+    int max_degrees,
+    int min_degrees
+){
+    int max_deg = vertex_numb < max_degrees ? vertex_numb : max_degrees,
+        min_deg = (max_deg > min_degrees) ? min_degrees : max_deg;
+
+    int *options = (int*) malloc(sizeof(int) * vertex_numb);
+    int *degrees = (int*) malloc(sizeof(int) * vertex_numb);
+
+    for(int i = 0; i < vertex_numb; i++) {
+        degrees[i] = 0;
+        for(int j = 0; j < vertex_numb; j++)
+            graph[i * vertex_numb + j] = 0;
+    }
+
+    reset_options(options, vertex_numb);
+
+    int n = vertex_numb;
+
+    for(int i = 0; i < vertex_numb; i++){
+        int rand_deg = rand() % (max_deg - min_deg + 1) + min_deg;
+        for(int j = 0; degrees[i] < rand_deg && j < n; j++){
+            int rand = get_unique_random(options, n - j);
+            if(graph[i * vertex_numb + rand] != 0){
+                for(int k = 0; k < n; k++){
+                    if(degrees[options[k]] < max_deg && graph[i * vertex_numb + options[k]] == 0){
+                        rand = options[k];
+                        break;
+                    }
+                }
+            }
+            graph[i * vertex_numb + rand] =
+                graph[rand * vertex_numb + i] = 1;
+            degrees[i]++;
+            if(degrees[i] == max_deg){
+                remove_option(options, n, i);
+                n--;
+            }
+            if(i != rand){
+                degrees[rand]++;
+                if(degrees[rand] == max_deg){
+                    remove_option(options, n, rand);
+                    n--;
+                }
+            }
+        }
+    }
+
+    free(degrees);
+    free(options);
+}
+
+int check_if_symmetric(char* g, int n){
+    int flag = 1;
+    for(int i = 0; flag && i < n; i++)
+        for(int j = 0; flag && j <= i; j++)
+            flag = g[i * n + j] == g[j * n + i];
+    return flag;
+}
+int check_min(char* g, int n, int min){
+    int my_deg = 0;
+    for(int i = 0; my_deg <= min && i < n; i++){
+        my_deg = 0;
+        for(int j = 0; my_deg <= min && j < n; j++)
+            if(g[i * n + j])
+                my_deg++;
+    }
+    return my_deg >= min;
+}
+int check_max(char* g, int n, int max){
+    int my_deg = max;
+    for(int i = 0; my_deg > 0 && i < n; i++){
+        my_deg = max;
+        for(int j = 0; my_deg > 0 && j < n; j++)
+            if(g[i * n + j] == 0)
+                my_deg--;
+    }
+    return my_deg <= max;
+}
+
+void print_distance(int*d, int vertex_numb, int start)
 {
     printf("distance(%d) = |\t ", start);
-    for(long long i = 0; i < vertex_numb; i++)
+    for(int i = 0; i < vertex_numb; i++)
         printf("%d\t ", d[i]);
     printf("|\n");
 }
@@ -240,20 +316,20 @@ int main(int argc, char** argv)
     int rank;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
 
-    long long vertex_numb = 1000000,
+    int vertex_numb = 10000,
     max_degree = 10,
     min_degree = 1,
     start_node = 0;
 
     switch(argc){
-        case(5): start_node = atoll(argv[4]);
-        case(4): min_degree = atoll(argv[3]);
-        case(3): max_degree = atoll(argv[2]);
-        case(2): vertex_numb = atoll(argv[1]);
+        case(5): start_node = atoi(argv[4]);
+        case(4): min_degree = atoi(argv[3]);
+        case(3): max_degree = atoi(argv[2]);
+        case(2): vertex_numb = atoi(argv[1]);
     }
 
     char *G = (char*) malloc(sizeof(char) * vertex_numb * vertex_numb);
-    long long *d_d = (long long*) malloc(sizeof(long long) * vertex_numb),
+    int *d_d = (int*) malloc(sizeof(int) * vertex_numb),
     *d_s = NULL;
 
     double dt, st;
@@ -266,8 +342,9 @@ int main(int argc, char** argv)
         printf("[Random graph generation]: Starting!\n");
         generate_random_graph(G, vertex_numb, max_degree, min_degree);
         printf("[Random graph generation]: Completed!\n");
+        printf("[Symmetric graph]: %s!\n", check_if_symmetric(G, vertex_numb) ? "Correct" : "False");
 
-        d_s = (long long*) malloc(sizeof(long long) * vertex_numb);
+        d_s = (int*) malloc(sizeof(int) * vertex_numb);
         st = MPI_Wtime();
         bfs_seq(G, vertex_numb, start_node, d_s);
         st = MPI_Wtime() - st;
@@ -286,6 +363,9 @@ int main(int argc, char** argv)
 
         printf("[Results]: %s\n", compare_vectors(d_d, d_s, vertex_numb) ? "Correct!" : "False!");
         printf("[Speedup]: %f\n", st/dt);
+
+        print_distance(d_s, vertex_numb, start_node);
+        print_distance(d_d, vertex_numb, start_node);
 
         free(d_s);
     }
