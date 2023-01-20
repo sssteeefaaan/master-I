@@ -1,4 +1,0 @@
-link: https://drive.google.com/uc?export=download&id=${fileid}
-
-zip: https://drive.google.com/uc?export=download&id=1oSyW8p1WjWEDf-Qz6kgyrfnOH1U6nb2I
-tar.gz: https://drive.google.com/uc?export=download&id=1RD35ftdjbBOfRUdjCR3LoEhZLaQNb_2c

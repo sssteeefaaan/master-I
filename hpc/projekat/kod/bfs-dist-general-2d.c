@@ -126,11 +126,12 @@ void bfs_dist(
     int *d = (int*) malloc(sizeof(int) * work_load);
     for(int i = 0; i < work_load; i++)
         d[i] = INF;
-    d[start] = 0;
+    if(start / work_load == row_rank)
+        d[start] = 0;
 
     int *F = (int*) malloc(sizeof(int) * vertex_numb),
-        *locals =(int*) malloc(sizeof(int) * work_load),
-        *N = (int*) malloc(sizeof(int) * work_load);
+        *locals = (int*) malloc(sizeof(int) * vertex_numb),
+        *N = (int*) malloc(sizeof(int) * vertex_numb);
 
     int level = 0,
         F_count,
@@ -158,27 +159,27 @@ void bfs_dist(
 
         MPI_Allgather(locals, work_load, MPI_INT, F, work_load, MPI_INT, col);
 
-        for(int i = 0; i < work_load; i++) locals[i] = 0;
+        for(int i = 0; i < vertex_numb; i++) locals[i] = 0;
 
         for(int i = 0; i < work_load; i++){
             if(F[col_rank * work_load + i] == 1){
                 for(int j = 0; j < work_load; j++){
                     if(local_graph[i * work_load + j] == 1)
-                        locals[j] = 1;
+                        locals[row_rank * work_load + j] = 1;
                 }
             }
         }
 
-        MPI_Allreduce(locals, N, work_load, MPI_INT, MPI_MAX, row);
+        MPI_Allreduce(locals, N, vertex_numb, MPI_INT, MPI_MAX, row);
 
         for(int j = 0; j < work_load; j++)
-            if(N[j] == 1 && d[j] == INF)
+            if(N[col_rank * work_load + j] == 1 && d[j] == INF)
                 d[j] = level + 1;
 
         level++;
     }
 
-    MPI_Gather(d, work_load, MPI_INT, distance, work_load, MPI_INT, MASTER, MPI_COMM_WORLD);
+    MPI_Gather(d, work_load, MPI_INT, distance, work_load, MPI_INT, MASTER, row);
 
     free(N);
     free(locals);

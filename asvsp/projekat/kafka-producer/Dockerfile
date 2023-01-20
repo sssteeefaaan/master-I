@@ -1,4 +1,4 @@
-FROM python:3.7-slim
+FROM python:${PYTHON_PRODUCER_VERSION:-3.7-slim}
 
 WORKDIR /app
 

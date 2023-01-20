@@ -3,7 +3,14 @@ from sys import argv
 
 def read_file(path):
     with open(path) as f:
-        [print(line) for line in f]
+        headers = f.readline()
+        print(headers)
+        err = "No errors"
+        for l in f:
+            print(l)
+            if l == headers:
+                err = "Duplicated headers!"
+        print(err)
 
 def main():
     workdir = argv[2] if len(argv) > 2 else os.curdir

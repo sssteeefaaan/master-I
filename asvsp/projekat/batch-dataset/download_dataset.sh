@@ -30,28 +30,24 @@ fi
 
 link="https://drive.google.com/uc?export=download&id=${fileid}"
 
-html=`curl -c ./cookie -s -L $link`
+html="curl -c $(pwd)/cookie -s -L $link"
 
 echo "Downloading file from $link to $filename"
 
 curl -Lb ./cookie "https://drive.google.com/uc?export=download&`echo ${html}|grep -Po '(confirm=[a-zA-Z0-9\-_]+)'`&id=${fileid}" -o ${filename}
 
-echo "Extracting zip file $filename"
-
-tar -zxvf "$filename"
-
 decomp_dir=${filename%.tar.gz}
 
-echo "Combining files inside $decomp_dir"
+echo "Extracting zip file $filename to $decomp_dir"
 
-python3 "./faostat/combine.py" "$csvoutputfilename" "$(pwd)/$decomp_dir"
+tar zxvf $filename --one-top-level
 
-echo "Copying combined csv file"
+echo "Combining files inside '$decomp_dir' to '$(pwd)/$csvoutputfilename'"
 
-cp "$(pwd)/$decomp_dir/$csvoutputfilename" "./batch-dataset/$csvoutputfilename"
+awk "(NR == 1) || (FNR > 1)" "$(pwd)/$decomp_dir/"*.csv > $(pwd)/$csvoutputfilename
 
 echo "Removing trash"
 
-rm -R $decomp_dir ./cookie $filename
+rm -R $(pwd)/$decomp_dir $(pwd)/cookie $filename
 
 echo "Done!"

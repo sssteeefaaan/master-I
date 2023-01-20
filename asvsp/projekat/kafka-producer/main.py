@@ -39,19 +39,19 @@ def send_to_kafka(data):
         print(f"[Kafka-Error]: { e }")
 
 def main():
-    try:
-        print(f"DATASET_API_LINK={ DATASET_API_LINK }")
-        print(f"KAFKA_TOPIC={ KAFKA_TOPIC }")
-        print(f"KAFKA_CONFIGURATION={ KAFKA_CONFIGURATION }")
-        response = requests.get(url=DATASET_API_LINK)
-        if response.ok:
-            data = response.json()
-            print("Got data")#data)
-            send_to_kafka(data)
-        else:
-            raise Exception(f"Response status code: { response.status_code }\nResponse text: { response.text }")
-    except Exception as e:
-        print(f"[Error]: { e }")
+    while True:
+        try:
+            print(f"DATASET_API_LINK={ DATASET_API_LINK }")
+            print(f"KAFKA_TOPIC={ KAFKA_TOPIC }")
+            print(f"KAFKA_CONFIGURATION={ KAFKA_CONFIGURATION }")
+            response = requests.get(url=DATASET_API_LINK)
+            if response.ok:
+                data = response.json()
+                send_to_kafka(data)
+            else:
+                raise Exception(f"Response status code: { response.status_code }\nResponse text: { response.text }")
+        except Exception as e:
+            print(f"[Error]: { e }")
 
 if __name__ == "__main__":
     main()

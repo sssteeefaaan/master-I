@@ -2,7 +2,7 @@ version: "3.7"
 services:
 
   namenode:
-    image: bde2020/hadoop-namenode:2.0.0-hadoop3.2.1-java8
+    image: bde2020/hadoop-namenode:${HADOOP_MASTERNODE_VERSION:-2.0.0-hadoop3.2.1-java8}
     container_name: namenode
     volumes:
       - namenode-data:/hadoop/dfs/name
@@ -11,12 +11,14 @@ services:
       - CLUSTER_NAME=projekat
     env_file:
       - ./docker-spark/hadoop.env
+    mem_limit: 700M
     ports:
       - ${NAMENODE_PORT_01:-9870}:9870
       - ${NAMENODE_PORT_02:-9000}:9000
+    restart: unless-stopped
 
   datanode-01:
-    image: bde2020/hadoop-datanode:2.0.0-hadoop3.2.1-java8
+    image: bde2020/hadoop-datanode:${HADOOP_DATANODE_VERSION:-2.0.0-hadoop3.2.1-java8}
     container_name: datanode-01
     depends_on:
       - namenode
@@ -24,9 +26,11 @@ services:
       - datanode-01-data:/hadoop/dfs/data
     env_file:
       - ./docker-spark/hadoop.env
+    mem_limit: 700M
+    restart: unless-stopped
 
   datanode-02:
-    image: bde2020/hadoop-datanode:2.0.0-hadoop3.2.1-java8
+    image: bde2020/hadoop-datanode:${HADOOP_DATANODE_VERSION:-2.0.0-hadoop3.2.1-java8}
     container_name: datanode-02
     depends_on:
       - namenode
@@ -34,9 +38,11 @@ services:
       - datanode-02-data:/hadoop/dfs/data
     env_file:
       - ./docker-spark/hadoop.env
+    mem_limit: 700M
+    restart: unless-stopped
 
   hue:
-    image: gethue/hue:20201111-135001
+    image: gethue/hue:${HUE_VERSION:-20201111-135001}
     container_name: hue
     hostname: hue
     dns: 8.8.8.8
@@ -46,9 +52,11 @@ services:
       - ./docker-spark/conf.dist:/usr/share/hue/desktop/conf
     depends_on:
       - namenode
+    mem_limit: 200M
+    restart: unless-stopped
 
   spark-master:
-    image: bde2020/spark-master:3.0.1-hadoop3.2
+    image: bde2020/spark-master:${SPARK_MASTER_VERSION:-3.0.1-hadoop3.2}
     container_name: spark-master
     ports:
       - ${SPARK_MASTER_PORT_01:-8080}:8080
@@ -59,9 +67,12 @@ services:
       - ./docker-spark/hadoop.env
     volumes:
       - ./batch-processing:/home/projekat/batch-processing
+      - ./realtime-processing:/home/projekat/realtime-processing
+    mem_limit: 1024M
+    restart: unless-stopped
 
   spark-worker-01:
-    image: bde2020/spark-worker:3.0.1-hadoop3.2
+    image: bde2020/spark-worker:${SPARK_WORKER_VERSION:-3.0.1-hadoop3.2}
     container_name: spark-worker-01
     depends_on:
       - spark-master
@@ -69,9 +80,10 @@ services:
       - ${SPARK_WORKER_01_PORT:-8081}:8081
     env_file:
       - ./docker-spark/hadoop.env
-
+    mem_limit: 1024M
+    restart: unless-stopped
   spark-worker-02:
-    image: bde2020/spark-worker:3.0.1-hadoop3.2
+    image: bde2020/spark-worker:${SPARK_WORKER_VERSION:-3.0.1-hadoop3.2}
     container_name: spark-worker-02
     depends_on:
       - spark-master
@@ -79,17 +91,21 @@ services:
       - ${SPARK_WORKER_02_PORT:-8082}:8081
     env_file:
       - ./docker-spark/hadoop.env
+    mem_limit: 1024M
+    restart: unless-stopped
 
   zookeeper:
-    image: 'bitnami/zookeeper:latest'
+    image: bitnami/zookeeper:${ZOOKEEPER_VERSION:-}
     container_name: zookeeper
     ports:
       - ${ZOOKEEPER_PORT:-2181}:2181
     environment:
       - ALLOW_ANONYMOUS_LOGIN=yes
+    mem_limit: 700M
+    restart: unless-stopped
 
   kafka:
-    image: 'bitnami/kafka:latest'
+    image: bitnami/kafka:${KAFKA_VERSION:-}
     container_name: kafka
     ports:
       - ${KAFKA_PORT_EXTERNAL:-19092}:19092
@@ -106,8 +122,13 @@ services:
       - KAFKA_CFG_DEFAULT_REPLICATION_FACTOR=1
     depends_on:
       - zookeeper
+    mem_limit: 700M
+    restart: unless-stopped
   producer-grain-prices:
-    build: ./kafka-producer
+    build:
+      args:
+        PYTHON_PRODUCER_VERSION: ${PYTHON_PRODUCER_VERSION:-}
+      context: ./kafka-producer
     container_name: producer-grain-prices
     volumes:
       - ./kafka-producer:/app:ro
@@ -117,179 +138,95 @@ services:
       DATASET_API_LINK: ${DATASET_GRAIN_PRICES_API_LINK:-https://agtransport.usda.gov/resource/g92w-8cn7.json}
     depends_on:
       - kafka
-  producer-grain-basis:
-    build: ./kafka-producer
-    container_name: producer-grain-basis
-    volumes:
-      - ./kafka-producer:/app:ro
-    environment:
-      KAFKA_BROKER: kafka:9092
-      KAFKA_TOPIC: grain-basis
-      DATASET_API_LINK: ${DATASET_GRAIN_BASIS_API_LINK:-https://agtransport.usda.gov/resource/v85y-3hep.json}
-    depends_on:
-      - kafka
+    mem_limit: 200M
+    restart: unless-stopped
+
+  # grafana:
+  #   image: grafana/grafana:${GRAFANA_VERSION:-7.5.7}
+  #   ports:
+  #     - ${GRAFANA_PORT:-3000}:3000
+  #   restart: unless-stopped
+  #   volumes:
+  #     - grafana-data:/var/lib/grafana
+
+  # producer-grain-basis:
+  #   build:
+        # args:
+        #   PYTHON_PRODUCER_VERSION: ${PYTHON_PRODUCER_VERSION:-}
+        # context: ./kafka-producer
+  #   container_name: producer-grain-basis
+  #   volumes:
+  #     - ./kafka-producer:/app:ro
+  #   environment:
+  #     KAFKA_BROKER: kafka:9092
+  #     KAFKA_TOPIC: grain-basis
+  #     DATASET_API_LINK: ${DATASET_GRAIN_BASIS_API_LINK:-https://agtransport.usda.gov/resource/v85y-3hep.json}
+  #   depends_on:
+  #     - kafka
+  #   mem_limit: 200M
+  #   restart: unless-stopped
+
   es-setup:
-    image: docker.elastic.co/elasticsearch/elasticsearch:${STACK_VERSION}
+    build:
+      context: ./elk-stack/setup/
+      args:
+        ELASTIC_VERSION: ${ELASTIC_VERSION}
+    init: true
     volumes:
-      - es-certs:/usr/share/elasticsearch/config/certs
-    user: "0"
-    command: >
-      bash -c '
-        if [ x${ELASTIC_PASSWORD} == x ]; then
-          echo "Set the ELASTIC_PASSWORD environment variable in the .env file";
-          exit 1;
-        elif [ x${KIBANA_PASSWORD} == x ]; then
-          echo "Set the KIBANA_PASSWORD environment variable in the .env file";
-          exit 1;
-        fi;
-        if [ ! -f config/certs/ca.zip ]; then
-          echo "Creating CA";
-          bin/elasticsearch-certutil ca --silent --pem -out config/certs/ca.zip;
-          unzip config/certs/ca.zip -d config/certs;
-        fi;
-        if [ ! -f config/certs/certs.zip ]; then
-          echo "Creating certs";
-          echo -ne \
-          "instances:\n"\
-          "  - name: es-node-01\n"\
-          "    dns:\n"\
-          "      - es-node-01\n"\
-          "      - localhost\n"\
-          "    ip:\n"\
-          "      - 127.0.0.1\n"\
-          "  - name: es-node-02\n"\
-          "    dns:\n"\
-          "      - es-node-02\n"\
-          "      - localhost\n"\
-          "    ip:\n"\
-          "      - 127.0.0.1\n"\
-          > config/certs/instances.yml;
-          bin/elasticsearch-certutil cert --silent --pem -out config/certs/certs.zip --in config/certs/instances.yml --ca-cert config/certs/ca/ca.crt --ca-key config/certs/ca/ca.key;
-          unzip config/certs/certs.zip -d config/certs;
-        fi;
-        echo "Setting file permissions"
-        chown -R root:root config/certs;
-        find . -type d -exec chmod 750 \{\} \;;
-        find . -type f -exec chmod 640 \{\} \;;
-        echo "Waiting for Elasticsearch availability";
-        until curl -s --cacert config/certs/ca/ca.crt https://es-node-01:9200 | grep -q "missing authentication credentials"; do sleep 30; done;
-        echo "Setting kibana_system password";
-        until curl -s -X POST --cacert config/certs/ca/ca.crt -u "elastic:${ELASTIC_PASSWORD}" -H "Content-Type: application/json" https://es-node-01:9200/_security/user/kibana_system/_password -d "{\"password\":\"${KIBANA_PASSWORD}\"}" | grep -q "^{}"; do sleep 10; done;
-        echo "All done!";
-      '
-    healthcheck:
-      test: ["CMD-SHELL", "[ -f config/certs/es-node-01/es-node-01.crt ]"]
-      interval: 1s
-      timeout: 5s
-      retries: 120
-
-  es-node-01:
+      - ./elk-stack/setup/entrypoint.sh:/entrypoint.sh:ro,Z
+      - ./elk-stack/setup/helpers.sh:/helpers.sh:ro,Z
+      - ./elk-stack/setup/roles:/roles:ro,Z
+      - es-setup:/state:Z
+    environment:
+      ELASTIC_PASSWORD: ${ELASTIC_PASSWORD:-}
+      LOGSTASH_INTERNAL_PASSWORD: ${LOGSTASH_INTERNAL_PASSWORD:-}
+      KIBANA_SYSTEM_PASSWORD: ${KIBANA_SYSTEM_PASSWORD:-}
+      METRICBEAT_INTERNAL_PASSWORD: ${METRICBEAT_INTERNAL_PASSWORD:-}
+      FILEBEAT_INTERNAL_PASSWORD: ${FILEBEAT_INTERNAL_PASSWORD:-}
+      HEARTBEAT_INTERNAL_PASSWORD: ${HEARTBEAT_INTERNAL_PASSWORD:-}
+      MONITORING_INTERNAL_PASSWORD: ${MONITORING_INTERNAL_PASSWORD:-}
+      BEATS_SYSTEM_PASSWORD: ${BEATS_SYSTEM_PASSWORD:-}
     depends_on:
-      es-setup:
-        condition: service_healthy
-    image: docker.elastic.co/elasticsearch/elasticsearch:${STACK_VERSION}
+      - elasticsearch
+    mem_limit: 200M
+  elasticsearch:
+    build:
+      context: ./elk-stack/elasticsearch/
+      args:
+        ELASTIC_VERSION: ${ELASTIC_VERSION}
     volumes:
-      - es-certs:/usr/share/elasticsearch/config/certs
-      - es-node-01-data:/usr/share/elasticsearch/data
+      - ./elk-stack/elasticsearch/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml:ro,Z
+      - elasticsearch-data:/usr/share/elasticsearch/data
     ports:
-      - ${ES_PORT}:9200
+      - ${ELASTICSEARCH_PORT_01:-9200}:9200
+      - ${ELASTICSEARCH_PORT_02:-9300}:9300
     environment:
-      - node.name=es-node-01
-      - cluster.name=${CLUSTER_NAME}
-      - cluster.initial_master_nodes=es-node-01,es-node-02
-      - discovery.seed_hosts=es-node-02
-      - ELASTIC_PASSWORD=${ELASTIC_PASSWORD}
-      - bootstrap.memory_lock=true
-      - xpack.security.enabled=true
-      - xpack.security.http.ssl.enabled=true
-      - xpack.security.http.ssl.key=certs/es-node-01/es-node-01.key
-      - xpack.security.http.ssl.certificate=certs/es-node-01/es-node-01.crt
-      - xpack.security.http.ssl.certificate_authorities=certs/ca/ca.crt
-      - xpack.security.http.ssl.verification_mode=certificate
-      - xpack.security.transport.ssl.enabled=true
-      - xpack.security.transport.ssl.key=certs/es-node-01/es-node-01.key
-      - xpack.security.transport.ssl.certificate=certs/es-node-01/es-node-01.crt
-      - xpack.security.transport.ssl.certificate_authorities=certs/ca/ca.crt
-      - xpack.security.transport.ssl.verification_mode=certificate
-      - xpack.license.self_generated.type=${LICENSE}
-    mem_limit: ${MEM_LIMIT}
-    ulimits:
-      memlock:
-        soft: -1
-        hard: -1
-    healthcheck:
-      test: [
-          "CMD-SHELL",
-          "curl -s --cacert config/certs/ca/ca.crt https://localhost:9200",
-        ]
-      interval: 60s
-      timeout: 20s
-      retries: 50
-
-  es-node-02:
-    depends_on:
-      - es-node-01
-    image: docker.elastic.co/elasticsearch/elasticsearch:${STACK_VERSION}
-    volumes:
-      - es-certs:/usr/share/elasticsearch/config/certs
-      - es-node-02-data:/usr/share/elasticsearch/data
-    environment:
-      - node.name=es-node-02
-      - cluster.name=${CLUSTER_NAME}
-      - cluster.initial_master_nodes=es-node-01,es-node-02
-      - discovery.seed_hosts=es-node-01
-      - bootstrap.memory_lock=true
-      - xpack.security.enabled=true
-      - xpack.security.http.ssl.enabled=true
-      - xpack.security.http.ssl.key=certs/es-node-02/es-node-02.key
-      - xpack.security.http.ssl.certificate=certs/es-node-02/es-node-02.crt
-      - xpack.security.http.ssl.certificate_authorities=certs/ca/ca.crt
-      - xpack.security.http.ssl.verification_mode=certificate
-      - xpack.security.transport.ssl.enabled=true
-      - xpack.security.transport.ssl.key=certs/es-node-02/es-node-02.key
-      - xpack.security.transport.ssl.certificate=certs/es-node-02/es-node-02.crt
-      - xpack.security.transport.ssl.certificate_authorities=certs/ca/ca.crt
-      - xpack.security.transport.ssl.verification_mode=certificate
-      - xpack.license.self_generated.type=${LICENSE}
-    mem_limit: ${MEM_LIMIT}
-    ulimits:
-      memlock:
-        soft: -1
-        hard: -1
-    healthcheck:
-      test: [
-          "CMD-SHELL",
-          "curl -s --cacert config/certs/ca/ca.crt https://localhost:9200",
-        ]
-      interval: 60s
-      timeout: 20s
-      retries: 50
+      node.name: elasticsearch
+      ES_JAVA_OPTS: -Xms512m -Xmx512m
+      ELASTIC_PASSWORD: ${ELASTIC_PASSWORD:-}
+      discovery.type: single-node
+    restart: unless-stopped
+    mem_limit: 1024M
 
   kibana:
-    depends_on:
-      es-node-01:
-        condition: service_healthy
-      es-node-02:
-        condition: service_healthy
-    image: docker.elastic.co/kibana/kibana:${STACK_VERSION}
+    build:
+      context: ./elk-stack/kibana/
+      args:
+        ELASTIC_VERSION: ${ELASTIC_VERSION}
     volumes:
-      - es-certs:/usr/share/kibana/config/certs
-      - kibana-data:/usr/share/kibana/data
+      - ./elk-stack/kibana/config/kibana.yml:/usr/share/kibana/config/kibana.yml:ro,Z
     ports:
-      - ${KIBANA_PORT}:5601
+      - ${KIBANA_PORT:-5601}:5601
     environment:
-      - SERVERNAME=kibana
-      - ELASTICSEARCH_HOSTS=https://es-node-01:9200
-      - ELASTICSEARCH_USERNAME=${KIBANA_USERNAME}
-      - ELASTICSEARCH_PASSWORD=${KIBANA_PASSWORD}
-      - ELASTICSEARCH_SSL_CERTIFICATEAUTHORITIES=config/certs/ca/ca.crt
-    mem_limit: ${MEM_LIMIT}
+      KIBANA_SYSTEM_PASSWORD: ${KIBANA_SYSTEM_PASSWORD:-}
+    depends_on:
+      - elasticsearch
+    restart: unless-stopped
+    mem_limit: 600M
 
 volumes:
   namenode-data:
   datanode-01-data:
   datanode-02-data:
-  es-certs:
-  es-node-01-data:
-  es-node-02-data:
-  kibana-data:
+  es-setup:
+  elasticsearch-data:
