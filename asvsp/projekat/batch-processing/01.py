@@ -15,11 +15,11 @@ spark = SparkSession \
     .appName("ASVSP - batch - 01") \
     .getOrCreate()
 
-
 spark.sparkContext.setLogLevel("WARN")
 
 HDFS_NAMENODE = environ.get("CORE_CONF_fs_defaultFS", "hdfs://namenode:9000")
-CSV_FILEPATH = "/home/projekat/batch-dataset/output.csv"
+CSV_FILEPATH = "/home/project/raw-layer/batch-dataset/output.csv"
+OUTPUT_PATH = "/home/project/transform-layer/batch/01.csv"
 
 ELASTIC_SEARCH_NODE = environ.get("ELASTIC_SEARCH_NODE", "elasticsearch")
 ELASTIC_SEARCH_USERNAME = environ.get("ELASTIC_SEARCH_USERNAME", "elastic")
@@ -55,8 +55,15 @@ display = df.select(
 ).orderBy(
     F.asc("Rank")
 )
-
 display.show(truncate=False)
+
+print(f"Saving to '{HDFS_NAMENODE}{OUTPUT_PATH}'")
+
+display.write.csv(HDFS_NAMENODE+OUTPUT_PATH)
+
+print("Saving completed!")
+
+print(f"Writing data to 'http://{ELASTIC_SEARCH_NODE}:{ELASTIC_SEARCH_PORT}/{ELASTIC_SEARCH_INDEX}'")
 
 display.limit(100)\
     .write\
@@ -71,3 +78,4 @@ display.limit(100)\
     .option('es.batch.write.retry.wait', '100s') \
     .save(ELASTIC_SEARCH_INDEX)
 
+print("Done!")

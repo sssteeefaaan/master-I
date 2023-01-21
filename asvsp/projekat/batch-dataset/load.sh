@@ -1,6 +1,6 @@
 #!/bin/sh
 
-DEFAULT_HDFS_DATASET_PATH="/home/projekat/batch-dataset"
+DEFAULT_HDFS_DATASET_PATH="/home/project/raw-layer/batch-dataset"
 DEFAULT_NAMENODE_DATASET_PATH="/home/projekat/batch-dataset"
 DEFAULT_DATASET_01_NAME="output.csv"
 DEFAULT_DATASET_02_NAME="uscities.csv"

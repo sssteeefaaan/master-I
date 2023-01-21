@@ -2,12 +2,13 @@
 
 # Notification when an average bid drops below a specified amount for a commodity
 
-#/spark/bin/spark-submit --packages org.apache.spark:spark-sql-kafka-0-10_2.12:3.0.1 04.py
+# /spark/bin/spark-submit --packages org.apache.spark:spark-sql-kafka-0-10_2.12:3.0.1,\org.elasticsearch:elasticsearch-spark-30_2.12:8.6.0 04.py
 
 from pyspark.sql import SparkSession
 import pyspark.sql.functions as F
 import pyspark.sql.types as T
 from sys import argv
+from os import environ
 
 spark = SparkSession \
     .builder \
@@ -15,6 +16,13 @@ spark = SparkSession \
     .getOrCreate()
 
 spark.sparkContext.setLogLevel("ERROR")
+
+ELASTIC_SEARCH_NODE = environ.get("ELASTIC_SEARCH_NODE", "elasticsearch")
+ELASTIC_SEARCH_USERNAME = environ.get("ELASTIC_SEARCH_USERNAME", "elastic")
+ELASTIC_SEARCH_PASSWORD = environ.get("ELASTIC_SEARCH_PASSWORD", "changeme")
+ELASTIC_SEARCH_PORT = environ.get("ELASTIC_SEARCH_PORT", "9200")
+
+ELASTIC_SEARCH_INDEX = argv[1] if len(argv) > 1 else "realtime-04-query"
 
 schema = T.StructType([
                 T.StructField("date", T.DateType(), True),
@@ -53,6 +61,7 @@ prices = spark \
     .withColumn("bid", F.col("bid").cast(T.DoubleType()))
 
 average_bid = prices\
+    .withWatermark("timestamp", "1 seconds")\
     .groupBy(F.window(F.col("timestamp"), "10 seconds", "8 seconds"), F.col("commodity"))\
     .avg("bid")
 
@@ -66,5 +75,19 @@ average_bid\
     .writeStream\
     .outputMode("complete")\
     .foreach(process)\
-    .start()\
-    .awaitTermination()
+    .start()
+
+es_query = average_bid.writeStream\
+    .outputMode("append")\
+    .option("checkpointLocation", "/tmp/") \
+    .format('org.elasticsearch.spark.sql') \
+    .option("es.net.http.auth.user", ELASTIC_SEARCH_USERNAME) \
+    .option("es.net.http.auth.pass", ELASTIC_SEARCH_PASSWORD) \
+    .option("mergeSchema", "true") \
+    .option('es.index.auto.create', 'true') \
+    .option('es.nodes', f'http://{ELASTIC_SEARCH_NODE}') \
+    .option('es.port', ELASTIC_SEARCH_PORT) \
+    .option('es.batch.write.retry.wait', '100s') \
+    .start(ELASTIC_SEARCH_INDEX)
+
+spark.streams.awaitAnyTermination()

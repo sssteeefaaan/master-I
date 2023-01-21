@@ -17,7 +17,8 @@ spark = SparkSession \
 spark.sparkContext.setLogLevel("WARN")
 
 HDFS_NAMENODE = environ.get("CORE_CONF_fs_defaultFS", "hdfs://namenode:9000")
-CSV_FILEPATH = "/home/projekat/batch-dataset/output.csv"
+CSV_FILEPATH = "/home/project/raw-layer/batch-dataset/output.csv"
+OUTPUT_PATH = "/home/project/transform-layer/batch/04.csv"
 
 YEAR_LOWER = int(argv[1] if len(argv) > 1 else "2000")
 YEAR_UPPER = int(argv[2] if len(argv) > 2 else "2020")
@@ -33,7 +34,7 @@ df = spark.read.csv(
 window_area = Window.partitionBy([F.col("Area"), F.col("Year")])
 window_year = Window.partitionBy([F.col("Year")])
 
-df.filter(
+display = df.filter(
     (F.col("Unit") == "tonnes") &
     (F.col("Year").between(YEAR_LOWER, YEAR_UPPER))
 ).select(
@@ -55,5 +56,12 @@ df.filter(
 ).filter(
     (F.col("Max rank") == 1) |
     (F.col("Min rank") == 1)
-).orderBy([F.desc("Year")])\
-    .show(truncate=False)
+).orderBy([F.desc("Year")])
+
+display.show(truncate=False)
+
+print(f"Saving to '{HDFS_NAMENODE}{OUTPUT_PATH}'")
+
+display.write.csv(HDFS_NAMENODE+OUTPUT_PATH)
+
+print("Saving completed!")

@@ -16,7 +16,8 @@ spark = SparkSession \
 spark.sparkContext.setLogLevel("WARN")
 
 HDFS_NAMENODE = environ.get("CORE_CONF_fs_defaultFS", "hdfs://namenode:9000")
-CSV_FILEPATH = "/home/projekat/batch-dataset/output.csv"
+CSV_FILEPATH = "/home/project/raw-layer/batch-dataset/output.csv"
+OUTPUT_PATH = "/home/project/transform-layer/batch/02.csv"
 
 ITEM = argv[1] if len(argv) > 1 else "Apples"
 YEAR_LOWER = int(argv[2] if len(argv) > 2 else "2017")
@@ -37,7 +38,7 @@ window_global = Window.partitionBy([F.col("Item"), F.col("Unit")])\
     .orderBy("Value")\
     .rangeBetween(Window.unboundedPreceding, Window.unboundedFollowing)
 
-df.filter(
+display = df.filter(
     (F.col("Year").between(YEAR_LOWER, YEAR_UPPER)) &
     (F.col("Item") == ITEM) &
     (F.col("Unit") == "tonnes")
@@ -53,5 +54,13 @@ df.filter(
 ).filter(
     F.col("Row") == 1
 ).drop("Row")\
-    .orderBy(F.desc("Percentage"))\
-    .show(truncate=False)
+    .orderBy(F.desc("Percentage"))
+
+display.show(truncate=False)
+
+print(f"Saving to '{HDFS_NAMENODE}{OUTPUT_PATH}'")
+
+display.withColumn("Year range", F.col("Year range").cast(T.StringType()))\
+    .write.csv(HDFS_NAMENODE+OUTPUT_PATH)
+
+print("Saving completed!")
