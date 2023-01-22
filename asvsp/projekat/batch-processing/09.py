@@ -35,8 +35,7 @@ window_year = Window.partitionBy([F.col("Item"), F.col("Year")])
 
 display = df.filter(
     (F.col("Unit") == "tonnes") &
-    (F.col("Year").between(YEAR_LOWER, YEAR_UPPER)) &
-    (F.col("Area") == "Pakistan")
+    (F.col("Year").between(YEAR_LOWER, YEAR_UPPER))
 ).select(
     F.row_number().over(window_year.orderBy("Area")).alias("Row"),
     F.col("Item"),
