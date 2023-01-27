@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="/css/mdb.min.css">
+        <link rel="stylesheet" href="/css/more.css">
+
+        <title>UNS Portal</title>
+
+    </head>
+    <body class="container vh-100 gradient-custom">
+
+        <header class="d-flex flex-row justify-content-center align-content-center" style="padding-top: 1%;">
+            <a class="btn btn-primary" href="<%= facultyPortals.FTN %>" style="margin-left: 1%;margin-right: 1%;">FTN</a>
+            <a class="btn btn-primary" href="<%= facultyPortals.PMF %>" style="margin-left: 1%;margin-right: 1%;">PMF</a>
+            <a class="btn btn-primary" href="<%= facultyPortals.PRAVNI %>" style="margin-left: 1%;margin-right: 1%;">PRAVNI</a>
+        </header>
+
+        <% if (nav == '0') { %>
+            <%- include('professors-homepage', { items, professorListLink, studentListLink, facultyPortals }); %>
+        <% } else { %>
+            <%- include('students-homepage', { items, professorListLink, studentListLink, facultyPortals }); %>
+        <% } %>
+
+    </body>
+</html>

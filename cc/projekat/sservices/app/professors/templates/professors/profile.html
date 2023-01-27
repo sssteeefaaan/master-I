@@ -1,0 +1,13 @@
+{% extends 'home/boilerplate/base.html' %}
+
+{% block title %}Professor profile{% endblock %}
+
+{% block body %}
+
+    <main>
+
+        {% include 'professors/boilerplate/professor-profile.html' with professor=professor professor_dict=professor_dict %}
+
+    </main>
+
+{% endblock %}

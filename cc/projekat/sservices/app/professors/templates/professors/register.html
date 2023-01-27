@@ -1,0 +1,56 @@
+{% extends 'home/boilerplate/base.html' %}
+
+{% block title %}Professor register{% endblock %}
+
+{% block body %}
+    <main>
+        <div class="container" style="padding: 1%; width: 90%;">
+            <div class="card border-primary" style="padding: 1%;">
+                <h3 class="card-header">Professor Registration</h1>
+                <div style="overflow: auto; max-height: 75vh;">
+                    {% for error in errors %}
+                        <div class="alert alert-danger text-center" role="alert">
+                            {{error}}
+                        </div>
+                    {% endfor %}
+                    <form enctype="multipart/form-data" action="{% url 'professor-register' %}" method="POST" class="d-flex flex-column align-items-center">
+                        {% csrf_token %}
+
+                        <div class="card d-flex flex-column align-items-center" style="padding: 1%; margin: 1%; width: 80%;">
+                            <h4>Professor information</h4>
+                            {% for field in professorForm.visible_fields %}
+                                <div class="form-group d-flex flex-column align-items-center" style="padding: 1%; width: 80%;">
+                                    <div class="card-label">{{ field.label }}</div>
+                                    <div class="card-item">{{ field }}</div>
+                                    {% for error in field.errors %}
+                                        <div class="alert alert-danger" role="alert">
+                                            {{error}}
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            {% endfor %}
+                        </div>
+
+                        <div class="card d-flex flex-column align-items-center" style="padding: 1%; margin: 1%; width: 80%;">
+                            <h4>Professor address information</h4>
+                            {% for field in professorAddressForm.visible_fields %}
+                                <div class="form-group d-flex flex-column align-items-center" style="padding: 1%; width: 80%;">
+                                    <div class="card-label">{{ field.label }}</div>
+                                    <div class="card-item">{{ field }}</div>
+                                    {% for error in field.errors %}
+                                        <div class="alert alert-danger" role="alert">
+                                            {{error}}
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            {% endfor %}
+                        </div>
+
+                        <button class="btn btn-primary">Register</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </main>
+
+{% endblock %}

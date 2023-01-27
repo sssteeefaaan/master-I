@@ -1,0 +1,15 @@
+<div class="card" style="padding:2%; margin: 2%; width: 90%;">
+
+    <h5 class="card-header"><b>Address info</b></h5>
+
+    {% for key, value in address.items %}
+
+    <div class="form-group d-flex flex-column align-items-center">
+
+        <label><b>{{ key }}</b></label>
+        <p>{{ value }}</p>
+
+    </div>
+
+    {% endfor %}
+</div>

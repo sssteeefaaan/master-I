@@ -1,0 +1,44 @@
+<div class="container" style="padding: 2%; width: 90%;">
+
+    <div class="card border-primary" style="padding: 2%;">
+
+        <h3 class="card-header">Student profile <b>@{{ student.username }}</b></h1>
+
+        <div style="overflow: auto; max-height: 70vh; text-align: center; padding:1%; margin: 1%;"  class="card d-flex flex-column align-items-center">
+
+            <h4 class="card-header" ><b>Student info</b></h4>
+
+            <img src="{{ student.image.url }}" style="border-radius: 50px; width: 200px; height: 200px; object-fit:cover; margin-top: 2%; margin-bottom: 2%;" alt="{{student.Username}}">
+
+            {% for key, value in student_dict.items %}
+
+            <div class="form-group d-flex flex-column align-items-center" style="width:90%;">
+
+                {% if key == 'Address' %}
+
+                    {% include 'home/boilerplate/address.html' with address=value %}
+
+                {% elif key == 'Faculty' %}
+
+                    {% include 'home/boilerplate/faculty.html' with faculty=value %}
+
+                {% elif key == 'Parent' %}
+
+                    {% include 'students/boilerplate/parent.html' with parent=value %}
+
+                {% else %}
+
+                    <label><b>{{ key }}</b></label>
+                    <p>{{ value }}</p>
+
+                {% endif %}
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+</div>

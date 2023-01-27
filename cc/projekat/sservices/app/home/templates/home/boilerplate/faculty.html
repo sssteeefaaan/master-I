@@ -1,0 +1,24 @@
+<div class="card" style="padding:2%; margin: 2%; width: 90%;">
+
+    <h5 class="card-header"><b>Faculty info</b></h5>
+
+    {% for key, value in faculty.items %}
+
+        <div class="form-group d-flex flex-column align-items-center">
+
+            {% if key == 'Address' %}
+
+                {% include 'home/boilerplate/address.html' with address=value %}
+
+            {% else %}
+
+                <label><b>{{ key }}</b></label>
+                <p>{{ value }}</p>
+
+            {% endif %}
+
+        </div>
+
+    {% endfor %}
+
+</div>

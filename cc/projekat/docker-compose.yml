@@ -1,0 +1,301 @@
+version: '3.8'
+
+volumes:
+  uns-data-01:
+  uns-data-02:
+  ftn-data:
+  pmf-data:
+  pravni-data:
+
+networks:
+  uns-network:
+    driver: bridge
+  ftn-network:
+    driver: bridge
+  pmf-network:
+    driver: bridge
+  pravni-network:
+    driver: bridge
+  inter-network:
+    driver: bridge
+
+services:
+
+  load-balancer:
+    image: nginx:${NGINX_IMAGE_VERSION:-1.23.3-alpine-slim}
+    ports:
+      - 0.0.0.0:${UNS_APP_PORT:-9999}:5100
+    volumes:
+      - ./load-balancer/conf.d:/etc/nginx/conf.d
+    environment:
+      UNS_APP_1: ${COMPOSE_PROJECT_NAME}_uns-app_1:8000
+      UNS_APP_2: ${COMPOSE_PROJECT_NAME}_uns-app_2:8000
+      NGINX_APP_LISTEN_PORT: 5100
+      UNS_DB_1: uns-database-01:27017
+      UNS_DB_2: uns-database-02:27017
+      NGINX_DB_LISTEN_PORT: 5101
+    restart: always
+    networks:
+      - uns-network
+      - inter-network
+    links:
+      - uns-database-01
+      - uns-database-02
+    depends_on:
+      uns-app:
+          condition: service_healthy
+    command: /bin/sh -c "envsubst < /etc/nginx/conf.d/nginx.template > /etc/nginx/conf.d/nginx.conf && nginx -g 'daemon off;'"
+  uns-app:
+    image: sssteeefkkke/cc-project-2023-node:latest
+    volumes:
+      - ./uns-app/app:/app
+      - /app/node_modules
+      - ./uploads:/app/uploads:z
+    restart: unless-stopped
+    networks:
+      - uns-network
+      - inter-network
+    environment:
+      SERVER_PORT: 8000
+      DATABASE_URL: mongodb://uns-database-01:27017,uns-database-02:27017/uns
+      DATABASE_USER: ${MONGO_USER:-admin}
+      DATABASE_PASSWORD: ${MONGO_PASSWORD:-admin}
+      DATABASE_DB: ${UNS_DATABASE_NAME:-uns}
+      MONGO_REPLICA_SET_NAME: ${MONGO_REPLICA_SET_NAME:-uns-replicaset}
+      FTN_URL: http://localhost:%{FTN_APP_PORT:-9998}
+      PMF_URL: http://localhost:%{PMF_APP_PORT:-9997}
+      PRAVNI_URL: http://localhost:%{PRAVNI_APP_PORT:-9996}
+    depends_on:
+      uns-database-01:
+        condition: service_healthy
+      uns-database-02:
+        condition: service_healthy
+    links:
+      - uns-database-01
+      - uns-database-02
+    healthcheck:
+      test: node healthcheck.js
+      interval: 10s
+      timeout: 2s
+      start_period: 15s
+    scale: 2
+
+  uns-database-01:
+    image: mongo:${MONGO_IMAGE_VERSION:-6.0.3}
+    restart: unless-stopped
+    networks:
+      - uns-network
+    ports:
+      - 0.0.0.0:${UNS_DATABASE_PORT:-27017}:27017
+    volumes:
+      - uns-data-01:/data/db
+      - ./load-balancer/mongo/:/scripts/
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_USER:-admin}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD:-admin}
+      MONGO_INITDB_DATABASE: ${UNS_DATABASE_NAME:-uns}
+      MONGO_REPLICA_SET_NAME: ${MONGO_REPLICA_SET_NAME:-uns-replicaset}
+    entrypoint: /scripts/start.sh
+    links:
+      - uns-database-02
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongosh --quiet | grep 1
+      interval: 10s
+      timeout: 10s
+      retries: 5
+      start_period: 20s
+
+
+  uns-database-02:
+    image: mongo:${MONGO_IMAGE_VERSION:-6.0.3}
+    restart: unless-stopped
+    networks:
+      - uns-network
+    volumes:
+      - uns-data-02:/data/db
+    ports:
+      - 0.0.0.0:27018:27017
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_USER:-admin}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD:-admin}
+      MONGO_INITDB_DATABASE: ${UNS_DATABASE_NAME:-uns}
+      MONGO_REPLICA_SET_NAME: ${MONGO_REPLICA_SET_NAME:-uns-replicaset}
+    command: /bin/bash -c "mongod --syslog --bind_ip_all --replSet ${MONGO_REPLICA_SET_NAME:-uns-replicaset}"
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongosh --quiet | grep 1
+      interval: 10s
+      timeout: 10s
+      retries: 5
+      start_period: 20s
+
+
+  ftn-app:
+    image: sssteeefkkke/cc-project-2023-django:latest
+    volumes:
+      - ./sservices/app:/app:z
+      - ./uploads:/app/uploads:z
+    ports:
+      - 0.0.0.0:${FTN_APP_PORT:-9998}:8000
+    restart: unless-stopped
+    networks:
+      - ftn-network
+      - inter-network
+    environment:
+      SERVER_PORT: 0.0.0.0:8000
+      DJANGO_ADMINS_FILE_PATH: ${DJANGO_ADMINS_FILE_PATH:-/admins.txt}
+      DJANGO_SUPERUSER_PASSWORD: ${DJANGO_SUPERUSER_PASSWORD:-admin}
+      DJANGO_SUPERUSER_USERNAME: ${DJANGO_SUPERUSER_USERNAME:-admin}
+      DJANGO_SUPERUSER_EMAIL: ${DJANGO_SUPERUSER_EMAIL:-admin@admin.com}
+      DATABASE_DB_NAME: ${FTN_POSTGRES_DB_NAME:-ftn}
+      DATABASE_DB_USER: ${POSTGRES_USER:-admin}
+      DATABASE_DB_PASSWORD: ${POSTGRES_PASSWORD:-admin}
+      DATABASE_DB_HOST: ftn-database
+      DATABASE_DB_PORT: 5432
+      FACULTY_CODE: FTN
+      FACULTY_NAME: Faculty of technical sciences
+      FACULTY_PHONE_NUMBER: 021450810
+      FACULTY_ADDRESS_POSTAL_CODE: 21102
+      FACULTY_ADDRESS_NAME: Trg Dositeja Obradovića 6
+      FACULTY_ADDRESS_MUNICIPALITY: Novi Sad
+      UPLOADS_FILE_PATH: ftn
+      PROFESSOR_REGISTER_URL: http://uns-app:8000/uns/register-professor
+      STUDENT_REGISTER_URL: http://uns-app:8000/uns/register-student
+      UNS_PORTAL_URL: http://localhost:${UNS_APP_PORT:-9999}/
+    depends_on:
+      ftn-database:
+        condition: service_healthy
+
+  ftn-database:
+    image: postgres:${FTN_DATABASE_IMAGE_VERSION:-15.1-alpine}
+    volumes:
+      - ftn-data:/var/lib/postgresql/data
+    ports:
+      - 0.0.0.0:${FTN_DATABASE_PORT:-5554}:5432
+    networks:
+      - ftn-network
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-admin}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-admin}
+      POSTGRES_DB: ${FTN_POSTGRES_DB_NAME:-ftn}
+    healthcheck:
+      test: pg_isready -U ${POSTGRES_USER:-admin} -d ${FTN_POSTGRES_DB_NAME:-ftn}
+      interval: 10s
+      timeout: 30s
+      retries: 5
+      start_period: 10s
+    logging:
+      driver: none
+
+  pmf-app:
+    image: sssteeefkkke/cc-project-2023-django:latest
+    volumes:
+      - ./sservices/app:/app:z
+      - ./uploads:/app/uploads:z
+    ports:
+      - 0.0.0.0:${PMF_APP_PORT:-9997}:8000
+    restart: unless-stopped
+    networks:
+      - pmf-network
+      - inter-network
+    environment:
+      SERVER_PORT: 0.0.0.0:8000
+      DJANGO_ADMINS_FILE_PATH: ${DJANGO_ADMINS_FILE_PATH:-/admins.txt}
+      DJANGO_SUPERUSER_PASSWORD: ${DJANGO_SUPERUSER_PASSWORD:-admin}
+      DJANGO_SUPERUSER_USERNAME: ${DJANGO_SUPERUSER_USERNAME:-admin}
+      DJANGO_SUPERUSER_EMAIL: ${DJANGO_SUPERUSER_EMAIL:-admin@admin.com}
+      DATABASE_DB_NAME: ${PMF_POSTGRES_DB_NAME:-pmf}
+      DATABASE_DB_USER: ${POSTGRES_USER:-admin}
+      DATABASE_DB_PASSWORD: ${POSTGRES_PASSWORD:-admin}
+      DATABASE_DB_HOST: pmf-database
+      DATABASE_DB_PORT: 5432
+      FACULTY_CODE: PMF
+      FACULTY_NAME: Faculty of mathematics and natural sciences
+      FACULTY_PHONE_NUMBER: 0214852712
+      FACULTY_ADDRESS_POSTAL_CODE: 21102
+      FACULTY_ADDRESS_NAME: Trg Dositeja Obradovića 3
+      FACULTY_ADDRESS_MUNICIPALITY: Novi Sad
+      UPLOADS_FILE_PATH: pmf
+      PROFESSOR_REGISTER_URL: http://uns-app:8000/uns/register-professor
+      STUDENT_REGISTER_URL: http://uns-app:8000/uns/register-student
+      UNS_PORTAL_URL: http://localhost:${UNS_APP_PORT:-9999}/
+    depends_on:
+      pmf-database:
+        condition: service_healthy
+
+  pmf-database:
+    image: postgres:${PMF_DATABASE_IMAGE_VERSION:-15.1-alpine}
+    volumes:
+      - pmf-data:/var/lib/postgresql/data
+    ports:
+      - 0.0.0.0:${PMF_DATABASE_PORT:-5553}:5432
+    networks:
+      - pmf-network
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-admin}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-admin}
+      POSTGRES_DB: ${PMF_POSTGRES_DB_NAME:-pmf}
+    healthcheck:
+      test: pg_isready -U ${POSTGRES_USER:-admin} -d ${PMF_POSTGRES_DB_NAME:-pmf}
+      interval: 10s
+      timeout: 30s
+      retries: 5
+      start_period: 10s
+    logging:
+      driver: none
+
+  pravni-app:
+    image: sssteeefkkke/cc-project-2023-django:latest
+    volumes:
+      - ./sservices/app:/app:z
+      - ./uploads:/app/uploads:z
+    ports:
+      - 0.0.0.0:${PRAVNI_APP_PORT:-9996}:8000
+    restart: unless-stopped
+    networks:
+      - pravni-network
+      - inter-network
+    environment:
+      SERVER_PORT: 0.0.0.0:8000
+      DJANGO_ADMINS_FILE_PATH: ${DJANGO_ADMINS_FILE_PATH:-/admins.txt}
+      DJANGO_SUPERUSER_PASSWORD: ${DJANGO_SUPERUSER_PASSWORD:-admin}
+      DJANGO_SUPERUSER_USERNAME: ${DJANGO_SUPERUSER_USERNAME:-admin}
+      DJANGO_SUPERUSER_EMAIL: ${DJANGO_SUPERUSER_EMAIL:-admin@admin.com}
+      DATABASE_DB_NAME: ${PRAVNI_POSTGRES_DB_NAME:-pravni}
+      DATABASE_DB_USER: ${POSTGRES_USER:-admin}
+      DATABASE_DB_PASSWORD: ${POSTGRES_PASSWORD:-admin}
+      DATABASE_DB_HOST: pravni-database
+      DATABASE_DB_PORT: 5432
+      FACULTY_CODE: PRAVNI
+      FACULTY_NAME: Faculty of law
+      FACULTY_PHONE_NUMBER: 0214853097
+      FACULTY_ADDRESS_POSTAL_CODE: 21102
+      FACULTY_ADDRESS_NAME: Trg Dositeja Obradovića 1
+      FACULTY_ADDRESS_MUNICIPALITY: Novi Sad
+      UPLOADS_FILE_PATH: pravni
+      PROFESSOR_REGISTER_URL: http://uns-app:8000/uns/register-professor
+      STUDENT_REGISTER_URL: http://uns-app:8000/uns/register-student
+      UNS_PORTAL_URL: http://localhost:${UNS_APP_PORT:-9999}/
+    depends_on:
+      pravni-database:
+        condition: service_healthy
+
+  pravni-database:
+    image: postgres:${PRAVNI_DATABASE_IMAGE_VERSION:-15.1-alpine}
+    volumes:
+      - pravni-data:/var/lib/postgresql/data
+    ports:
+      - 0.0.0.0:${PRAVNI_DATABASE_PORT:-5552}:5432
+    networks:
+      - pravni-network
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-admin}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-admin}
+      POSTGRES_DB: ${PRAVNI_POSTGRES_DB_NAME:-pravni}
+    healthcheck:
+      test: pg_isready -U ${POSTGRES_USER:-admin} -d ${PRAVNI_POSTGRES_DB_NAME:-pravni}
+      interval: 10s
+      timeout: 30s
+      retries: 5
+      start_period: 10s
+    logging:
+      driver: none

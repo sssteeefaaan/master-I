@@ -1,0 +1,51 @@
+{% extends 'home/boilerplate/base.html' %}
+
+{% block body %}
+
+<div class="container" style="padding: 1%; width: 95%;">
+    <div class="card d-flex flex-column align-items-center" style="height: 85vh;">
+        <h1 class="card-header">{{faculty_name}}</h1>
+        <ul class="nav nav-pills nav-justified">
+            <li class="nav-item">
+                <a class="nav-link" aria-current="page" href="{% url 'home-page' nav=0 %}">Professors</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="#">Students</a>
+            </li>
+        </ul>
+        {% if items %}
+            <div class="card d-flex flex-column align-items-center" style="overflow:auto; width: 80%; height: 70%;">
+                <h2 class="card-header">List of students</h2>
+                <table class="table table-striped text-center">
+                    <thead style="background-color: lightskyblue;">
+                        <tr>
+                        <th scope="col"><b>Index</b></th>
+                        <th scope="col"><b>Username</b></th>
+                        <th scope="col"><b>Email</b></th>
+                        <th scope="col"><b>First Name</b></th>
+                        <th scope="col"><b>Last Name</b></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in items %}
+                        <tr>
+                            <td scope="row"><a href="{% url 'student-profile' username=item.username %}">{{item.index}}</a></td>
+                            <td>{{item.username}}</td>
+                            <td>{{item.email}}</td>
+                            <td>{{item.firstName}}</td>
+                            <td>{{item.lastName}}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                    </table>
+            </div>
+        {% else %}
+        <div class="card d-flex flex-column align-items-center justify-content-center" style="overflow:auto; width: 80%; height: 70%;">
+            <h2 class="card-header">No students found</h2>
+        </div>
+        {% endif %}
+        <a class="btn btn-primary" style="margin-top: 1%;" href="{% url 'student-register' %}">Register a new student</a>
+    </div>
+</div>
+
+{% endblock %}

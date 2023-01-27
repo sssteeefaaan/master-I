@@ -1,0 +1,5 @@
+{% if nav == '0' %}
+    {% include 'home/boilerplate/professors-homepage.html' with items=items %}
+{% else %}
+    {% include 'home/boilerplate/students-homepage.html' with items=items %}
+{% endif %}

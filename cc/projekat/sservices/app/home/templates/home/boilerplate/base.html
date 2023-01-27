@@ -1,0 +1,37 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        {% block standard_styles %}
+            <link rel="stylesheet" href="{% static 'home/css/mdb.min.css' %}">
+            <link rel="stylesheet" href="{% static 'home/css/more.css' %}">
+        {% endblock %}
+
+        {% block more_styles %}
+        {% endblock %}
+
+        <title>{% block title %}Home page{% endblock %}</title>
+
+    </head>
+    <body class="container vh-100 gradient-custom">
+
+        {% block header %}
+            <header class="d-flex flex-row justify-content-center align-content-center" style="padding-top: 1%;">
+                <a class="btn btn-primary" href="{% url 'home-page' nav=0 %}" style="margin-left: 1%;margin-right: 1%;">List of professors</a>
+                <a class="btn btn-primary" href="{% url 'home-page' nav=1 %}" style="margin-left: 1%;margin-right: 1%;">List of students</a>
+                <a class="btn btn-primary" href="{{ uns_portal }}" style="margin-left: 1%;margin-right: 1%;">UNS Portal</a>
+                <a class="btn btn-primary" href="{% url 'professor-register' %}" style="margin-left: 1%;margin-right: 1%;">Register a professor</a>
+                <a class="btn btn-primary" href="{% url 'student-register' %}" style="margin-left: 1%;margin-right: 1%;">Register a student</a>
+            </header>
+        {% endblock %}
+
+        {% block body %}
+        {% endblock %}
+
+    </body>
+</html>

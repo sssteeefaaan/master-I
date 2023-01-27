@@ -1,0 +1,46 @@
+<div class="container" style="padding: 1%; width: 95%;">
+    <div class="card d-flex flex-column align-items-center" style="height: 85vh;">
+        <h1 class="card-header">University of Novi Sad - Portal</h1>
+        <ul class="nav nav-pills nav-justified">
+            <li class="nav-item">
+                <a class="nav-link" aria-current="page" href="<%= professorListLink %>">Professors</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="#">Students</a>
+            </li>
+        </ul>
+        <% if(items.length > 0) { %>
+            <div class="card d-flex flex-column align-items-center" style="overflow:auto; width: 80%; height: 70%;">
+                <h2 class="card-header">List of students</h2>
+                <table class="table table-striped text-center">
+                    <thead style="background-color: lightskyblue;">
+                        <tr>
+                        <th scope="col"><b>Faculty</b></th>
+                        <th scope="col"><b>Index</b></th>
+                        <th scope="col"><b>Username</b></th>
+                        <th scope="col"><b>Email</b></th>
+                        <th scope="col"><b>First Name</b></th>
+                        <th scope="col"><b>Last Name</b></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% for(let item of items) { %>
+                        <tr>
+                            <td scope="row"><a href="<%= facultyPortals[item.faculty] %>"><%= item.faculty %></a></td>
+                            <td><%= item.index %></td>
+                            <td><a href="<%= facultyPortals[item.faculty] + 'students/profile/' + item.username %>"><%= item.username %></a></td>
+                            <td><%= item.email %></td>
+                            <td><%= item.firstName %></td>
+                            <td><%= item.lastName %></td>
+                        </tr>
+                        <% } %>
+                    </tbody>
+                    </table>
+            </div>
+        <% } else { %>
+        <div class="card d-flex flex-column align-items-center justify-content-center" style="overflow:auto; width: 80%; height: 70%;">
+            <h2 class="card-header">No students found</h2>
+        </div>
+        <% } %>
+    </div>
+</div>

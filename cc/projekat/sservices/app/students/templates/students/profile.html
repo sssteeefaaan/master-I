@@ -1,0 +1,12 @@
+{% extends 'home/boilerplate/base.html' %}
+{% block title %}Student profile{% endblock %}
+
+{% block body %}
+
+    <main>
+
+        {% include 'students/boilerplate/student-profile.html' with student=student student_dict=student_dict %}
+
+    </main>
+
+{% endblock %}

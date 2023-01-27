@@ -1,0 +1,49 @@
+<div class="container" style="padding: 2%; width: 90%;">
+
+    <div class="card border-primary" style="padding: 2%;">
+
+        <h3 class="card-header">Professor profile <b>@{{ professor.username }}</b></h1>
+
+        <div style="overflow: auto; max-height: 70vh; text-align: center; padding:1%; margin: 1%;"  class="card d-flex flex-column align-items-center">
+
+            <h4 class="card-header" ><b>Professor info</b></h4>
+
+            <img src="{{ professor.image.url }}" style="border-radius: 50px; width: 200px; height: 200px; object-fit:cover; margin-top: 2%; margin-bottom: 2%;" alt="{{professor.Username}}">
+
+            {% for key, value in professor_dict.items %}
+
+            <div class="form-group d-flex flex-column align-items-center" style="width:90%;">
+
+                {% if key == 'Address' %}
+
+                    {% include 'home/boilerplate/address.html' with address=value %}
+
+                {% elif key == 'Faculties' %}
+
+                    <h4>List of faculties</h4>
+                    <div class="form-group d-flex flex-column align-items-center" style="width:90%;"></div>
+
+                        {% for f in value %}
+
+                            {% include 'home/boilerplate/faculty.html' with faculty=f %}
+
+                        {% endfor %}
+
+                    </div>
+
+                {% else %}
+
+                    <label><b>{{ key }}</b></label>
+                    <p>{{ value }}</p>
+
+                {% endif %}
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+</div>
